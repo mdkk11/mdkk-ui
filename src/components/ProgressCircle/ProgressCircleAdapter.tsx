@@ -1,8 +1,8 @@
 import type { VariantProps } from 'cva';
 import React from 'react';
 import { composeRenderProps } from 'react-aria-components';
+import { cn } from '@/design-system/utils';
 import { progressCircleVariants } from '../../design-system/progressCircleStyles';
-import { cn } from '../../design-system/utils';
 import {
   ProgressCirclePrimitive,
   type ProgressCirclePrimitiveProps,
