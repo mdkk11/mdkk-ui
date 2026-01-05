@@ -3,8 +3,8 @@ import { composeRenderProps } from 'react-aria-components';
 import {
   type ButtonVariants,
   buttonVariants,
-} from '../../design-system/buttonStyles';
-import { cn } from '../../design-system/utils';
+} from '@/design-system/buttonStyles';
+import { cn } from '@/design-system/utils';
 import { ProgressCircle } from '../ProgressCircle';
 import { ButtonPrimitive, type ButtonPrimitiveProps } from './ButtonPrimitive';
 

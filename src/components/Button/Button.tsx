@@ -31,7 +31,7 @@ export interface ButtonProps extends ButtonVariants {
 }
 
 /**
- * Button component for user actions.
+ * Button component for user actions
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ disabled, pending, ...props }, ref) => {

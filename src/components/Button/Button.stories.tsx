@@ -1,9 +1,3 @@
-/**
- * Button コンポーネントのストーリー
- *
- * デザインシステムのカタログとして、全バリエーションを一覧表示
- */
-
 import type { Meta } from '@storybook/react';
 import { fn } from 'storybook/test';
 import { Button } from './Button';
@@ -21,18 +15,12 @@ const meta = {
 
 export default meta;
 
-/**
- * デフォルト状態
- */
 export const Default = {
   args: {
-    children: 'ボタン',
+    children: 'Button',
   },
 };
 
-/**
- * 全バリアント一覧
- */
 export const AllVariants = {
   render: () => (
     <div className='flex flex-col gap-8 p-8'>
@@ -111,7 +99,7 @@ export const AllVariants = {
       {/* Interactive - Press */}
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>
-          Interactive: Press (active時に押し込み)
+          Interactive: Press ( active when pressed )
         </h3>
         <div className='flex flex-wrap gap-6'>
           <Button variant='primary' shadow='right-md' interactive='press'>
@@ -126,7 +114,7 @@ export const AllVariants = {
       {/* Interactive - Hover */}
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>
-          Interactive: Hover (hover時に押し込み)
+          Interactive: Hover ( active when hovered )
         </h3>
         <div className='flex flex-wrap gap-6'>
           <Button variant='primary' shadow='right-md' interactive='hover'>
@@ -160,10 +148,6 @@ export const AllVariants = {
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>Pending (Loading)</h3>
         <div className='flex flex-wrap gap-4'>
-          {/* isPending is part of the adapter/primitive logic triggered by pending prop on the public API if exposed, 
-              or currently strictly internal via ButtonAdapter. 
-              Checking ButtonProps: pending?: boolean is exported.
-           */}
           <Button pending>Loading...</Button>
           <Button variant='secondary' pending>
             Loading Secondary
@@ -174,13 +158,9 @@ export const AllVariants = {
   ),
 };
 
-/**
- * インタラクション確認用
- * クリック時の押し込みエフェクトを確認
- */
 export const WithShadowInteraction = {
   args: {
-    children: 'クリックしてね',
+    children: 'Click me',
     variant: 'primary',
     shadow: 'right-lg',
     interactive: 'press',

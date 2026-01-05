@@ -7,6 +7,9 @@ export interface ProgressCircleProps
   extends React.ComponentProps<typeof ProgressCircleAdapter>,
     VariantProps<typeof progressCircleVariants> {}
 
+/**
+ * ProgressCircle component
+ */
 export const ProgressCircle = React.forwardRef<
   HTMLDivElement,
   ProgressCircleProps
