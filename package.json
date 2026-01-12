@@ -16,6 +16,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./tailwind-plugin": {
+      "types": "./dist/tailwind-plugin.d.ts",
+      "import": "./dist/tailwind-plugin.js"
+    },
     "./dist/index.css": "./dist/index.css"
   },
   "scripts": {
