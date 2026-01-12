@@ -29,16 +29,14 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(dirname, 'src/index.ts'),
-      name: 'MdkkUI',
-      fileName: (format) => `mdkk-ui.${format}.js`,
+      formats: ['es'],
+      fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
+        preserveModules: true,
+        preserveModulesRoot: 'src',
       },
     },
     sourcemap: true,

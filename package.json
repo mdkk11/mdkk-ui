@@ -2,19 +2,21 @@
   "name": "mdkk-ui",
   "version": "0.0.0",
   "type": "module",
-  "main": "./dist/mdkk-ui.umd.js",
-  "module": "./dist/mdkk-ui.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/mdkk-ui.es.js",
-      "require": "./dist/mdkk-ui.umd.js"
+      "import": "./dist/index.js"
     },
-    "./dist/mdkk-ui.css": "./dist/mdkk-ui.css"
+    "./dist/index.css": "./dist/index.css"
   },
   "scripts": {
     "dev": "vite",
