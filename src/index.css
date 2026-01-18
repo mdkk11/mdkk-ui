@@ -21,30 +21,35 @@
     --color-neutral-700: #444444;
 
     /* Brand Colors */
-    --color-red-600: #ff0000; /* Destructive */
-    --color-red-500: #ff1e1e; /* Primary */
-    --color-red-400: #ff3333; /* Dark Primary */
+    --color-accent: #ff0000; /* Brutalist Red - 強烈な赤 */
 
+    --brutalist-black: var(--color-black);
+    --brutalist-white: var(--color-white);
+    --brutalist-accent: var(--color-accent);
     /* =========================================
        2. Semantic Tokens (Usage)
        ========================================= */
     --background: var(--color-white);
     --foreground: var(--color-black);
 
-    --primary: var(--color-red-500);
+    /* Primary: 黒 - メインボタン、重要なアクション */
+    --primary: var(--color-black);
     --primary-foreground: var(--color-white);
 
-    --secondary: var(--color-black);
-    --secondary-foreground: var(--color-white);
+    /* Secondary: 白 - セカンダリボタン（アウトラインスタイル）*/
+    --secondary: var(--color-white);
+    --secondary-foreground: var(--color-black);
 
     --muted: var(--color-gray-100);
     --muted-foreground: var(--color-black);
 
-    --accent: var(--color-red-500);
+    /* Accent: 赤 - CTA、強調、装飾 */
+    --accent: var(--brutalist-accent);
     --accent-foreground: var(--color-white);
 
-    --destructive: var(--color-red-600);
-    /* destructive-foreground missing in original, assuming white */
+    /* Destructive: 赤 - 削除、危険なアクション */
+    --destructive: var(--brutalist-accent);
+    --destructive-foreground: var(--color-white);
 
     --card: var(--color-white);
     --card-foreground: var(--color-black);
@@ -60,13 +65,13 @@
     --sidebar-foreground: var(--color-black);
     --sidebar-primary: var(--color-black);
     --sidebar-primary-foreground: var(--color-white);
-    --sidebar-accent: var(--color-red-500);
+    --sidebar-accent: var(--brutalist-accent);
     --sidebar-accent-foreground: var(--color-white);
     --sidebar-border: var(--color-black);
     --sidebar-ring: var(--color-black);
 
     --chart-1: var(--color-black);
-    --chart-2: var(--color-red-500);
+    --chart-2: var(--brutalist-accent);
     --chart-3: var(--color-gray-500);
     --chart-4: var(--color-gray-300);
     --chart-5: var(--color-gray-800);
@@ -85,6 +90,9 @@
     --shadow-offset-sm: 2px;
     --shadow-offset-md: 4px;
     --shadow-offset-lg: 8px;
+
+    /* Interaction States */
+    --hover-opacity: 0.8;
   }
 }
 
@@ -93,19 +101,24 @@
   --background: var(--color-neutral-900);
   --foreground: var(--color-white);
 
-  --primary: var(--color-red-400);
+  /* Primary: 白 - ライトモードの反転 */
+  --primary: var(--color-white);
   --primary-foreground: var(--color-black);
 
-  --secondary: var(--color-white);
-  --secondary-foreground: var(--color-black);
+  /* Secondary: 黒 - ライトモードの反転 */
+  --secondary: var(--color-neutral-900);
+  --secondary-foreground: var(--color-white);
 
   --muted: var(--color-neutral-800);
   --muted-foreground: var(--color-white);
 
-  --accent: var(--color-red-400);
-  --accent-foreground: var(--color-black);
+  /* Accent: 赤 - 変わらず */
+  --accent: var(--brutalist-accent);
+  --accent-foreground: var(--color-white);
 
-  --destructive: var(--color-red-600);
+  /* Destructive: 赤 */
+  --destructive: var(--brutalist-accent);
+  --destructive-foreground: var(--color-white);
 
   --card: var(--color-neutral-900);
   --card-foreground: var(--color-white);
@@ -121,13 +134,13 @@
   --sidebar-foreground: var(--color-white);
   --sidebar-primary: var(--color-white);
   --sidebar-primary-foreground: var(--color-black);
-  --sidebar-accent: var(--color-red-400);
+  --sidebar-accent: var(--brutalist-accent);
   --sidebar-accent-foreground: var(--color-black);
   --sidebar-border: var(--color-white);
   --sidebar-ring: var(--color-white);
 
   --chart-1: var(--color-white);
-  --chart-2: var(--color-red-400);
+  --chart-2: var(--brutalist-accent);
   --chart-3: var(--color-gray-500);
   --chart-4: var(--color-neutral-700);
   --chart-5: var(--color-gray-300);
