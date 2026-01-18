@@ -22,10 +22,6 @@ export interface CheckboxProps {
    */
   indeterminate?: boolean;
   /**
-   * Whether the checkbox is invalid.
-   */
-  invalid?: boolean;
-  /**
    * Whether the checkbox is read-only.
    */
   readonly?: boolean;
@@ -52,7 +48,6 @@ export const Checkbox = ({
   selected,
   defaultSelected,
   indeterminate,
-  invalid,
   readonly,
   name,
   value,
@@ -64,7 +59,6 @@ export const Checkbox = ({
       isSelected={selected}
       defaultSelected={defaultSelected}
       isIndeterminate={indeterminate}
-      isInvalid={invalid}
       isReadOnly={readonly}
       name={name}
       value={value}

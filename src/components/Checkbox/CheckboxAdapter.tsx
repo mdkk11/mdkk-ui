@@ -17,19 +17,19 @@ const checkboxStyles = cva({
 });
 
 const boxStyles = cva({
-  base: 'peer border-input dark:bg-input/30 size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none flex items-center justify-center text-current',
+  base: 'peer size-5 shrink-0 rounded-none border-2 border-black transition-all duration-100 flex items-center justify-center text-current',
   variants: {
     isSelected: {
-      true: 'bg-primary text-primary-foreground border-primary',
+      true: 'bg-primary text-primary-foreground',
     },
     isIndeterminate: {
-      true: 'bg-primary text-primary-foreground border-primary',
+      true: 'bg-primary text-primary-foreground',
     },
     isFocusVisible: {
-      true: 'border-ring ring-ring/50 ring-[3px]',
+      true: 'outline-2 outline-offset-2 outline-black',
     },
     isInvalid: {
-      true: 'ring-destructive/20 dark:ring-destructive/40 border-destructive',
+      true: 'border-destructive bg-destructive/10',
     },
     isDisabled: {
       true: 'cursor-not-allowed opacity-50',
@@ -37,7 +37,7 @@ const boxStyles = cva({
   },
 });
 
-const iconStyles = 'size-3.5';
+const iconStyles = 'size-4';
 
 export const CheckboxAdapter = (props: CheckboxPrimitiveProps) => {
   return (

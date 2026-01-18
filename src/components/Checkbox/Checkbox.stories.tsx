@@ -51,13 +51,6 @@ export const DisabledSelected: Story = {
   },
 };
 
-export const Invalid: Story = {
-  args: {
-    children: 'Agree to terms (required)',
-    invalid: true,
-  },
-};
-
 export const AllStates = {
   render: () => (
     <div className='flex flex-col gap-6 p-8'>
@@ -81,17 +74,6 @@ export const AllStates = {
           </Checkbox>
           <Checkbox disabled indeterminate>
             Disabled indeterminate
-          </Checkbox>
-        </div>
-      </section>
-
-      {/* Invalid States */}
-      <section>
-        <h3 className='text-lg font-bold mb-4 font-mono'>Invalid States</h3>
-        <div className='flex flex-col gap-3'>
-          <Checkbox invalid>Invalid unchecked</Checkbox>
-          <Checkbox invalid selected>
-            Invalid checked
           </Checkbox>
         </div>
       </section>
