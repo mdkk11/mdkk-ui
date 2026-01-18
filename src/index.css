@@ -53,7 +53,7 @@
     --popover-foreground: var(--color-black);
 
     --border: var(--color-black);
-    --input: var(--color-white);
+    --input: var(--color-gray-300);
     --ring: var(--color-black);
 
     --sidebar: var(--color-white);
@@ -114,7 +114,7 @@
   --popover-foreground: var(--color-white);
 
   --border: var(--color-white);
-  --input: var(--color-neutral-900);
+  --input: var(--color-neutral-700);
   --ring: var(--color-white);
 
   --sidebar: var(--color-neutral-900);
