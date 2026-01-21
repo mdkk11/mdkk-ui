@@ -6,25 +6,26 @@ export interface CheckboxProps {
    */
   children?: React.ReactNode;
   /**
+  /**
    * Whether the checkbox is disabled.
    */
-  disabled?: boolean;
+  isDisabled?: boolean;
   /**
    * Whether the checkbox is selected (controlled).
    */
-  selected?: boolean;
+  isSelected?: boolean;
   /**
    * Whether the checkbox is selected by default (uncontrolled).
    */
-  defaultSelected?: boolean;
+  defaultIsSelected?: boolean;
   /**
    * Whether the checkbox is in an indeterminate state.
    */
-  indeterminate?: boolean;
+  isIndeterminate?: boolean;
   /**
    * Whether the checkbox is read-only.
    */
-  readonly?: boolean;
+  isReadOnly?: boolean;
   /**
    * The name of the input element, used when submitting a form.
    */
@@ -44,22 +45,22 @@ export interface CheckboxProps {
  */
 export const Checkbox = ({
   children,
-  disabled,
-  selected,
-  defaultSelected,
-  indeterminate,
-  readonly,
+  isDisabled,
+  isSelected,
+  defaultIsSelected,
+  isIndeterminate,
+  isReadOnly,
   name,
   value,
   onChange,
 }: CheckboxProps) => {
   return (
     <CheckboxAdapter
-      isDisabled={disabled}
-      isSelected={selected}
-      defaultSelected={defaultSelected}
-      isIndeterminate={indeterminate}
-      isReadOnly={readonly}
+      isDisabled={isDisabled}
+      isSelected={isSelected}
+      defaultSelected={defaultIsSelected}
+      isIndeterminate={isIndeterminate}
+      isReadOnly={isReadOnly}
       name={name}
       value={value}
       onChange={onChange}

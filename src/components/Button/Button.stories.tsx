@@ -138,8 +138,8 @@ export const AllVariants = {
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>Disabled</h3>
         <div className='flex flex-wrap gap-4'>
-          <Button disabled>Disabled Primary</Button>
-          <Button variant='secondary' disabled>
+          <Button isDisabled>Disabled Primary</Button>
+          <Button variant='secondary' isDisabled>
             Disabled Secondary
           </Button>
         </div>
@@ -148,8 +148,8 @@ export const AllVariants = {
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>Pending (Loading)</h3>
         <div className='flex flex-wrap gap-4'>
-          <Button pending>Loading...</Button>
-          <Button variant='secondary' pending>
+          <Button isPending>Loading...</Button>
+          <Button variant='secondary' isPending>
             Loading Secondary
           </Button>
         </div>

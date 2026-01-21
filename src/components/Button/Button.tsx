@@ -15,15 +15,15 @@ export interface ButtonProps extends ButtonVariants {
   /**
    * Whether the button is disabled.
    */
-  disabled?: boolean;
+  isDisabled?: boolean;
   /**
    * Whether the button is strictly read only.
    */
-  readonly?: boolean;
+  isReadOnly?: boolean;
   /**
    * Whether the button is in a pending state.
    */
-  pending?: boolean;
+  isPending?: boolean;
   /**
    * The type of button to render.
    */
@@ -34,12 +34,12 @@ export interface ButtonProps extends ButtonVariants {
  * Button component for user actions
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ disabled, pending, ...props }, ref) => {
+  ({ isDisabled, isPending, ...props }, ref) => {
     return (
       <ButtonAdapter
         ref={ref}
-        isDisabled={disabled}
-        isPending={pending}
+        isDisabled={isDisabled}
+        isPending={isPending}
         {...props}
       />
     );

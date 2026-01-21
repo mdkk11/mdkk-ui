@@ -25,29 +25,29 @@ export const Default: Story = {
 export const Selected: Story = {
   args: {
     children: 'I agree to the terms',
-    selected: true,
+    isSelected: true,
   },
 };
 
 export const Indeterminate: Story = {
   args: {
     children: 'Select all items',
-    indeterminate: true,
+    isIndeterminate: true,
   },
 };
 
 export const Disabled: Story = {
   args: {
     children: 'Cannot interact',
-    disabled: true,
+    isDisabled: true,
   },
 };
 
 export const DisabledSelected: Story = {
   args: {
     children: 'Locked selection',
-    disabled: true,
-    selected: true,
+    isDisabled: true,
+    isSelected: true,
   },
 };
 
@@ -59,8 +59,8 @@ export const AllStates = {
         <h3 className='text-lg font-bold mb-4 font-mono'>Default States</h3>
         <div className='flex flex-col gap-3'>
           <Checkbox>Unchecked</Checkbox>
-          <Checkbox defaultSelected>Checked (defaultSelected)</Checkbox>
-          <Checkbox indeterminate>Indeterminate</Checkbox>
+          <Checkbox defaultIsSelected>Checked (defaultSelected)</Checkbox>
+          <Checkbox isIndeterminate>Indeterminate</Checkbox>
         </div>
       </section>
 
@@ -68,11 +68,11 @@ export const AllStates = {
       <section>
         <h3 className='text-lg font-bold mb-4 font-mono'>Disabled States</h3>
         <div className='flex flex-col gap-3'>
-          <Checkbox disabled>Disabled unchecked</Checkbox>
-          <Checkbox disabled selected>
+          <Checkbox isDisabled>Disabled unchecked</Checkbox>
+          <Checkbox isDisabled isSelected>
             Disabled checked
           </Checkbox>
-          <Checkbox disabled indeterminate>
+          <Checkbox isDisabled isIndeterminate>
             Disabled indeterminate
           </Checkbox>
         </div>
