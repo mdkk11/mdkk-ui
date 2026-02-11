@@ -18,7 +18,7 @@ const containerStyles = cva({
 
 export interface TextFieldRootAdapterProps
   extends Omit<TextFieldPrimitiveProps, 'children'> {
-  className?: string; // Explicitly allowed for layout
+  className?: string;
   children?: React.ReactNode;
 }
 
