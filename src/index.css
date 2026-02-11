@@ -57,6 +57,11 @@
     --popover: var(--color-white);
     --popover-foreground: var(--color-black);
 
+    /* Outline: 白bg, 黒text, 黒border */
+    --outline: var(--color-white);
+    --outline-foreground: var(--color-black);
+    --outline-border: var(--color-black);
+
     --border: var(--color-black);
     --input: var(--color-gray-300);
     --ring: var(--color-black);
@@ -125,6 +130,11 @@
 
   --popover: var(--color-neutral-900);
   --popover-foreground: var(--color-white);
+
+  /* Outline: transparent bg, 白text, 白border */
+  --outline: transparent;
+  --outline-foreground: var(--color-white);
+  --outline-border: var(--color-white);
 
   --border: var(--color-white);
   --input: var(--color-neutral-700);

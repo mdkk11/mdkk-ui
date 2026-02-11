@@ -6,27 +6,39 @@ export const buttonVariants = cva({
   variants: {
     variant: {
       primary: [
-        'bg-primary text-white border-2 border-black',
-        'hover:bg-black hover:text-white',
-        'pressed:bg-black pressed:text-white',
+        'bg-primary text-primary-foreground border-2 border-primary',
+        'hover:opacity-90',
+        'pressed:opacity-80',
       ],
-      // Inverted black button/link
+      // Secondary: border なし（Outline との差別化）
       secondary: [
-        'bg-black text-white border-1 border-white',
-        'hover:bg-white hover:text-black',
-        'pressed:bg-white pressed:text-black',
+        'bg-secondary text-secondary-foreground border-2 border-transparent',
+        'hover:bg-muted',
+        'pressed:bg-muted',
       ],
-      // Transparent button/link
+      // Accent: 赤 — CTA、強調
+      accent: [
+        'bg-accent text-accent-foreground border-2 border-accent',
+        'hover:opacity-90',
+        'pressed:opacity-80',
+      ],
+      // Destructive: 赤 — 削除、危険なアクション（accent と同色だが意味が異なる）
+      destructive: [
+        'bg-destructive text-destructive-foreground border-2 border-destructive',
+        'hover:opacity-90',
+        'pressed:opacity-80',
+      ],
+      // Ghost: 透明
       ghost: [
-        'bg-transparent text-black border-1 border-transparent',
-        'hover:bg-black/5',
-        'pressed:bg-black/10',
+        'bg-transparent text-foreground border-2 border-transparent',
+        'hover:bg-foreground/5',
+        'pressed:bg-foreground/10',
       ],
-      // Outlined primary
+      // Outline: 白bg + 黒border（ライト） / transparent + 白border（ダーク）
       outline: [
-        'bg-transparent text-primary border-[2px] border-primary',
-        'hover:bg-primary hover:text-white',
-        'pressed:bg-primary pressed:text-white',
+        'bg-outline text-outline-foreground border-2 border-outline-border',
+        'hover:bg-primary hover:text-primary-foreground',
+        'pressed:bg-primary pressed:text-primary-foreground',
       ],
     },
     size: {

@@ -36,6 +36,11 @@ export default {
           DEFAULT: 'var(--accent)',
           foreground: 'var(--accent-foreground)',
         },
+        outline: {
+          DEFAULT: 'var(--outline)',
+          foreground: 'var(--outline-foreground)',
+          border: 'var(--outline-border)',
+        },
         popover: {
           DEFAULT: 'var(--popover)',
           foreground: 'var(--popover-foreground)',
