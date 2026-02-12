@@ -1,3 +1,4 @@
+import React from 'react';
 import { CheckboxAdapter } from './CheckboxAdapter';
 
 export interface CheckboxProps {
@@ -5,7 +6,6 @@ export interface CheckboxProps {
    * The content to display next to the checkbox.
    */
   children?: React.ReactNode;
-  /**
   /**
    * Whether the checkbox is disabled.
    */
@@ -43,29 +43,36 @@ export interface CheckboxProps {
 /**
  * Checkbox component for selecting one or more options.
  */
-export const Checkbox = ({
-  children,
-  isDisabled,
-  isSelected,
-  defaultIsSelected,
-  isIndeterminate,
-  isReadOnly,
-  name,
-  value,
-  onChange,
-}: CheckboxProps) => {
-  return (
-    <CheckboxAdapter
-      isDisabled={isDisabled}
-      isSelected={isSelected}
-      defaultSelected={defaultIsSelected}
-      isIndeterminate={isIndeterminate}
-      isReadOnly={isReadOnly}
-      name={name}
-      value={value}
-      onChange={onChange}
-    >
-      {children}
-    </CheckboxAdapter>
-  );
-};
+export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(
+  (
+    {
+      children,
+      isDisabled,
+      isSelected,
+      defaultIsSelected,
+      isIndeterminate,
+      isReadOnly,
+      name,
+      value,
+      onChange,
+    },
+    ref,
+  ) => {
+    return (
+      <CheckboxAdapter
+        ref={ref}
+        isDisabled={isDisabled}
+        isSelected={isSelected}
+        defaultSelected={defaultIsSelected}
+        isIndeterminate={isIndeterminate}
+        isReadOnly={isReadOnly}
+        name={name}
+        value={value}
+        onChange={onChange}
+      >
+        {children}
+      </CheckboxAdapter>
+    );
+  },
+);
+Checkbox.displayName = 'Checkbox';
