@@ -1,4 +1,5 @@
 import { cva } from 'cva';
+import React from 'react';
 import { composeRenderProps } from 'react-aria-components';
 import {
   CheckboxPrimitive,
@@ -17,7 +18,7 @@ const checkboxStyles = cva({
 });
 
 const boxStyles = cva({
-  base: 'peer size-5 shrink-0 rounded-none border-2 border-black transition-all duration-100 flex items-center justify-center text-current',
+  base: 'peer size-5 shrink-0 rounded-none border-2 border-black transition-colors duration-100 flex items-center justify-center text-current',
   variants: {
     isSelected: {
       true: 'bg-primary text-primary-foreground',
@@ -39,10 +40,14 @@ const boxStyles = cva({
 
 const iconStyles = 'size-4';
 
-export const CheckboxAdapter = (props: CheckboxPrimitiveProps) => {
+export const CheckboxAdapter = React.forwardRef<
+  HTMLLabelElement,
+  CheckboxPrimitiveProps
+>(({ ...props }, ref) => {
   return (
     <CheckboxPrimitive
       {...props}
+      ref={ref}
       className={composeRenderProps(props.className, (className, renderProps) =>
         checkboxStyles({ ...renderProps, className }),
       )}
@@ -61,9 +66,12 @@ export const CheckboxAdapter = (props: CheckboxPrimitiveProps) => {
             >
               {isIndeterminate ? (
                 <MinusIcon aria-hidden className={iconStyles} />
-              ) : isSelected ? (
-                <CheckIcon aria-hidden className={iconStyles} />
-              ) : null}
+              ) : (
+                <CheckIcon
+                  aria-hidden
+                  className={`${iconStyles} ${isSelected ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}
+                />
+              )}
             </div>
             {children}
           </>
@@ -71,4 +79,5 @@ export const CheckboxAdapter = (props: CheckboxPrimitiveProps) => {
       )}
     </CheckboxPrimitive>
   );
-};
+});
+CheckboxAdapter.displayName = 'CheckboxAdapter';
