@@ -28,6 +28,10 @@ export interface ButtonProps extends ButtonVariants {
    * The type of button to render.
    */
   type?: 'button' | 'submit' | 'reset';
+  /**
+   * Additional CSS classes to apply to the button.
+   */
+  className?: string;
 }
 
 /**

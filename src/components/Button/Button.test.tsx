@@ -24,7 +24,7 @@ describe('Button', () => {
     const onPress = vi.fn();
     const user = userEvent.setup();
     render(
-      <Button disabled onPress={onPress}>
+      <Button isDisabled onPress={onPress}>
         Click me
       </Button>,
     );
