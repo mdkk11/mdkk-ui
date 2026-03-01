@@ -14,6 +14,9 @@ importers:
       cva:
         specifier: 1.0.0-beta.4
         version: 1.0.0-beta.4(typescript@5.9.3)
+      jp-zipcode-lookup:
+        specifier: ^0.3.5
+        version: 0.3.5
       react:
         specifier: ^19.2.0
         version: 19.2.3
@@ -144,9 +147,6 @@ importers:
       vitest:
         specifier: ^4.0.16
         version: 4.0.16(@types/node@24.10.4)(@vitest/browser-playwright@4.0.16)(happy-dom@20.0.11)(jiti@1.21.7)(jsdom@27.4.0)
-      yubinbango-core2:
-        specifier: ^0.6.3
-        version: 0.6.3
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -2476,6 +2476,9 @@ packages:
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
+  jp-zipcode-lookup@0.3.5:
+    resolution: {integrity: sha512-NeNYUMv0eCFNBeGV6eBeJg8MRF+tgM/GMvXmCbvlOj4JSb+PZE5lXI3vOQWxct8+VhP5qCnIp+jgQ2zbZzy6ew==}
+
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -3346,9 +3349,6 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  yubinbango-core2@0.6.3:
-    resolution: {integrity: sha512-wH+DE6PEQDTPKz/3dcs46yMXQzI99gL2tI+uhi5OtbvSKAd9WEx6lE6TtyumPCDQsHnej2WWjs904izJgfSHQg==}
 
   zod-validation-error@4.0.2:
     resolution: {integrity: sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==}
@@ -6199,6 +6199,8 @@ snapshots:
 
   jju@1.4.0: {}
 
+  jp-zipcode-lookup@0.3.5: {}
+
   js-tokens@4.0.0: {}
 
   js-tokens@9.0.1: {}
@@ -7117,8 +7119,6 @@ snapshots:
   yallist@4.0.0: {}
 
   yocto-queue@0.1.0: {}
-
-  yubinbango-core2@0.6.3: {}
 
   zod-validation-error@4.0.2(zod@4.3.6):
     dependencies:

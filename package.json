@@ -45,6 +45,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.4",
+    "jp-zipcode-lookup": "^0.3.5",
     "react-aria-components": "^1.14.0",
     "tailwind-merge": "^3.4.0"
   },
@@ -88,7 +89,6 @@
     "vite": "^7.2.4",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.16",
-    "yubinbango-core2": "^0.6.3",
     "zod": "^4.3.6"
   }
 }
