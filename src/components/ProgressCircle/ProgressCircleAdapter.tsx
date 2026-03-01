@@ -1,8 +1,22 @@
-import type { VariantProps } from 'cva';
+import { cva, type VariantProps } from 'cva';
 import React from 'react';
 import { composeRenderProps } from 'react-aria-components';
 import { cn } from '@/design-system/utils';
-import { progressCircleVariants } from '../../design-system/progressCircleStyles';
+
+export const progressCircleVariants = cva({
+  base: 'inline-flex items-center justify-center',
+  variants: {
+    size: {
+      sm: 'w-4 h-4',
+      md: 'w-8 h-8',
+      lg: 'w-12 h-12',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
 import {
   ProgressCirclePrimitive,
   type ProgressCirclePrimitiveProps,
