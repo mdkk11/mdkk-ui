@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from 'cva';
-import { interactiveStyles, shadowStyles } from './shadowStyles';
+import { interactiveStyles, shadowStyles } from '@/design-system/shadowStyles';
 
 export const buttonVariants = cva({
   base: 'relative inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
@@ -22,11 +22,11 @@ export const buttonVariants = cva({
         'hover:opacity-90',
         'pressed:opacity-80',
       ],
-      // Destructive: 赤 — 削除、危険なアクション（accent と同色だが意味が異なる）
+      // Destructive: 赤枠線 — 削除、危険なアクション（Accent=塗り との差別化）
       destructive: [
-        'bg-destructive text-destructive-foreground border-2 border-destructive',
-        'hover:opacity-90',
-        'pressed:opacity-80',
+        'bg-transparent text-destructive border-2 border-destructive',
+        'hover:bg-destructive hover:text-destructive-foreground',
+        'pressed:bg-destructive pressed:text-destructive-foreground',
       ],
       // Ghost: 透明
       ghost: [
