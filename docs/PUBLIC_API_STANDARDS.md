@@ -69,6 +69,30 @@ Always forward refs to the most meaningful underlying DOM element.
 - `TextField` -> `<input>`
 - `Card` -> `<div>`
 
+## 5. Compound Component API
+
+For components with multiple coordinated slots, provide a namespaced API and
+keep slot responsibilities explicit.
+
+```tsx
+<Sidebar.Root defaultIsCollapsed={false}>
+  <Sidebar.Panel>
+    <Sidebar.Header />
+    <Sidebar.Content />
+    <Sidebar.Footer />
+  </Sidebar.Panel>
+  <Sidebar.Trigger />
+</Sidebar.Root>
+```
+
+Rules:
+
+- `Root` owns coordination state and context.
+- Child slots (`Header`, `Content`, `Item`) should remain declarative and not
+  require consumers to manually wire internal state.
+- Prefer intent-driven props (`isActive`, `isCollapsed`) and simplified events
+  (`onPress`) over raw DOM event signatures.
+
 ## Checklist for New Components
 Before calling a component "Done", verify:
 1. [ ] Is strict `interface` defined without `extends LibraryProps`?

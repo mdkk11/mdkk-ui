@@ -7,6 +7,7 @@ export * from './components/Checkbox';
 export * from './components/FieldError';
 export * from './components/Input';
 export * from './components/Label';
+export * from './components/Sidebar';
 export * from './components/Text';
 export * from './components/TextArea';
 export * from './components/TextField';

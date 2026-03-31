@@ -44,6 +44,33 @@ All components must adhere to the following 3-layer structure:
 We maintain a flat structure under `src/components` to maximize discoverability. Grouping into subdirectories (e.g., `inputs/`, `data-display/`) should only be considered when the number of components significantly exceeds 50.
 
 ```
+
+## Compound Components
+
+For multi-part UI primitives (such as Sidebar, Story, Tabs), expose a
+namespace-style Compound API from the Public layer.
+
+Example:
+
+```tsx
+import { Sidebar } from '@/components/Sidebar';
+
+<Sidebar.Root>
+  <Sidebar.Panel>
+    <Sidebar.Header />
+    <Sidebar.Content />
+  </Sidebar.Panel>
+  <main />
+</Sidebar.Root>;
+```
+
+Guidelines:
+
+- Keep stateful orchestration in `Component.tsx` (`Root` + context).
+- Keep style mapping and layout class composition in `ComponentAdapter.tsx`.
+- Keep low-level DOM wrappers in `ComponentPrimitive.tsx`.
+- Keep Public API event names simplified (`onPress`, `onChange`) and avoid
+  leaking raw DOM handlers when not required.
 src/
 ├── components/
 │   ├── Button/
