@@ -48,25 +48,49 @@ export interface SidebarPanelAdapterProps
 export const SidebarPanelAdapter = React.forwardRef<
   HTMLElement,
   SidebarPanelAdapterProps
->(({ side = 'left', tone = 'subtle', state = 'expanded', className, width, children, ...props }, ref) => (
-  <SidebarPanelPrimitive
-    ref={ref}
-    className={cn(sidebarPanelVariants({ side, tone, state }), className)}
-    style={{ width: `${width}px`, ...(props.style ?? {}) }}
-    data-state={state}
-    data-side={side}
-    {...props}
-  >
-    {children}
-  </SidebarPanelPrimitive>
-));
+>(
+  (
+    {
+      side = 'left',
+      tone = 'subtle',
+      state = 'expanded',
+      className,
+      width,
+      children,
+      style,
+      ...props
+    },
+    ref,
+  ) => (
+    <SidebarPanelPrimitive
+      ref={ref}
+      className={cn(sidebarPanelVariants({ side, tone, state }), className)}
+      style={{
+        width: `${width}px`,
+        minWidth: `${width}px`,
+        maxWidth: `${width}px`,
+        flexBasis: `${width}px`,
+        ...(style ?? {}),
+      }}
+      data-state={state}
+      data-side={side}
+      {...props}
+    >
+      {children}
+    </SidebarPanelPrimitive>
+  ),
+);
 SidebarPanelAdapter.displayName = 'SidebarPanelAdapter';
 
 export const SidebarSectionAdapter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionPrimitive ref={ref} className={cn('p-3', className)} {...props} />
+  <SidebarSectionPrimitive
+    ref={ref}
+    className={cn('p-3', className)}
+    {...props}
+  />
 ));
 SidebarSectionAdapter.displayName = 'SidebarSectionAdapter';
 
@@ -123,7 +147,11 @@ export const SidebarListItemAdapter = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
 >(({ className, ...props }, ref) => (
-  <SidebarListItemPrimitive ref={ref} className={cn('list-none', className)} {...props} />
+  <SidebarListItemPrimitive
+    ref={ref}
+    className={cn('list-none', className)}
+    {...props}
+  />
 ));
 SidebarListItemAdapter.displayName = 'SidebarListItemAdapter';
 

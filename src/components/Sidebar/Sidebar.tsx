@@ -18,6 +18,9 @@ type SidebarRootContextValue = {
   isCollapsed: boolean;
   setCollapsed: (next: boolean) => void;
   toggle: () => void;
+  isMobile: boolean;
+  isMobileOpen: boolean;
+  setMobileOpen: (next: boolean) => void;
   width: number;
   setWidth: (next: number) => void;
   collapsedWidth: number;
@@ -41,6 +44,25 @@ const useSidebarRootContext = () => {
   return context;
 };
 
+const useIsMobileViewport = (breakpoint: number) => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const query = window.matchMedia(
+      `(max-width: ${breakpoint}px) and (hover: none) and (pointer: coarse)`,
+    );
+    const onChange = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches);
+    };
+    setIsMobile(query.matches);
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
+  }, [breakpoint]);
+
+  return isMobile;
+};
+
 export interface SidebarRootProps {
   children: React.ReactNode;
   id?: string;
@@ -56,6 +78,9 @@ export interface SidebarRootProps {
   maxWidth?: number;
   isResizable?: boolean;
   onWidthChange?: (width: number) => void;
+  mobileBreakpoint?: number;
+  defaultMobileOpen?: boolean;
+  onMobileOpenChange?: (isOpen: boolean) => void;
 }
 
 const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
@@ -75,12 +100,17 @@ const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
       maxWidth = 420,
       isResizable = true,
       onWidthChange,
+      mobileBreakpoint = 768,
+      defaultMobileOpen = false,
+      onMobileOpenChange,
     },
     ref,
   ) => {
     const [internalCollapsed, setInternalCollapsed] =
       React.useState(defaultIsCollapsed);
+    const [isMobileOpen, setIsMobileOpen] = React.useState(defaultMobileOpen);
     const [width, setWidthState] = React.useState(defaultWidth);
+    const isMobile = useIsMobileViewport(mobileBreakpoint);
     const collapsed = isCollapsed ?? internalCollapsed;
 
     const setCollapsed = React.useCallback(
@@ -102,15 +132,57 @@ const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
       [maxWidth, minWidth, onWidthChange],
     );
 
+    const setMobileOpen = React.useCallback(
+      (next: boolean) => {
+        setIsMobileOpen(next);
+        onMobileOpenChange?.(next);
+      },
+      [onMobileOpenChange],
+    );
+
+    React.useEffect(() => {
+      if (!isMobile) {
+        setMobileOpen(false);
+      }
+    }, [isMobile, setMobileOpen]);
+
+    React.useEffect(() => {
+      if (typeof document === 'undefined') return;
+      if (!(isMobile && isMobileOpen)) return;
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }, [isMobile, isMobileOpen]);
+
+    React.useEffect(() => {
+      if (!isMobileOpen) return;
+      const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          setMobileOpen(false);
+        }
+      };
+      window.addEventListener('keydown', onKeyDown);
+      return () => window.removeEventListener('keydown', onKeyDown);
+    }, [isMobileOpen, setMobileOpen]);
+
     const toggle = React.useCallback(() => {
+      if (isMobile) {
+        setMobileOpen(!isMobileOpen);
+        return;
+      }
       setCollapsed(!collapsed);
-    }, [collapsed, setCollapsed]);
+    }, [collapsed, isMobile, isMobileOpen, setCollapsed, setMobileOpen]);
 
     const contextValue = React.useMemo<SidebarRootContextValue>(
       () => ({
         isCollapsed: collapsed,
         setCollapsed,
         toggle,
+        isMobile,
+        isMobileOpen,
+        setMobileOpen,
         width,
         setWidth,
         collapsedWidth,
@@ -123,6 +195,9 @@ const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
         collapsed,
         setCollapsed,
         toggle,
+        isMobile,
+        isMobileOpen,
+        setMobileOpen,
         width,
         setWidth,
         collapsedWidth,
@@ -158,37 +233,79 @@ export interface SidebarPanelProps {
 
 const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
   ({ children, className, tone = 'subtle' }, ref) => {
-    const { isCollapsed, width, collapsedWidth, side } =
-      useSidebarRootContext();
+    const {
+      isCollapsed,
+      isMobile,
+      isMobileOpen,
+      setMobileOpen,
+      width,
+      collapsedWidth,
+      side,
+    } = useSidebarRootContext();
+    const isOpen = isMobile ? isMobileOpen : !isCollapsed;
     const resolvedWidth = isCollapsed ? collapsedWidth : width;
+    const contentHidden = !isOpen;
+
     return (
-      <SidebarPanelAdapter
-        ref={ref}
-        side={side}
-        state={isCollapsed ? 'collapsed' : 'expanded'}
-        width={resolvedWidth}
-        tone={tone}
-        className={className}
-        aria-hidden={isCollapsed}
-      >
-        <div
-          aria-hidden={isCollapsed}
+      <>
+        {isMobile ? (
+          <button
+            type='button'
+            aria-label='Close sidebar'
+            aria-hidden={!isMobileOpen}
+            onClick={() => setMobileOpen(false)}
+            className={cn(
+              'fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 ease-out',
+              isMobileOpen
+                ? 'pointer-events-auto visible opacity-100'
+                : 'pointer-events-none invisible opacity-0',
+            )}
+          />
+        ) : null}
+        <SidebarPanelAdapter
+          ref={ref}
+          side={side}
+          state={isOpen ? 'expanded' : 'collapsed'}
+          width={isMobile ? width : resolvedWidth}
+          tone={tone}
           className={cn(
-            'flex h-full min-h-0 flex-col transition-[opacity,transform,visibility] duration-[180ms] ease-out',
-            isCollapsed
-              ? cn(
-                  'pointer-events-none invisible opacity-0',
-                  side === 'left' ? '-translate-x-2' : 'translate-x-2',
-                )
-              : 'visible translate-x-0 opacity-100',
+            className,
+            isMobile &&
+              cn(
+                'fixed inset-y-0 z-50 shadow-xl transition-transform duration-200 ease-out',
+                side === 'left'
+                  ? cn(
+                      'left-0',
+                      isMobileOpen ? 'translate-x-0' : '-translate-x-full',
+                    )
+                  : cn(
+                      'right-0',
+                      isMobileOpen ? 'translate-x-0' : 'translate-x-full',
+                    ),
+              ),
           )}
-          style={{
-            transitionDelay: isCollapsed ? '0ms, 0ms, 180ms' : '0ms',
-          }}
+          style={isMobile ? { width: `min(${width}px, 90vw)` } : undefined}
+          aria-hidden={!isOpen}
         >
-          {children}
-        </div>
-      </SidebarPanelAdapter>
+          <div
+            aria-hidden={contentHidden}
+            className={cn(
+              'flex h-full min-h-0 flex-col transition-[opacity,transform,visibility] duration-[180ms] ease-out',
+              contentHidden
+                ? cn(
+                    'pointer-events-none invisible opacity-0',
+                    side === 'left' ? '-translate-x-2' : 'translate-x-2',
+                  )
+                : 'visible translate-x-0 opacity-100',
+            )}
+            style={{
+              transitionDelay: contentHidden ? '0ms, 0ms, 180ms' : '0ms',
+            }}
+          >
+            {children}
+          </div>
+        </SidebarPanelAdapter>
+      </>
     );
   },
 );
@@ -236,13 +353,14 @@ export const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
 >(({ children, onPress, className, size = 'md', ...props }, ref) => {
-  const { isCollapsed, toggle } = useSidebarRootContext();
+  const { isCollapsed, isMobile, isMobileOpen, toggle } =
+    useSidebarRootContext();
   return (
     <SidebarTriggerAdapter
       ref={ref}
       className={className}
       size={size}
-      aria-expanded={!isCollapsed}
+      aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
       onClick={() => {
         onPress?.();
         toggle();
@@ -259,8 +377,15 @@ const SidebarResizeHandle = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'>
 >(({ className, ...props }, ref) => {
-  const { isCollapsed, setWidth, side, isResizable, minWidth, maxWidth } =
-    useSidebarRootContext();
+  const {
+    isCollapsed,
+    isMobile,
+    setWidth,
+    side,
+    isResizable,
+    minWidth,
+    maxWidth,
+  } = useSidebarRootContext();
 
   const handleMouseDown = React.useCallback(() => {
     if (!isResizable || isCollapsed) return;
@@ -282,7 +407,7 @@ const SidebarResizeHandle = React.forwardRef<
     document.addEventListener('mouseup', handleUp);
   }, [isResizable, isCollapsed, side, setWidth, minWidth, maxWidth]);
 
-  if (!isResizable) return null;
+  if (!isResizable || isMobile) return null;
 
   return (
     <button
