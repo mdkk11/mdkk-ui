@@ -245,6 +245,10 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
     const isOpen = isMobile ? isMobileOpen : !isCollapsed;
     const resolvedWidth = isCollapsed ? collapsedWidth : width;
     const contentHidden = !isOpen;
+    const panelMotionStyle: React.CSSProperties = {
+      transitionDelay: isMobile && contentHidden ? '120ms' : '0ms',
+      ...(isMobile ? { width: `min(${width}px, 90vw)` } : {}),
+    };
 
     return (
       <>
@@ -255,7 +259,7 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
             aria-hidden={!isMobileOpen}
             onClick={() => setMobileOpen(false)}
             className={cn(
-              'fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 ease-out',
+              'fixed inset-0 z-40 bg-black/40 transition-opacity duration-220 ease-out',
               isMobileOpen
                 ? 'pointer-events-auto visible opacity-100'
                 : 'pointer-events-none invisible opacity-0',
@@ -272,7 +276,7 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
             className,
             isMobile &&
               cn(
-                'fixed inset-y-0 z-50 shadow-xl transition-transform duration-200 ease-out',
+                'fixed inset-y-0 z-50 shadow-xl transition-transform duration-240 ease-[cubic-bezier(0.33,1,0.68,1)]',
                 side === 'left'
                   ? cn(
                       'left-0',
@@ -284,13 +288,13 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
                     ),
               ),
           )}
-          style={isMobile ? { width: `min(${width}px, 90vw)` } : undefined}
+          style={panelMotionStyle}
           aria-hidden={!isOpen}
         >
           <div
             aria-hidden={contentHidden}
             className={cn(
-              'flex h-full min-h-0 flex-col transition-[opacity,transform,visibility] duration-[180ms] ease-out',
+              'flex h-full min-h-0 flex-col will-change-[opacity,transform] transition-[opacity,transform,visibility] ease-[cubic-bezier(0.4,0,0.2,1)]',
               contentHidden
                 ? cn(
                     'pointer-events-none invisible opacity-0',
@@ -299,7 +303,12 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
                 : 'visible translate-x-0 opacity-100',
             )}
             style={{
-              transitionDelay: contentHidden ? '0ms, 0ms, 180ms' : '0ms',
+              transitionDuration: contentHidden
+                ? '120ms, 180ms, 0ms'
+                : '180ms, 240ms, 0ms',
+              transitionDelay: contentHidden
+                ? '0ms, 0ms, 180ms'
+                : '0ms, 0ms, 0ms',
             }}
           >
             {children}

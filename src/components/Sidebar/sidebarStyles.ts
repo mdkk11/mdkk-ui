@@ -14,7 +14,7 @@ export const sidebarShellVariants = cva({
 });
 
 export const sidebarPanelVariants = cva({
-  base: 'group/sidebar relative shrink-0 flex h-full flex-col overflow-hidden border-border bg-secondary text-foreground transition-[width] duration-[240ms] ease-[cubic-bezier(0.22,1,0.36,1)]',
+  base: 'group/sidebar relative shrink-0 flex h-full flex-col overflow-hidden border-border bg-secondary text-foreground transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
   variants: {
     side: {
       left: 'border-r',
