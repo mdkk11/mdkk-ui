@@ -151,18 +151,17 @@ SidebarListItemAdapter.displayName = 'SidebarListItemAdapter';
 
 export interface SidebarItemButtonAdapterProps
   extends Omit<React.ComponentProps<'button'>, 'onClick'> {
-  isActive?: boolean;
   onPress?: () => void;
 }
 
 export const SidebarItemButtonAdapter = React.forwardRef<
   HTMLButtonElement,
   SidebarItemButtonAdapterProps
->(({ className, isActive = false, onPress, ...props }, ref) => (
+>(({ className, onPress, ...props }, ref) => (
   <SidebarTriggerPrimitive
     ref={ref}
     type='button'
-    className={cn(sidebarItemButtonVariants({ isActive }), className)}
+    className={cn(sidebarItemButtonVariants, className)}
     onClick={onPress}
     {...props}
   />

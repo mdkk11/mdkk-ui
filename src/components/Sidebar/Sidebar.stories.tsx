@@ -42,7 +42,7 @@ export const Default: Story = {
               <Sidebar.Nav>
                 <Sidebar.List>
                   <Sidebar.Item>
-                    <Sidebar.ItemButton isActive>Dashboard</Sidebar.ItemButton>
+                    <Sidebar.ItemButton>Dashboard</Sidebar.ItemButton>
                   </Sidebar.Item>
                   <Sidebar.Item>
                     <Sidebar.ItemButton>Projects</Sidebar.ItemButton>

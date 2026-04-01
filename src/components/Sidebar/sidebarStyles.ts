@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'cva';
 
 export const sidebarShellVariants = cva({
-  base: 'relative flex min-h-[280px] w-full',
+  base: 'relative flex h-full w-full',
   variants: {
     side: {
       left: 'flex-row',
@@ -37,16 +37,7 @@ export const sidebarPanelVariants = cva({
 });
 
 export const sidebarItemButtonVariants = cva({
-  base: 'flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring',
-  variants: {
-    isActive: {
-      true: 'bg-accent text-accent-foreground',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    isActive: false,
-  },
+  base: 'flex w-full items-center text-left text-sm transition',
 });
 
 export type SidebarShellVariants = VariantProps<typeof sidebarShellVariants>;
