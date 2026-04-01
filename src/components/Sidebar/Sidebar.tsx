@@ -44,6 +44,8 @@ const useSidebarRootContext = () => {
   return context;
 };
 
+export const useSidebar = () => useSidebarRootContext();
+
 const useIsMobileViewport = (breakpoint: number) => {
   const [isMobile, setIsMobile] = React.useState(false);
 
@@ -352,8 +354,7 @@ const SidebarFooter = React.forwardRef<
 ));
 SidebarFooter.displayName = 'Sidebar.Footer';
 
-export interface SidebarTriggerProps
-  extends Omit<React.ComponentProps<'button'>, 'onClick'> {
+export interface SidebarTriggerProps extends React.ComponentProps<'button'> {
   onPress?: () => void;
   size?: 'sm' | 'md';
 }
@@ -361,7 +362,7 @@ export interface SidebarTriggerProps
 export const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
->(({ children, onPress, className, size = 'md', ...props }, ref) => {
+>(({ children, onPress, onClick, className, size = 'md', ...props }, ref) => {
   const { isCollapsed, isMobile, isMobileOpen, toggle } =
     useSidebarRootContext();
   return (
@@ -370,13 +371,14 @@ export const SidebarTrigger = React.forwardRef<
       className={className}
       size={size}
       aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
-      onClick={() => {
+      onClick={(event) => {
+        onClick?.(event);
         onPress?.();
         toggle();
       }}
       {...props}
     >
-      {children ?? <span>{isCollapsed ? 'Open' : 'Close'}</span>}
+      {children}
     </SidebarTriggerAdapter>
   );
 });

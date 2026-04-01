@@ -56,6 +56,9 @@ export function Page() {
 - `maxWidth?: number`
 - `isResizable?: boolean`
 - `onWidthChange?: (width: number) => void`
+- `mobileBreakpoint?: number`
+- `defaultMobileOpen?: boolean`
+- `onMobileOpenChange?: (isOpen: boolean) => void`
 
 ### `Sidebar.Panel`
 
@@ -66,6 +69,31 @@ export function Page() {
 
 - `onPress?: () => void`
 - Toggles collapse state.
+- Accepts arbitrary children (`ReactNode`), for example icons or custom labels.
+
+### `useSidebar`
+
+- Read sidebar state inside `Sidebar.Root` subtree.
+- Useful when trigger label/icon needs to react to state (`isCollapsed`, `isMobileOpen`).
+
+Example:
+
+```tsx
+import { Sidebar, SidebarTrigger, useSidebar } from '@/components/Sidebar';
+
+const SidebarToggleButton = () => {
+  const { isCollapsed, isMobile, isMobileOpen } = useSidebar();
+  const label = isMobile
+    ? isMobileOpen
+      ? 'とじる'
+      : 'ひらく'
+    : isCollapsed
+      ? 'ひらく'
+      : 'とじる';
+
+  return <SidebarTrigger>{label}</SidebarTrigger>;
+};
+```
 
 ### `Sidebar.ResizeHandle`
 

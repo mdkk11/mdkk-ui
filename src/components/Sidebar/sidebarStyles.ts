@@ -36,19 +36,6 @@ export const sidebarPanelVariants = cva({
   },
 });
 
-export const sidebarTriggerVariants = cva({
-  base: 'inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-foreground transition hover:bg-accent hover:text-accent-foreground',
-  variants: {
-    size: {
-      sm: 'h-8 w-8 text-xs',
-      md: 'h-9 w-9 text-sm',
-    },
-  },
-  defaultVariants: {
-    size: 'md',
-  },
-});
-
 export const sidebarItemButtonVariants = cva({
   base: 'flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring',
   variants: {
@@ -64,6 +51,3 @@ export const sidebarItemButtonVariants = cva({
 
 export type SidebarShellVariants = VariantProps<typeof sidebarShellVariants>;
 export type SidebarPanelVariants = VariantProps<typeof sidebarPanelVariants>;
-export type SidebarTriggerVariants = VariantProps<
-  typeof sidebarTriggerVariants
->;

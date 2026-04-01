@@ -15,7 +15,6 @@ import {
   sidebarItemButtonVariants,
   sidebarPanelVariants,
   sidebarShellVariants,
-  sidebarTriggerVariants,
 } from './sidebarStyles';
 
 export interface SidebarShellAdapterProps
@@ -108,14 +107,9 @@ SidebarContentAdapter.displayName = 'SidebarContentAdapter';
 
 export const SidebarTriggerAdapter = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<'button'> & { size?: 'sm' | 'md' }
->(({ className, size = 'md', ...props }, ref) => (
-  <SidebarTriggerPrimitive
-    ref={ref}
-    type='button'
-    className={cn(sidebarTriggerVariants({ size }), className)}
-    {...props}
-  />
+  React.ComponentProps<'button'>
+>(({ ...props }, ref) => (
+  <SidebarTriggerPrimitive ref={ref} type='button' {...props} />
 ));
 SidebarTriggerAdapter.displayName = 'SidebarTriggerAdapter';
 

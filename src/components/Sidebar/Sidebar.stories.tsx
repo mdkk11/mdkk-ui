@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Sidebar } from './Sidebar';
+import { Sidebar, SidebarTrigger, useSidebar } from './Sidebar';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -15,6 +15,19 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const StatefulSidebarTrigger = () => {
+  const { isCollapsed, isMobile, isMobileOpen } = useSidebar();
+  const label = isMobile
+    ? isMobileOpen
+      ? 'とじる'
+      : 'ひらく'
+    : isCollapsed
+      ? 'ひらく'
+      : 'とじる';
+
+  return <SidebarTrigger>{label}</SidebarTrigger>;
+};
 
 export const Default: Story = {
   render: () => {
@@ -134,6 +147,38 @@ export const GroupedSections: Story = {
           <Sidebar.Trigger />
           <p className='mt-4 text-sm text-muted-foreground'>
             SidebarGroup で項目を見出しごとに分割する例。
+          </p>
+        </main>
+      </Sidebar.Root>
+    </div>
+  ),
+};
+
+export const TriggerWithStateLabel: Story = {
+  render: () => (
+    <div className='min-h-screen p-6'>
+      <Sidebar.Root className='h-[420px] rounded-lg border'>
+        <Sidebar.Panel>
+          <Sidebar.Header>
+            <h2 className='text-lg font-semibold'>Workspace</h2>
+          </Sidebar.Header>
+          <Sidebar.Content>
+            <Sidebar.Nav>
+              <Sidebar.List>
+                <Sidebar.Item>
+                  <Sidebar.ItemButton isActive>Dashboard</Sidebar.ItemButton>
+                </Sidebar.Item>
+                <Sidebar.Item>
+                  <Sidebar.ItemButton>Projects</Sidebar.ItemButton>
+                </Sidebar.Item>
+              </Sidebar.List>
+            </Sidebar.Nav>
+          </Sidebar.Content>
+        </Sidebar.Panel>
+        <main className='flex-1 p-4'>
+          <StatefulSidebarTrigger />
+          <p className='mt-4 text-sm text-muted-foreground'>
+            useSidebar で状態を読み、Triggerラベルを切り替える例。
           </p>
         </main>
       </Sidebar.Root>

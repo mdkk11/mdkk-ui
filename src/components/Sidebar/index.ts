@@ -1,4 +1,8 @@
-import { Sidebar, SidebarTrigger as SidebarTriggerComponent } from './Sidebar';
+import {
+  Sidebar,
+  SidebarTrigger as SidebarTriggerComponent,
+  useSidebar,
+} from './Sidebar';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -20,3 +24,4 @@ export const SidebarList = Sidebar.List;
 export const SidebarItem = Sidebar.Item;
 export const SidebarItemButton = Sidebar.ItemButton;
 export { SidebarGroup, SidebarGroupLabel, SidebarGroupContent };
+export { useSidebar };
