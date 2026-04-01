@@ -329,7 +329,7 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
             className,
             isMobile &&
               cn(
-                'fixed inset-y-0 z-50 shadow-xl transition-transform duration-240 ease-[cubic-bezier(0.33,1,0.68,1)]',
+                'fixed inset-y-0 z-50 transition-transform duration-240 ease-[cubic-bezier(0.33,1,0.68,1)]',
                 side === 'left'
                   ? cn(
                       'left-0',
@@ -377,11 +377,7 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionAdapter
-    ref={ref}
-    className={cn('border-b border-border', className)}
-    {...props}
-  />
+  <SidebarSectionAdapter ref={ref} className={className} {...props} />
 ));
 SidebarHeader.displayName = 'Sidebar.Header';
 
@@ -397,11 +393,7 @@ const SidebarFooter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionAdapter
-    ref={ref}
-    className={cn('border-t border-border', className)}
-    {...props}
-  />
+  <SidebarSectionAdapter ref={ref} className={className} {...props} />
 ));
 SidebarFooter.displayName = 'Sidebar.Footer';
 
