@@ -80,11 +80,7 @@ export const SidebarSectionAdapter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionPrimitive
-    ref={ref}
-    className={cn('p-3', className)}
-    {...props}
-  />
+  <SidebarSectionPrimitive ref={ref} className={cn(className)} {...props} />
 ));
 SidebarSectionAdapter.displayName = 'SidebarSectionAdapter';
 
@@ -94,7 +90,7 @@ export const SidebarContentAdapter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SidebarSectionPrimitive
     ref={ref}
-    className={cn('min-h-0 flex-1 overflow-auto p-3', className)}
+    className={cn('min-h-0 flex-1 overflow-auto', className)}
     {...props}
   />
 ));
