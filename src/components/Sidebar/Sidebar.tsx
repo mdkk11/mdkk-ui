@@ -247,8 +247,18 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
     const isOpen = isMobile ? isMobileOpen : !isCollapsed;
     const resolvedWidth = isCollapsed ? collapsedWidth : width;
     const contentHidden = !isOpen;
+    const previousIsOpenRef = React.useRef(isOpen);
+    const isVisibilityChanging = previousIsOpenRef.current !== isOpen;
+    const shouldDisableMotion = !isVisibilityChanging;
+
+    React.useEffect(() => {
+      previousIsOpenRef.current = isOpen;
+    }, [isOpen]);
+
     const panelMotionStyle: React.CSSProperties = {
-      transitionDelay: isMobile && contentHidden ? '120ms' : '0ms',
+      transitionDuration: shouldDisableMotion ? '0ms' : undefined,
+      transitionDelay:
+        shouldDisableMotion || !isMobile || !contentHidden ? '0ms' : '120ms',
       ...(isMobile ? { width: `min(${width}px, 90vw)` } : {}),
     };
 
@@ -356,20 +366,17 @@ SidebarFooter.displayName = 'Sidebar.Footer';
 
 export interface SidebarTriggerProps extends React.ComponentProps<'button'> {
   onPress?: () => void;
-  size?: 'sm' | 'md';
 }
 
 export const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
->(({ children, onPress, onClick, className, size = 'md', ...props }, ref) => {
+>(({ children, onPress, onClick, ...props }, ref) => {
   const { isCollapsed, isMobile, isMobileOpen, toggle } =
     useSidebarRootContext();
   return (
     <SidebarTriggerAdapter
       ref={ref}
-      className={className}
-      size={size}
       aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
       onClick={(event) => {
         onClick?.(event);
