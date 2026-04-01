@@ -8,6 +8,7 @@ export { Sidebar };
 
 // Backward-compatible named exports for gradual migration.
 export const SidebarRoot = Sidebar.Root;
+export const SidebarProvider = Sidebar.Provider;
 export const SidebarPanel = Sidebar.Panel;
 export const SidebarHeader = Sidebar.Header;
 export const SidebarContent = Sidebar.Content;

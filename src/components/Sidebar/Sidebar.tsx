@@ -19,7 +19,11 @@ import {
 
 type SidebarSide = 'left' | 'right';
 
-type SidebarRootContextValue = {
+type SidebarLayoutContextValue = {
+  side: SidebarSide;
+};
+
+type SidebarStateContextValue = {
   isCollapsed: boolean;
   setCollapsed: (next: boolean) => void;
   toggle: () => void;
@@ -29,27 +33,37 @@ type SidebarRootContextValue = {
   width: number;
   setWidth: (next: number) => void;
   collapsedWidth: number;
-  side: SidebarSide;
   isResizable: boolean;
   minWidth: number;
   maxWidth: number;
 };
 
-const SidebarRootContext = React.createContext<SidebarRootContextValue | null>(
-  null,
-);
+const SidebarLayoutContext =
+  React.createContext<SidebarLayoutContextValue | null>(null);
+const SidebarStateContext =
+  React.createContext<SidebarStateContextValue | null>(null);
 
-const useSidebarRootContext = () => {
-  const context = React.useContext(SidebarRootContext);
+const useSidebarLayoutContext = () => {
+  const context = React.useContext(SidebarLayoutContext);
   if (!context) {
     throw new Error(
-      'Sidebar compound components must be used inside Sidebar.Root.',
+      'Sidebar layout components must be used inside Sidebar.Root.',
     );
   }
   return context;
 };
 
-export const useSidebar = () => useSidebarRootContext();
+const useSidebarStateContext = () => {
+  const context = React.useContext(SidebarStateContext);
+  if (!context) {
+    throw new Error(
+      'Sidebar state components must be used inside Sidebar.Provider or Sidebar.Root.',
+    );
+  }
+  return context;
+};
+
+export const useSidebar = () => useSidebarStateContext();
 
 const useIsMobileViewport = (breakpoint: number) => {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -70,12 +84,7 @@ const useIsMobileViewport = (breakpoint: number) => {
   return isMobile;
 };
 
-export interface SidebarRootProps {
-  children: React.ReactNode;
-  id?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  side?: SidebarSide;
+interface SidebarStateProps {
   isCollapsed?: boolean;
   defaultIsCollapsed?: boolean;
   onCollapsedChange?: (isCollapsed: boolean) => void;
@@ -90,133 +99,152 @@ export interface SidebarRootProps {
   onMobileOpenChange?: (isOpen: boolean) => void;
 }
 
-const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
-  (
-    {
-      children,
-      id,
-      className,
-      style,
-      side = 'left',
-      isCollapsed,
-      defaultIsCollapsed = false,
-      onCollapsedChange,
-      defaultWidth = 280,
-      collapsedWidth = 0,
-      minWidth = 220,
-      maxWidth = 420,
-      isResizable = true,
-      onWidthChange,
-      mobileBreakpoint = 768,
-      defaultMobileOpen = false,
-      onMobileOpenChange,
+const useSidebarState = ({
+  isCollapsed,
+  defaultIsCollapsed = false,
+  onCollapsedChange,
+  defaultWidth = 280,
+  collapsedWidth = 0,
+  minWidth = 220,
+  maxWidth = 420,
+  isResizable = true,
+  onWidthChange,
+  mobileBreakpoint = 768,
+  defaultMobileOpen = false,
+  onMobileOpenChange,
+}: SidebarStateProps): SidebarStateContextValue => {
+  const [internalCollapsed, setInternalCollapsed] =
+    React.useState(defaultIsCollapsed);
+  const [isMobileOpen, setIsMobileOpen] = React.useState(defaultMobileOpen);
+  const [width, setWidthState] = React.useState(defaultWidth);
+  const isMobile = useIsMobileViewport(mobileBreakpoint);
+  const collapsed = isCollapsed ?? internalCollapsed;
+
+  const setCollapsed = React.useCallback(
+    (next: boolean) => {
+      if (isCollapsed === undefined) {
+        setInternalCollapsed(next);
+      }
+      onCollapsedChange?.(next);
     },
-    ref,
-  ) => {
-    const [internalCollapsed, setInternalCollapsed] =
-      React.useState(defaultIsCollapsed);
-    const [isMobileOpen, setIsMobileOpen] = React.useState(defaultMobileOpen);
-    const [width, setWidthState] = React.useState(defaultWidth);
-    const isMobile = useIsMobileViewport(mobileBreakpoint);
-    const collapsed = isCollapsed ?? internalCollapsed;
+    [isCollapsed, onCollapsedChange],
+  );
 
-    const setCollapsed = React.useCallback(
-      (next: boolean) => {
-        if (isCollapsed === undefined) {
-          setInternalCollapsed(next);
-        }
-        onCollapsedChange?.(next);
-      },
-      [isCollapsed, onCollapsedChange],
-    );
+  const setWidth = React.useCallback(
+    (next: number) => {
+      const clamped = Math.min(maxWidth, Math.max(minWidth, next));
+      setWidthState(clamped);
+      onWidthChange?.(clamped);
+    },
+    [maxWidth, minWidth, onWidthChange],
+  );
 
-    const setWidth = React.useCallback(
-      (next: number) => {
-        const clamped = Math.min(maxWidth, Math.max(minWidth, next));
-        setWidthState(clamped);
-        onWidthChange?.(clamped);
-      },
-      [maxWidth, minWidth, onWidthChange],
-    );
+  const setMobileOpen = React.useCallback(
+    (next: boolean) => {
+      setIsMobileOpen(next);
+      onMobileOpenChange?.(next);
+    },
+    [onMobileOpenChange],
+  );
 
-    const setMobileOpen = React.useCallback(
-      (next: boolean) => {
-        setIsMobileOpen(next);
-        onMobileOpenChange?.(next);
-      },
-      [onMobileOpenChange],
-    );
+  React.useEffect(() => {
+    if (!isMobile) {
+      setMobileOpen(false);
+    }
+  }, [isMobile, setMobileOpen]);
 
-    React.useEffect(() => {
-      if (!isMobile) {
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (!(isMobile && isMobileOpen)) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isMobile, isMobileOpen]);
+
+  React.useEffect(() => {
+    if (!isMobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
         setMobileOpen(false);
       }
-    }, [isMobile, setMobileOpen]);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMobileOpen, setMobileOpen]);
 
-    React.useEffect(() => {
-      if (typeof document === 'undefined') return;
-      if (!(isMobile && isMobileOpen)) return;
-      const prevOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = prevOverflow;
-      };
-    }, [isMobile, isMobileOpen]);
+  const toggle = React.useCallback(() => {
+    if (isMobile) {
+      setMobileOpen(!isMobileOpen);
+      return;
+    }
+    setCollapsed(!collapsed);
+  }, [collapsed, isMobile, isMobileOpen, setCollapsed, setMobileOpen]);
 
-    React.useEffect(() => {
-      if (!isMobileOpen) return;
-      const onKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          setMobileOpen(false);
-        }
-      };
-      window.addEventListener('keydown', onKeyDown);
-      return () => window.removeEventListener('keydown', onKeyDown);
-    }, [isMobileOpen, setMobileOpen]);
+  return React.useMemo(
+    () => ({
+      isCollapsed: collapsed,
+      setCollapsed,
+      toggle,
+      isMobile,
+      isMobileOpen,
+      setMobileOpen,
+      width,
+      setWidth,
+      collapsedWidth,
+      isResizable,
+      minWidth,
+      maxWidth,
+    }),
+    [
+      collapsed,
+      setCollapsed,
+      toggle,
+      isMobile,
+      isMobileOpen,
+      setMobileOpen,
+      width,
+      setWidth,
+      collapsedWidth,
+      isResizable,
+      minWidth,
+      maxWidth,
+    ],
+  );
+};
 
-    const toggle = React.useCallback(() => {
-      if (isMobile) {
-        setMobileOpen(!isMobileOpen);
-        return;
-      }
-      setCollapsed(!collapsed);
-    }, [collapsed, isMobile, isMobileOpen, setCollapsed, setMobileOpen]);
+export interface SidebarProviderProps extends SidebarStateProps {
+  children: React.ReactNode;
+}
 
-    const contextValue = React.useMemo<SidebarRootContextValue>(
-      () => ({
-        isCollapsed: collapsed,
-        setCollapsed,
-        toggle,
-        isMobile,
-        isMobileOpen,
-        setMobileOpen,
-        width,
-        setWidth,
-        collapsedWidth,
-        side,
-        isResizable,
-        minWidth,
-        maxWidth,
-      }),
-      [
-        collapsed,
-        setCollapsed,
-        toggle,
-        isMobile,
-        isMobileOpen,
-        setMobileOpen,
-        width,
-        setWidth,
-        collapsedWidth,
-        side,
-        isResizable,
-        minWidth,
-        maxWidth,
-      ],
-    );
+export const SidebarProvider = ({
+  children,
+  ...stateProps
+}: SidebarProviderProps) => {
+  const state = useSidebarState(stateProps);
+  return (
+    <SidebarStateContext.Provider value={state}>
+      {children}
+    </SidebarStateContext.Provider>
+  );
+};
 
-    return (
-      <SidebarRootContext.Provider value={contextValue}>
+export interface SidebarRootProps extends SidebarStateProps {
+  children: React.ReactNode;
+  id?: string;
+  className?: string;
+  style?: React.CSSProperties;
+  side?: SidebarSide;
+}
+
+const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
+  ({ children, id, className, style, side = 'left', ...stateProps }, ref) => {
+    const parentState = React.useContext(SidebarStateContext);
+    const localState = useSidebarState(stateProps);
+
+    const shell = (
+      <SidebarLayoutContext.Provider value={{ side }}>
         <SidebarShellAdapter
           ref={ref}
           id={id}
@@ -226,7 +254,15 @@ const SidebarRoot = React.forwardRef<HTMLDivElement, SidebarRootProps>(
         >
           {children}
         </SidebarShellAdapter>
-      </SidebarRootContext.Provider>
+      </SidebarLayoutContext.Provider>
+    );
+
+    if (parentState) return shell;
+
+    return (
+      <SidebarStateContext.Provider value={localState}>
+        {shell}
+      </SidebarStateContext.Provider>
     );
   },
 );
@@ -247,8 +283,8 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
       setMobileOpen,
       width,
       collapsedWidth,
-      side,
-    } = useSidebarRootContext();
+    } = useSidebarStateContext();
+    const { side } = useSidebarLayoutContext();
     const isOpen = isMobile ? isMobileOpen : !isCollapsed;
     const resolvedWidth = isCollapsed ? collapsedWidth : width;
     const contentHidden = !isOpen;
@@ -378,7 +414,7 @@ export const SidebarTrigger = React.forwardRef<
   SidebarTriggerProps
 >(({ children, onPress, onClick, ...props }, ref) => {
   const { isCollapsed, isMobile, isMobileOpen, toggle } =
-    useSidebarRootContext();
+    useSidebarStateContext();
   return (
     <SidebarTriggerAdapter
       ref={ref}
@@ -400,15 +436,9 @@ const SidebarResizeHandle = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'>
 >(({ className, ...props }, ref) => {
-  const {
-    isCollapsed,
-    isMobile,
-    setWidth,
-    side,
-    isResizable,
-    minWidth,
-    maxWidth,
-  } = useSidebarRootContext();
+  const { isCollapsed, isMobile, setWidth, isResizable, minWidth, maxWidth } =
+    useSidebarStateContext();
+  const { side } = useSidebarLayoutContext();
 
   const handleMouseDown = React.useCallback(() => {
     if (!isResizable || isCollapsed) return;
@@ -491,6 +521,7 @@ const SidebarItemButton = React.forwardRef<
 SidebarItemButton.displayName = 'Sidebar.ItemButton';
 
 export const Sidebar = {
+  Provider: SidebarProvider,
   Root: SidebarRoot,
   Panel: SidebarPanel,
   Header: SidebarHeader,

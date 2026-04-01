@@ -71,6 +71,10 @@ Guidelines:
 - Keep low-level DOM wrappers in `ComponentPrimitive.tsx`.
 - Keep Public API event names simplified (`onPress`, `onChange`) and avoid
   leaking raw DOM handlers when not required.
+- Exception pattern is allowed for global controls (for example `SidebarTrigger`)
+  when they need to be rendered outside the compound layout container.
+  In that case, state should be provided by `Component.Provider` and structural
+  layout parts should remain under `Component.Root`.
 src/
 ├── components/
 │   ├── Button/

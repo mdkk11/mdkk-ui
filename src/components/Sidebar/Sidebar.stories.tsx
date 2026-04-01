@@ -185,3 +185,43 @@ export const TriggerWithStateLabel: Story = {
     </div>
   ),
 };
+
+export const ProviderWithExternalTrigger: Story = {
+  render: () => (
+    <Sidebar.Provider defaultWidth={280} minWidth={220}>
+      <div className='flex min-h-screen flex-col p-6'>
+        <header className='mb-4 flex items-center justify-between rounded-lg border bg-background p-3'>
+          <StatefulSidebarTrigger />
+          <p className='text-sm text-muted-foreground'>
+            Trigger is outside Sidebar.Root
+          </p>
+        </header>
+        <Sidebar.Root className='min-h-0 flex-1 rounded-lg border'>
+          <Sidebar.Panel>
+            <Sidebar.Header>
+              <h2 className='text-lg font-semibold'>Workspace</h2>
+            </Sidebar.Header>
+            <Sidebar.Content>
+              <Sidebar.Nav>
+                <Sidebar.List>
+                  <Sidebar.Item>
+                    <Sidebar.ItemButton isActive>Dashboard</Sidebar.ItemButton>
+                  </Sidebar.Item>
+                  <Sidebar.Item>
+                    <Sidebar.ItemButton>Projects</Sidebar.ItemButton>
+                  </Sidebar.Item>
+                </Sidebar.List>
+              </Sidebar.Nav>
+            </Sidebar.Content>
+            <Sidebar.ResizeHandle />
+          </Sidebar.Panel>
+          <main className='flex-1 p-4'>
+            <p className='text-sm text-muted-foreground'>
+              shadcn-style composition: provider owns state, root owns layout.
+            </p>
+          </main>
+        </Sidebar.Root>
+      </div>
+    </Sidebar.Provider>
+  ),
+};

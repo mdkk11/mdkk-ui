@@ -37,7 +37,29 @@ export const sidebarPanelVariants = cva({
 });
 
 export const sidebarItemButtonVariants = cva({
-  base: 'flex w-full items-center text-left text-sm transition',
+  base: 'flex w-full items-center rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+  variants: {
+    isActive: {
+      true: 'bg-accent text-accent-foreground',
+      false: 'text-foreground hover:bg-accent/60',
+    },
+  },
+  defaultVariants: {
+    isActive: false,
+  },
+});
+
+export const sidebarTriggerVariants = cva({
+  base: 'inline-flex items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors hover:bg-accent/60',
+  variants: {
+    size: {
+      sm: 'h-8 px-2 text-xs',
+      md: 'h-9 px-3 text-sm',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
 });
 
 export type SidebarShellVariants = VariantProps<typeof sidebarShellVariants>;
