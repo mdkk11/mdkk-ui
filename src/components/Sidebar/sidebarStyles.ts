@@ -14,19 +14,19 @@ export const sidebarShellVariants = cva({
 });
 
 export const sidebarPanelVariants = cva({
-  base: 'group/sidebar relative shrink-0 flex h-full flex-col overflow-hidden border-border bg-secondary text-foreground transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
+  base: 'group/sidebar relative shrink-0 flex h-full min-h-0 flex-col overflow-hidden transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
   variants: {
     side: {
-      left: 'border-r',
-      right: 'border-l',
+      left: '',
+      right: '',
     },
     tone: {
-      subtle: 'bg-secondary',
-      solid: 'bg-background',
+      subtle: '',
+      solid: '',
     },
     state: {
       expanded: '',
-      collapsed: 'border-0',
+      collapsed: '',
     },
   },
   defaultVariants: {
@@ -37,11 +37,11 @@ export const sidebarPanelVariants = cva({
 });
 
 export const sidebarItemButtonVariants = cva({
-  base: 'flex w-full items-center rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+  base: 'flex w-full items-center text-left',
   variants: {
     isActive: {
-      true: 'bg-accent text-accent-foreground',
-      false: 'text-foreground hover:bg-accent/60',
+      true: '',
+      false: '',
     },
   },
   defaultVariants: {
@@ -50,11 +50,11 @@ export const sidebarItemButtonVariants = cva({
 });
 
 export const sidebarTriggerVariants = cva({
-  base: 'inline-flex items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors hover:bg-accent/60',
+  base: 'inline-flex items-center justify-center',
   variants: {
     size: {
-      sm: 'h-8 px-2 text-xs',
-      md: 'h-9 px-3 text-sm',
+      sm: 'h-8 px-2',
+      md: 'h-9 px-3',
     },
   },
   defaultVariants: {
