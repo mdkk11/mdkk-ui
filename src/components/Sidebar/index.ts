@@ -3,11 +3,6 @@ import {
   SidebarTrigger as SidebarTriggerComponent,
   useSidebar,
 } from './Sidebar';
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-} from './SidebarGroup';
 
 export { Sidebar };
 
@@ -23,5 +18,7 @@ export const SidebarNav = Sidebar.Nav;
 export const SidebarList = Sidebar.List;
 export const SidebarItem = Sidebar.Item;
 export const SidebarItemButton = Sidebar.ItemButton;
-export { SidebarGroup, SidebarGroupLabel, SidebarGroupContent };
+export const SidebarGroup = Sidebar.Group;
+export const SidebarGroupLabel = Sidebar.GroupLabel;
+export const SidebarGroupContent = Sidebar.GroupContent;
 export { useSidebar };

@@ -11,6 +11,11 @@ import {
   SidebarShellAdapter,
   SidebarTriggerAdapter,
 } from './SidebarAdapter';
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+} from './SidebarGroup';
 
 type SidebarSide = 'left' | 'right';
 
@@ -497,4 +502,8 @@ export const Sidebar = {
   List: SidebarList,
   Item: SidebarItem,
   ItemButton: SidebarItemButton,
+  Group: SidebarGroup,
+  GroupLabel: SidebarGroupLabel,
+  GroupContent: SidebarGroupContent,
+  useSidebar,
 };
