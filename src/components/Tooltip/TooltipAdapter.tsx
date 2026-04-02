@@ -19,7 +19,13 @@ const tooltipContentVariants = cva({
   base: 'z-50 rounded-none border-[var(--brutal-border-subtle)] border-border bg-foreground px-2 py-1 text-xs text-background shadow-brutal-sm transition duration-150 ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0',
 });
 
-export const TooltipRootAdapter = TooltipRootPrimitive;
+export const TooltipRootAdapter = ({
+  delay = 250,
+  closeDelay = 80,
+  ...props
+}: TooltipRootPrimitiveProps) => (
+  <TooltipRootPrimitive delay={delay} closeDelay={closeDelay} {...props} />
+);
 
 export interface TooltipTriggerAdapterProps
   extends TooltipTriggerPrimitiveProps {}
