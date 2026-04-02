@@ -10,11 +10,9 @@ interface StoryListItemPrimitiveProps {
 export const StoryListItemPrimitive = memo(
   ({ storySet, index, onSelect }: StoryListItemPrimitiveProps) => {
     const getThumbnail = (set: StorySet): string => {
-      // 画角のズレを防ぐため、最初のストーリーが画像ならそれを優先採用する
       const firstImageStory = set.stories.find((s) => s.type === 'image');
       if (firstImageStory) return firstImageStory.content;
 
-      // 画像ストーリーがない場合のフォールバック
       if (set.thumbnail) return set.thumbnail;
       return '';
     };

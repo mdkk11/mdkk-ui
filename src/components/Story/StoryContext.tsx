@@ -28,7 +28,7 @@ export const StoryContext = createContext<StoryContextType | null>(null);
 export const useStoryContext = () => {
   const context = useContext(StoryContext);
   if (!context) {
-    throw new Error('useStoryContext must be used within a StoryProvider');
+    throw new Error('useStoryContext must be used within Story.Root');
   }
   return context;
 };

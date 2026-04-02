@@ -1,6 +1,3 @@
-// シンプルなMarkdownレンダラー
-// 実際のプロダクトでは react-markdown + Tailwind Typography (prose) を使うのが推奨されるが、
-// 依存関係を増やさない条件のため、正規表現置換方式を採用する。
 export const StoryMarkdownPrimitive = ({ content }: { content: string }) => {
   const parseMarkdown = (text: string) => {
     let parsed = text;
