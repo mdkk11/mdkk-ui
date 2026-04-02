@@ -1,6 +1,6 @@
 {
   "name": "mdkk-ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "React component library built on top of react-aria-components",
   "license": "MIT",
   "type": "module",

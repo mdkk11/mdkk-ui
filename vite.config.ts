@@ -29,6 +29,7 @@ export default defineConfig({
     },
   },
   build: {
+    copyPublicDir: false,
     lib: {
       entry: {
         index: path.resolve(dirname, 'src/index.ts'),
