@@ -1,7 +1,7 @@
 import type { VariantProps } from 'cva';
 import React from 'react';
-import type { progressCircleVariants } from '@/design-system/progressCircleStyles';
 import { ProgressCircleAdapter } from './ProgressCircleAdapter';
+import type { progressCircleVariants } from './ProgressCircleAdapter';
 
 export interface ProgressCircleProps
   extends React.ComponentProps<typeof ProgressCircleAdapter>,
