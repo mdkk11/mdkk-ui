@@ -12,19 +12,19 @@ import { TextField } from '../components/TextField';
 const formSchema = z.object({
   name: z
     .string()
-    .min(1, '名前は必須です')
-    .max(50, '50文字以内で入力してください'),
+    .min(1, 'Name is required')
+    .max(50, 'Name must be 50 characters or fewer'),
   email: z
     .string()
-    .min(1, 'メールアドレスは必須です')
-    .email('有効なメールアドレスを入力してください'),
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
   bio: z
     .string()
-    .min(10, '自己紹介は10文字以上必要です')
-    .max(500, '500文字以内で入力してください'),
-  interests: z.array(z.string()).min(1, '少なくとも1つ選択してください'),
+    .min(10, 'Bio must be at least 10 characters')
+    .max(500, 'Bio must be 500 characters or fewer'),
+  interests: z.array(z.string()).min(1, 'Select at least one interest'),
   agreeToTerms: z.literal(true, {
-    error: '利用規約に同意してください',
+    error: 'Please agree to the terms',
   }),
 });
 
@@ -50,19 +50,18 @@ function ContactForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    // 送信シミュレーション
+    // Simulate a network request.
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log('✅ Form submitted:', data);
-    alert(`送信完了！\n\n${JSON.stringify(data, null, 2)}`);
+    console.log('Form submitted:', data);
+    alert(`Submitted!\n\n${JSON.stringify(data, null, 2)}`);
   };
 
   if (isSubmitSuccessful) {
     return (
       <div className='flex flex-col items-center gap-4 p-8 text-center'>
-        <p className='text-2xl'>🎉</p>
-        <p className='text-lg font-semibold'>送信が完了しました！</p>
+        <p className='text-lg font-semibold'>Submission completed.</p>
         <Button variant='outline' onPress={() => reset()}>
-          もう一度入力する
+          Submit another response
         </Button>
       </div>
     );
@@ -74,7 +73,7 @@ function ContactForm() {
       noValidate
       className='flex flex-col gap-6 w-full max-w-md'
     >
-      {/* 名前 */}
+      {/* Name */}
       <Controller
         name='name'
         control={control}
@@ -84,9 +83,9 @@ function ContactForm() {
             isRequired
             className='flex flex-col gap-1'
           >
-            <TextField.Label>名前</TextField.Label>
+            <TextField.Label>Name</TextField.Label>
             <TextField.Input
-              placeholder='山田 太郎'
+              placeholder='Jane Doe'
               value={field.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 field.onChange(e.target.value)
@@ -101,7 +100,7 @@ function ContactForm() {
         )}
       />
 
-      {/* メールアドレス */}
+      {/* Email */}
       <Controller
         name='email'
         control={control}
@@ -111,9 +110,9 @@ function ContactForm() {
             isRequired
             className='flex flex-col gap-1'
           >
-            <TextField.Label>メールアドレス</TextField.Label>
+            <TextField.Label>Email Address</TextField.Label>
             <TextField.Input
-              placeholder='taro@example.com'
+              placeholder='jane@example.com'
               value={field.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 field.onChange(e.target.value)
@@ -122,7 +121,7 @@ function ContactForm() {
               ref={field.ref}
             />
             <TextField.Description>
-              連絡先として使用します
+              This will be used as your contact email.
             </TextField.Description>
             {errors.email && (
               <TextField.Error>{errors.email.message}</TextField.Error>
@@ -131,7 +130,7 @@ function ContactForm() {
         )}
       />
 
-      {/* 自己紹介 (TextArea) */}
+      {/* Bio (TextArea) */}
       <Controller
         name='bio'
         control={control}
@@ -141,9 +140,9 @@ function ContactForm() {
             isRequired
             className='flex flex-col gap-1'
           >
-            <TextField.Label>自己紹介</TextField.Label>
+            <TextField.Label>Bio</TextField.Label>
             <TextField.TextArea
-              placeholder='あなたについて教えてください...'
+              placeholder='Tell us about yourself...'
               value={field.value}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 field.onChange(e.target.value)
@@ -152,7 +151,7 @@ function ContactForm() {
               ref={field.ref}
             />
             <TextField.Description>
-              10〜500文字で入力してください
+              Please enter between 10 and 500 characters.
             </TextField.Description>
             {errors.bio && (
               <TextField.Error>{errors.bio.message}</TextField.Error>
@@ -161,7 +160,7 @@ function ContactForm() {
         )}
       />
 
-      {/* 興味のある分野 (CheckboxGroup) */}
+      {/* Interests (CheckboxGroup) */}
       <Controller
         name='interests'
         control={control}
@@ -172,15 +171,15 @@ function ContactForm() {
             value={field.value}
             onChange={field.onChange}
           >
-            <CheckboxGroup.Label>興味のある分野</CheckboxGroup.Label>
+            <CheckboxGroup.Label>Areas of Interest</CheckboxGroup.Label>
             <div className='flex flex-col gap-2 mt-1'>
-              <Checkbox value='frontend'>フロントエンド</Checkbox>
-              <Checkbox value='backend'>バックエンド</Checkbox>
-              <Checkbox value='design'>デザイン</Checkbox>
+              <Checkbox value='frontend'>Frontend</Checkbox>
+              <Checkbox value='backend'>Backend</Checkbox>
+              <Checkbox value='design'>Design</Checkbox>
               <Checkbox value='devops'>DevOps</Checkbox>
             </div>
             <CheckboxGroup.Description>
-              1つ以上選択してください
+              Select one or more.
             </CheckboxGroup.Description>
             {errors.interests && (
               <CheckboxGroup.Error>
@@ -191,7 +190,7 @@ function ContactForm() {
         )}
       />
 
-      {/* 利用規約の同意 (Checkbox) */}
+      {/* Terms agreement (Checkbox) */}
       <Controller
         name='agreeToTerms'
         control={control}
@@ -202,7 +201,7 @@ function ContactForm() {
               onChange={field.onChange}
               name={field.name}
             >
-              利用規約に同意する
+              I agree to the terms of service
             </Checkbox>
             {errors.agreeToTerms && (
               <p className='text-sm text-red-600'>
@@ -213,9 +212,9 @@ function ContactForm() {
         )}
       />
 
-      {/* 送信ボタン */}
+      {/* Submit button */}
       <Button type='submit' variant='primary' isPending={isSubmitting}>
-        送信する
+        Submit
       </Button>
     </form>
   );
@@ -230,7 +229,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'react-hook-form + zod バリデーションを使用した、mdkk-ui コンポーネントのフォームサンプル。TextField, TextArea, CheckboxGroup, Checkbox, Button を組み合わせたお問い合わせフォームの例。',
+          'A sample contact form built with mdkk-ui primitives and react-hook-form + zod. Demonstrates TextField, TextArea, CheckboxGroup, Checkbox, and Button integration.',
       },
     },
   },
@@ -243,7 +242,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <div className='p-8'>
-      <h2 className='text-xl font-bold mb-6'>お問い合わせフォーム</h2>
+      <h2 className='text-xl font-bold mb-6'>Contact Form</h2>
       <ContactForm />
     </div>
   ),

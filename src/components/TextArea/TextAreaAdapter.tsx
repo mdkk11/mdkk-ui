@@ -9,14 +9,14 @@ import {
 
 const textAreaStyles = cva({
   base: [
-    'w-full bg-white text-black p-3 text-base',
+    'w-full bg-background p-3 text-base text-foreground',
     'rounded-none',
-    'border-2 border-black',
+    'border-2 border-border',
     'outline-none',
-    'placeholder:text-gray-400',
+    'placeholder:text-muted-foreground',
     'disabled:opacity-50 disabled:cursor-not-allowed',
-    'focus:outline-2 focus:outline-offset-2 focus:outline-black',
-    'min-h-[80px]', // Default min-height for textarea
+    'focus:outline-2 focus:outline-offset-2 focus:outline-ring',
+    'min-h-[80px]',
   ],
   variants: {
     isInvalid: {
@@ -45,6 +45,6 @@ export const TextAreaAdapter = React.forwardRef<
 });
 TextAreaAdapter.displayName = 'TextAreaAdapter';
 
-// Backward compatibility or for use in TextField if needed specifically by name
+// Backward compatibility alias for TextField composition.
 export const TextAreaInputAdapter = TextAreaAdapter;
 export type TextAreaInputAdapterProps = TextAreaAdapterProps;

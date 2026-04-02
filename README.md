@@ -1,144 +1,107 @@
 # mdkk-ui
 
-A personal UI library built on top of **React Aria Components**.
-This library provides a styled, accessible layer using Tailwind CSS and TypeScript, following a strict 3-tier architecture.
+`mdkk-ui` is a React component library built on top of `react-aria-components`.
+It provides a strict component architecture, accessible behavior primitives, and a Brutalist-oriented design token system.
 
-> **Note:** This library depends on [react-aria-components](https://react-spectrum.adobe.com/react-aria/components.html) for its core accessibility and behavior primitives.
+## Core Principles
+
+- Public API is a stable contract.
+- Accessibility and interaction behavior are delegated to `react-aria-components`.
+- Styling and visual language are controlled by design tokens and semantic CSS variables.
+- Components follow a strict 3-tier architecture: Public -> Adapter -> Primitive.
 
 ## Installation
 
 ```bash
-npm install mdkk-ui
+npm install mdkk-ui react react-dom react-aria-components
 # or
-pnpm add mdkk-ui
+pnpm add mdkk-ui react react-dom react-aria-components
 ```
 
-## Setup
+## Quick Start
 
-### Tailwind CSS Configuration (Recommended)
-Add the `mdkk-ui` plugin to your `tailwind.config.js`. This plugin sets up all necessary design tokens, colors, and utility classes.
+### 1) Import base styles
+
+```tsx
+import 'mdkk-ui/dist/index.css';
+```
+
+### 2) Configure Tailwind v4 (recommended)
 
 ```js
 // tailwind.config.js
 import { mdkkPlugin } from 'mdkk-ui/tailwind-plugin';
+import reactAria from 'tailwindcss-react-aria-components';
 
 export default {
   content: [
-    // ...
-    './node_modules/mdkk-ui/dist/**/*.{js,ts,jsx,tsx}', // Add this to scan mdkk-ui components
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/mdkk-ui/dist/**/*.{js,ts,jsx,tsx}',
   ],
-  plugins: [
-    mdkkPlugin,
-    require('tailwindcss-react-aria-components'), // Required for accessibility primitives
-  ],
+  plugins: [mdkkPlugin, reactAria],
 };
 ```
 
-### Option: Manual Setup (shadcn style)
-If you prefer full control over your CSS variables (like shadcn/ui), copy the following into your global CSS file instead of using the plugin.
-
 ```css
-@layer base {
-  :root {
-    /* Primitives */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    --color-gray-100: #eeeeee;
-    --color-gray-300: #cccccc;
-    --color-gray-500: #888888;
-    --color-gray-800: #333333;
-    
-    /* Dark Mono */
-    --color-neutral-900: #0a0a0a;
-    --color-neutral-800: #1a1a1a;
-    --color-neutral-700: #444444;
+/* src/index.css */
+@import "tailwindcss";
+@config "../tailwind.config.js";
+```
 
-    /* Brand Colors */
-    --color-red-600: #ff0000;
-    --color-red-500: #ff1e1e;
-    --color-red-400: #ff3333;
+### 3) Use components
 
-    /* Semantic Tokens */
-    --background: var(--color-white);
-    --foreground: var(--color-black);
-    --primary: var(--color-red-500);
-    --primary-foreground: var(--color-white);
-    --secondary: var(--color-black);
-    --secondary-foreground: var(--color-white);
-    --muted: var(--color-gray-100);
-    --muted-foreground: var(--color-black);
-    --accent: var(--color-red-500);
-    --accent-foreground: var(--color-white);
-    --destructive: var(--color-red-600);
-    --card: var(--color-white);
-    --card-foreground: var(--color-black);
-    --popover: var(--color-white);
-    --popover-foreground: var(--color-black);
-    --border: var(--color-black);
-    --input: var(--color-white);
-    --ring: var(--color-black);
-    
-    /* Brutalist Shadow System */
-    --radius: 0rem;
-    --shadow-color: var(--color-black);
-    --shadow-color-light: var(--color-white);
-    --shadow-offset-sm: 2px;
-    --shadow-offset-md: 4px;
-    --shadow-offset-lg: 8px;
-  }
- 
-  .dark {
-    --background: var(--color-neutral-900);
-    --foreground: var(--color-white);
-    --primary: var(--color-red-400);
-    --primary-foreground: var(--color-black);
-    --secondary: var(--color-white);
-    --secondary-foreground: var(--color-black);
-    --muted: var(--color-neutral-800);
-    --muted-foreground: var(--color-white);
-    --accent: var(--color-red-400);
-    --accent-foreground: var(--color-black);
-    --destructive: var(--color-red-600);
-    --card: var(--color-neutral-900);
-    --card-foreground: var(--color-white);
-    --popover: var(--color-neutral-900);
-    --popover-foreground: var(--color-white);
-    --border: var(--color-white);
-    --input: var(--color-neutral-900);
-    --ring: var(--color-white);
-    --shadow-color: var(--color-white);
-    --shadow-color-light: var(--color-black);
-  }
-}
+```tsx
+import { Button, Card, CardHeader, CardTitle, CardContent } from 'mdkk-ui';
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+export function Example() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Hello</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Button variant='primary'>Click</Button>
+      </CardContent>
+    </Card>
+  );
 }
 ```
 
-## Usage
+## React Aria Dependency
 
-### Button
-```tsx
-import { Button } from 'mdkk-ui';
+This library intentionally depends on `react-aria-components` for core behavior.
+Consumers should treat this as a foundational dependency, not an optional add-on.
 
-function App() {
-  return (
-    <Button variant="primary" onPress={() => console.log('clicked')}>
-      Click Me
-    </Button>
-  );
-}
+- `Primitive` layer may import `react-aria-components`.
+- `Public` layer should not leak raw `react-aria-components` prop types.
 
-## Architecture
+See `docs/DEPENDENCY_POLICY.md` for details.
 
-This library follows a strict **3-Tier Architecture**:
-1. **Public API**: Converting human-friendly props to internal logic.
-2. **Adapter**: Handling styling (CVA) and layout.
-3. **Primitive**: Pure wrapper around `react-aria-components`.
+## Documentation Map
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for details.
+- `docs/ARCHITECTURE.md`: component architecture, layers, and responsibilities
+- `docs/DESIGN_SYSTEM.md`: tokens, semantic variables, Brutalist styling strategy
+- `docs/PUBLIC_API_STANDARDS.md`: API naming and prop design standards
+- `docs/COMPONENT_CATALOG.md`: exported components and usage notes
+- `docs/SIDEBAR_USAGE.md`: Sidebar provider-first usage and composition patterns
+- `docs/RELEASE_CHECKLIST.md`: pre-release and publishing checklist
+- `docs/FORM_GUIDE.md`: Japanese form UX and implementation standards
+
+## Exported Surface
+
+The package exports:
+
+- components from `src/index.ts`
+- Tailwind plugin via `mdkk-ui/tailwind-plugin`
+- built CSS via `mdkk-ui/dist/index.css`
+
+## Development
+
+```bash
+npm run storybook
+npm run typecheck
+npm run check
+```
 
 ## License
 

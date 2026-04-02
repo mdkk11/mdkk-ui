@@ -10,6 +10,8 @@ This catalog lists the currently exported component surface from `src/index.ts`.
 - `TextField`
 - `Checkbox`
 - `CheckboxGroup`
+- `Select` (compound)
+- `Combobox` (compound)
 - `Label`
 - `FieldError`
 
@@ -18,12 +20,19 @@ This catalog lists the currently exported component surface from `src/index.ts`.
 - `Card`
 - `AspectRatio`
 - `Sidebar` (compound)
+- `Dialog` (compound)
+- `Drawer` (compound)
+- `Tabs` (compound)
 
 ## Feedback and Display
 
 - `Badge`
 - `ProgressCircle`
 - `Text`
+- `DropdownMenu` (compound)
+- `Tooltip` (compound)
+- `Toast` (`ToastProvider`, `Toast.useToast`)
+- `Skeleton`
 
 ## Story-like Media
 
@@ -53,11 +62,5 @@ See `docs/SIDEBAR_USAGE.md` for details.
 
 Commonly needed for application-scale use:
 
-- `Dialog`
-- `Toast`
-- `Tabs`
-- `Select` / `Combobox`
-- `DropdownMenu`
 - `Table`
 - `Pagination`
-- `Skeleton`

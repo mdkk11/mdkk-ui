@@ -1,0 +1,167 @@
+import { cva } from 'cva';
+import * as React from 'react';
+import { composeRenderProps, type ToastOptions } from 'react-aria-components';
+import { cn } from '@/design-system/utils';
+import {
+  type QueuedToast,
+  ToastClosePrimitive,
+  ToastContentPrimitive,
+  ToastPrimitive,
+  ToastQueueClassPrimitive,
+  ToastRegionPrimitive,
+} from './ToastPrimitive';
+
+type ToastTone = 'info' | 'success' | 'error';
+
+export interface ToastMessage {
+  title: string;
+  description?: string;
+  tone?: ToastTone;
+}
+
+const toastRegionVariants = cva({
+  base: 'fixed bottom-4 right-4 z-[100] flex w-[min(92vw,360px)] flex-col gap-2 outline-none',
+});
+
+const toastVariants = cva({
+  base: 'grid grid-cols-[1fr_auto] items-start gap-3 rounded-none border-[var(--brutal-border-default)] bg-background p-3 text-foreground shadow-brutal-sm',
+  variants: {
+    tone: {
+      info: 'border-border',
+      success: 'border-accent',
+      error: 'border-destructive',
+    },
+  },
+  defaultVariants: {
+    tone: 'info',
+  },
+});
+
+const toastCloseVariants = cva({
+  base: 'inline-flex items-center justify-center rounded-none border-[var(--brutal-border-subtle)] px-2 py-1 text-xs font-medium',
+});
+
+const toastTitleVariants = cva({
+  base: 'text-sm font-semibold leading-tight',
+});
+
+const toastDescriptionVariants = cva({
+  base: 'mt-1 text-xs text-muted-foreground',
+});
+
+export interface ToastContextValue {
+  show: (message: ToastMessage, options?: ToastOptions) => string;
+  info: (title: string, description?: string, options?: ToastOptions) => string;
+  success: (
+    title: string,
+    description?: string,
+    options?: ToastOptions,
+  ) => string;
+  error: (
+    title: string,
+    description?: string,
+    options?: ToastOptions,
+  ) => string;
+}
+
+const ToastContext = React.createContext<ToastContextValue | null>(null);
+
+export const useToastAdapter = (): ToastContextValue => {
+  const context = React.useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToast must be used within Toast.Provider.');
+  }
+  return context;
+};
+
+export interface ToastProviderAdapterProps {
+  children: React.ReactNode;
+  className?: string;
+  maxVisibleToasts?: number;
+  defaultTimeout?: number;
+}
+
+export const ToastProviderAdapter = ({
+  children,
+  className,
+  maxVisibleToasts = 4,
+  defaultTimeout = 4000,
+}: ToastProviderAdapterProps) => {
+  const queue = React.useMemo(
+    () => new ToastQueueClassPrimitive<ToastMessage>({ maxVisibleToasts }),
+    [maxVisibleToasts],
+  );
+
+  const show = React.useCallback(
+    (message: ToastMessage, options?: ToastOptions) => {
+      const timeout = options?.timeout ?? defaultTimeout;
+      return queue.add(message, {
+        ...options,
+        timeout,
+      });
+    },
+    [defaultTimeout, queue],
+  );
+
+  const info = React.useCallback(
+    (title: string, description?: string, options?: ToastOptions) =>
+      show({ title, description, tone: 'info' }, options),
+    [show],
+  );
+
+  const success = React.useCallback(
+    (title: string, description?: string, options?: ToastOptions) =>
+      show({ title, description, tone: 'success' }, options),
+    [show],
+  );
+
+  const error = React.useCallback(
+    (title: string, description?: string, options?: ToastOptions) =>
+      show({ title, description, tone: 'error' }, options),
+    [show],
+  );
+
+  const contextValue = React.useMemo(
+    () => ({ show, info, success, error }),
+    [show, info, success, error],
+  );
+
+  return (
+    <ToastContext.Provider value={contextValue}>
+      {children}
+      <ToastRegionPrimitive
+        queue={queue}
+        className={composeRenderProps(className, (className) =>
+          cn(toastRegionVariants(), className),
+        )}
+      >
+        {({ toast }) => <ToastItem toast={toast} />}
+      </ToastRegionPrimitive>
+    </ToastContext.Provider>
+  );
+};
+
+interface ToastItemProps {
+  toast: QueuedToast<ToastMessage>;
+}
+
+const ToastItem = ({ toast }: ToastItemProps) => {
+  const tone = toast.content.tone ?? 'info';
+
+  return (
+    <ToastPrimitive toast={toast} className={cn(toastVariants({ tone }))}>
+      <ToastContentPrimitive>
+        <p className={toastTitleVariants()}>{toast.content.title}</p>
+        {toast.content.description ? (
+          <p className={toastDescriptionVariants()}>
+            {toast.content.description}
+          </p>
+        ) : null}
+      </ToastContentPrimitive>
+
+      <ToastClosePrimitive slot='close' className={toastCloseVariants()}>
+        Dismiss
+      </ToastClosePrimitive>
+    </ToastPrimitive>
+  );
+};

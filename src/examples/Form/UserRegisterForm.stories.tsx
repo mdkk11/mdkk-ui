@@ -9,20 +9,20 @@ const meta: Meta<typeof UserRegisterForm> = {
     docs: {
       description: {
         component: [
-          'FORM_GUIDE.md に準拠したユーザー登録フォームの実装例。',
+          'Reference implementation of a user registration form aligned with FORM_GUIDE.md.',
           '',
-          '**FORM_GUIDE 準拠ポイント:**',
-          '- 氏名は1フィールド（姓・名を分けない）',
-          '- メールアドレスの再入力なし（確認メールで検証）',
-          '- パスワード表示/非表示トグル付き（ラベル横に配置）',
-          '- パスワード再入力なし',
-          '- 電話番号は1フィールド（ハイフンは後処理）',
-          '- 郵便番号は分割せず、ハイフン有無に両対応',
-          '- 住所は分割しない（郵便番号から yubinbango で自動入力）',
-          '- `onBlur` モードでリアルタイムバリデーション',
-          '- エラーメッセージは具体的な修正方法を提示',
-          '- 適切な `type` / `autoComplete` 属性',
-          '- `noValidate` でブラウザネイティブバリデーションを無効化し zod に委譲',
+          '**FORM_GUIDE alignment points:**',
+          '- Single full-name field (no first/last split)',
+          '- No email re-entry field (verified through confirmation email)',
+          '- Password visibility toggle near the password label',
+          '- No password confirmation field',
+          '- Single phone field (hyphens normalized in post-processing)',
+          '- Postal code in one field, supporting both hyphen/no-hyphen formats',
+          '- Address is not split; resolved from postal code with yubinbango',
+          '- Real-time validation with `onBlur` mode',
+          '- Error messages include concrete correction guidance',
+          '- Correct `type` and `autoComplete` attributes',
+          '- Browser native validation disabled with `noValidate`; zod handles validation',
         ].join('\n'),
       },
     },
@@ -36,9 +36,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <div className='p-8'>
-      <h2 className='text-xl font-bold mb-2'>アカウント作成</h2>
+      <h2 className='text-xl font-bold mb-2'>Create Account</h2>
       <p className='text-sm text-gray-600 mb-6'>
-        必要な情報を入力して、アカウントを作成してください。
+        Enter the required information to create your account.
       </p>
       <UserRegisterForm />
     </div>
@@ -46,18 +46,18 @@ export const Default: Story = {
 };
 
 export const WithCustomSubmit: Story = {
-  name: 'カスタム送信ハンドラ',
+  name: 'Custom Submit Handler',
   render: () => (
     <div className='p-8'>
-      <h2 className='text-xl font-bold mb-2'>アカウント作成</h2>
+      <h2 className='text-xl font-bold mb-2'>Create Account</h2>
       <p className='text-sm text-gray-600 mb-6'>
-        送信時にカスタムハンドラを実行する例です。
+        Example with a custom handler executed on submit.
       </p>
       <UserRegisterForm
         onSubmit={async (data) => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
           alert(
-            `登録完了！\n\n氏名: ${data.name}\nメール: ${data.email}\n電話: ${data.phone}\n住所: ${data.address}`,
+            `Registration completed!\n\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nAddress: ${data.address}`,
           );
         }}
       />

@@ -35,4 +35,27 @@ export const tokens = {
       },
     },
   },
+  brutalist: {
+    colors: {
+      canvas: '#f5f3ee',
+      emphasis: '#ffe500',
+      panel: '#ffffff',
+      ink: '#000000',
+      invertedInk: '#ffffff',
+    },
+    border: {
+      subtle: '2px',
+      default: '3px',
+      strong: '4px',
+    },
+    tracking: {
+      label: '0.06em',
+      heading: '0.08em',
+      kicker: '0.12em',
+    },
+    grid: {
+      size: '32px',
+      lineOpacity: '0.08',
+    },
+  },
 };

@@ -1,15 +1,13 @@
 import { cva } from 'cva';
-// import { composeRenderProps } from 'react-aria-components'; // Removed unused import
+import React from 'react';
 import { cn } from '@/design-system/utils';
 import { LabelPrimitive, type LabelPrimitiveProps } from './LabelPrimitive';
 
 const labelStyles = cva({
-  base: 'font-bold text-sm uppercase tracking-wider text-black',
+  base: 'text-sm font-bold uppercase tracking-brutal-label text-foreground',
 });
 
 export interface LabelAdapterProps extends LabelPrimitiveProps {}
-
-import React from 'react';
 
 export const LabelAdapter = React.forwardRef<
   HTMLLabelElement,

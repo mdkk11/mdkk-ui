@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from './Badge';
 
 const meta = {
+  title: 'Components/Badge',
   component: Badge,
   parameters: {
     layout: 'centered',
@@ -14,7 +15,7 @@ const meta = {
     variant: {
       control: 'select',
       options: ['default', 'secondary', 'accent', 'destructive', 'outline'],
-      description: 'バッジの視覚スタイル',
+      description: 'Visual style of the badge',
       table: {
         defaultValue: { summary: 'default' },
       },
@@ -22,7 +23,7 @@ const meta = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: 'バッジのサイズ',
+      description: 'Badge size',
       table: {
         defaultValue: { summary: 'md' },
       },
@@ -33,11 +34,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-// ============================================
-// 1. 基本 Variants
-// ============================================
+// 1. Core variants
 
-/** Default — 黒bg + 白text */
+/** Default badge */
 export const Default: Story = {
   args: {
     children: 'Default',
@@ -45,7 +44,7 @@ export const Default: Story = {
   },
 };
 
-/** Secondary — 白bg + 黒text、border なし */
+/** Secondary badge */
 export const Secondary: Story = {
   args: {
     children: 'Secondary',
@@ -53,7 +52,7 @@ export const Secondary: Story = {
   },
 };
 
-/** Accent — 赤bg + 白text */
+/** Accent badge */
 export const Accent: Story = {
   args: {
     children: 'Accent',
@@ -61,7 +60,7 @@ export const Accent: Story = {
   },
 };
 
-/** Destructive — 赤bg + 白text */
+/** Destructive badge */
 export const Destructive: Story = {
   args: {
     children: 'Destructive',
@@ -69,7 +68,7 @@ export const Destructive: Story = {
   },
 };
 
-/** Outline — 白bg + 黒border */
+/** Outline badge */
 export const Outline: Story = {
   args: {
     children: 'Outline',
@@ -77,11 +76,9 @@ export const Outline: Story = {
   },
 };
 
-// ============================================
-// 2. バリアント一覧
-// ============================================
+// 2. Variant comparison
 
-/** 全 Variant を横並びで比較 */
+/** Compare all variants side by side */
 export const AllVariants: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-3 p-4'>
@@ -94,11 +91,9 @@ export const AllVariants: Story = {
   ),
 };
 
-// ============================================
-// 3. サイズ
-// ============================================
+// 3. Size scale
 
-/** 全サイズの比較 */
+/** Compare all sizes */
 export const Sizes: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-3 p-4'>
@@ -109,41 +104,39 @@ export const Sizes: Story = {
   ),
 };
 
-// ============================================
-// 4. 実用パターン
-// ============================================
+// 4. Common compositions
 
-/** ステータス表示 */
+/** Status labels */
 export const StatusLabels: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-3 p-4'>
       <Badge variant='accent'>NEW</Badge>
-      <Badge variant='default'>公開中</Badge>
-      <Badge variant='outline'>下書き</Badge>
-      <Badge variant='destructive'>非公開</Badge>
-      <Badge variant='secondary'>アーカイブ</Badge>
+      <Badge variant='default'>Published</Badge>
+      <Badge variant='outline'>Draft</Badge>
+      <Badge variant='destructive'>Private</Badge>
+      <Badge variant='secondary'>Archived</Badge>
     </div>
   ),
 };
 
-/** カウント表示 */
+/** Notification/count badges */
 export const Counts: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-4 p-4'>
       <div className='flex items-center gap-1.5'>
-        <span className='text-sm font-mono'>通知</span>
+        <span className='text-sm font-mono'>Alerts</span>
         <Badge size='sm' variant='accent'>
           3
         </Badge>
       </div>
       <div className='flex items-center gap-1.5'>
-        <span className='text-sm font-mono'>メッセージ</span>
+        <span className='text-sm font-mono'>Messages</span>
         <Badge size='sm' variant='default'>
           12
         </Badge>
       </div>
       <div className='flex items-center gap-1.5'>
-        <span className='text-sm font-mono'>タスク</span>
+        <span className='text-sm font-mono'>Tasks</span>
         <Badge size='sm' variant='outline'>
           99+
         </Badge>
@@ -152,7 +145,7 @@ export const Counts: Story = {
   ),
 };
 
-/** タグ表示 */
+/** Tag-like usage */
 export const Tags: Story = {
   render: () => (
     <div className='flex flex-wrap items-center gap-2 p-4'>

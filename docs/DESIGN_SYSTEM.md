@@ -96,3 +96,18 @@ Story files are part of the design-system contract, not just demos.
 - Author stories using `docs/STORYBOOK_STANDARDS.md`
 - Keep stories English-only for public distribution consistency
 - Ensure every component exposes default, states, and composition examples
+
+## 9. Visual Consistency Rules
+
+Current semantic intent mapping:
+
+- `accent`: yellow highlight (`--accent` -> `--brutal-emphasis`)
+- `destructive`: red danger state (`--destructive`)
+
+Do not assign the same semantic meaning to both red and yellow across components.
+
+Border and radius baseline:
+
+- controls and small interactive parts: `--brutal-border-subtle`
+- surfaced containers (dialog/card/panel/popover): `--brutal-border-default` (or stronger)
+- default radius policy: `rounded-none` unless shape semantics require otherwise (for example, avatar/skeleton circle)

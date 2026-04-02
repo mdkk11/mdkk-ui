@@ -1,6 +1,6 @@
 import React from 'react';
-import type { BadgeVariants } from '@/design-system/badgeStyles';
 import { BadgeAdapter } from './BadgeAdapter';
+import type { BadgeVariants } from './badgeStyles';
 
 export interface BadgeProps extends BadgeVariants {
   /**

@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 @layer base {
   :root {
@@ -43,9 +42,9 @@
     --muted: var(--color-gray-100);
     --muted-foreground: var(--color-black);
 
-    /* Accent: 赤 - CTA、強調、装飾 */
-    --accent: var(--brutalist-accent);
-    --accent-foreground: var(--color-white);
+    /* Accent: yellow - CTA and highlight */
+    --accent: var(--brutal-emphasis);
+    --accent-foreground: var(--color-black);
 
     /* Destructive: 赤 - 削除、危険なアクション */
     --destructive: var(--brutalist-accent);
@@ -70,8 +69,8 @@
     --sidebar-foreground: var(--color-black);
     --sidebar-primary: var(--color-black);
     --sidebar-primary-foreground: var(--color-white);
-    --sidebar-accent: var(--brutalist-accent);
-    --sidebar-accent-foreground: var(--color-white);
+    --sidebar-accent: var(--brutal-emphasis);
+    --sidebar-accent-foreground: var(--color-black);
     --sidebar-border: var(--color-black);
     --sidebar-ring: var(--color-black);
 
@@ -84,6 +83,9 @@
     --font-sans:
       "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       sans-serif;
+    --font-heading:
+      "Bricolage Grotesque", "Inter", system-ui, -apple-system, sans-serif;
+    --font-serif: "Playfair Display", Georgia, serif;
     --font-mono: "Space Mono", ui-monospace, "Courier New", monospace;
 
     --radius: 0rem;
@@ -98,6 +100,21 @@
 
     /* Interaction States */
     --hover-opacity: 0.8;
+
+    /* Brutalist Semantic Tokens */
+    --brutal-canvas: #f5f3ee;
+    --brutal-emphasis: #ffe500;
+    --brutal-panel: #ffffff;
+    --brutal-ink: #000000;
+    --brutal-ink-inverse: #ffffff;
+    --brutal-border-subtle: 2px;
+    --brutal-border-default: 3px;
+    --brutal-border-strong: 4px;
+    --brutal-track-label: 0.06em;
+    --brutal-track-heading: 0.08em;
+    --brutal-track-kicker: 0.12em;
+    --brutal-grid-size: 32px;
+    --brutal-grid-line: rgb(0 0 0 / 8%);
   }
 }
 
@@ -117,9 +134,9 @@
   --muted: var(--color-neutral-800);
   --muted-foreground: var(--color-white);
 
-  /* Accent: 赤 - 変わらず */
-  --accent: var(--brutalist-accent);
-  --accent-foreground: var(--color-white);
+  /* Accent: yellow highlight */
+  --accent: var(--brutal-emphasis);
+  --accent-foreground: var(--color-black);
 
   /* Destructive: 赤 */
   --destructive: var(--brutalist-accent);
@@ -144,7 +161,7 @@
   --sidebar-foreground: var(--color-white);
   --sidebar-primary: var(--color-white);
   --sidebar-primary-foreground: var(--color-black);
-  --sidebar-accent: var(--brutalist-accent);
+  --sidebar-accent: var(--brutal-emphasis);
   --sidebar-accent-foreground: var(--color-black);
   --sidebar-border: var(--color-white);
   --sidebar-ring: var(--color-white);
@@ -158,6 +175,13 @@
   /* Dark mode shadows - inverted */
   --shadow-color: var(--color-white);
   --shadow-color-light: var(--color-black);
+
+  --brutal-canvas: #171717;
+  --brutal-emphasis: #ffe500;
+  --brutal-panel: #0a0a0a;
+  --brutal-ink: #ffffff;
+  --brutal-ink-inverse: #000000;
+  --brutal-grid-line: rgb(255 255 255 / 9%);
 }
 
 body {
@@ -166,53 +190,119 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Brutalist Shadow Utility Classes */
-@layer utilities {
-  /* Base shadow classes - use with direction modifiers */
-  .shadow-brutal-sm {
-    box-shadow: var(--shadow-offset-sm) var(--shadow-offset-sm) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-sm {
+  box-shadow: var(--shadow-offset-sm) var(--shadow-offset-sm) 0 0
+    var(--shadow-color);
+}
 
-  .shadow-brutal-md {
-    box-shadow: var(--shadow-offset-md) var(--shadow-offset-md) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-md {
+  box-shadow: var(--shadow-offset-md) var(--shadow-offset-md) 0 0
+    var(--shadow-color);
+}
 
-  .shadow-brutal-lg {
-    box-shadow: var(--shadow-offset-lg) var(--shadow-offset-lg) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-lg {
+  box-shadow: var(--shadow-offset-lg) var(--shadow-offset-lg) 0 0
+    var(--shadow-color);
+}
 
-  /* Left direction variants */
-  .shadow-brutal-left-sm {
-    box-shadow: calc(var(--shadow-offset-sm) * -1) var(--shadow-offset-sm) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-left-sm {
+  box-shadow: calc(var(--shadow-offset-sm) * -1) var(--shadow-offset-sm) 0 0
+    var(--shadow-color);
+}
 
-  .shadow-brutal-left-md {
-    box-shadow: calc(var(--shadow-offset-md) * -1) var(--shadow-offset-md) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-left-md {
+  box-shadow: calc(var(--shadow-offset-md) * -1) var(--shadow-offset-md) 0 0
+    var(--shadow-color);
+}
 
-  .shadow-brutal-left-lg {
-    box-shadow: calc(var(--shadow-offset-lg) * -1) var(--shadow-offset-lg) 0 0
-      var(--shadow-color);
-  }
+@utility shadow-brutal-left-lg {
+  box-shadow: calc(var(--shadow-offset-lg) * -1) var(--shadow-offset-lg) 0 0
+    var(--shadow-color);
+}
 
-  /* Light/White shadow variants (for dark backgrounds) */
-  .shadow-brutal-light-sm {
-    box-shadow: var(--shadow-offset-sm) var(--shadow-offset-sm) 0 0
-      var(--shadow-color-light);
-  }
+@utility shadow-brutal-light-sm {
+  box-shadow: var(--shadow-offset-sm) var(--shadow-offset-sm) 0 0
+    var(--shadow-color-light);
+}
 
-  .shadow-brutal-light-md {
-    box-shadow: var(--shadow-offset-md) var(--shadow-offset-md) 0 0
-      var(--shadow-color-light);
-  }
+@utility shadow-brutal-light-md {
+  box-shadow: var(--shadow-offset-md) var(--shadow-offset-md) 0 0
+    var(--shadow-color-light);
+}
 
-  .shadow-brutal-light-lg {
-    box-shadow: var(--shadow-offset-lg) var(--shadow-offset-lg) 0 0
-      var(--shadow-color-light);
+@utility shadow-brutal-light-lg {
+  box-shadow: var(--shadow-offset-lg) var(--shadow-offset-lg) 0 0
+    var(--shadow-color-light);
+}
+
+@utility brutal-canvas {
+  background:
+    linear-gradient(var(--brutal-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--brutal-grid-line) 1px, transparent 1px),
+    var(--brutal-canvas);
+  background-size: var(--brutal-grid-size) var(--brutal-grid-size);
+  color: var(--brutal-ink);
+}
+
+@utility brutal-topbar {
+  border-bottom: var(--brutal-border-strong) solid var(--brutal-ink);
+  background: var(--brutal-emphasis);
+  color: var(--brutal-ink);
+}
+
+@utility brutal-label {
+  letter-spacing: var(--brutal-track-label);
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+@utility brutal-kicker {
+  letter-spacing: var(--brutal-track-kicker);
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+@utility brutal-heading {
+  letter-spacing: var(--brutal-track-heading);
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+@utility brutal-rail {
+  background: var(--brutal-panel);
+  border-right: var(--brutal-border-strong) solid var(--brutal-ink);
+}
+
+@utility brutal-section-divider {
+  border-bottom: var(--brutal-border-default) solid var(--brutal-ink);
+}
+
+@utility brutal-footer-divider {
+  border-top: var(--brutal-border-default) solid var(--brutal-ink);
+}
+
+@utility brutal-chip {
+  border: var(--brutal-border-subtle) solid var(--brutal-ink);
+  background: var(--brutal-panel);
+  color: var(--brutal-ink);
+}
+
+@utility brutal-chip-inverse {
+  border: var(--brutal-border-subtle) solid var(--brutal-ink);
+  background: var(--brutal-ink);
+  color: var(--brutal-ink-inverse);
+}
+
+@utility brutal-button {
+  border: var(--brutal-border-default) solid var(--brutal-ink);
+  background: var(--brutal-panel);
+  color: var(--brutal-ink);
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: var(--brutal-track-label);
+
+  &:hover {
+    background: var(--brutal-ink);
+    color: var(--brutal-ink-inverse);
   }
 }

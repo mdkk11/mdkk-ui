@@ -18,7 +18,7 @@ const checkboxStyles = cva({
 });
 
 const boxStyles = cva({
-  base: 'peer size-5 shrink-0 rounded-none border-2 border-black transition-colors duration-100 flex items-center justify-center text-current',
+  base: 'peer flex size-5 shrink-0 items-center justify-center rounded-none border-2 border-border text-current transition-colors duration-100',
   variants: {
     isSelected: {
       true: 'bg-primary text-primary-foreground',
@@ -27,7 +27,7 @@ const boxStyles = cva({
       true: 'bg-primary text-primary-foreground',
     },
     isFocusVisible: {
-      true: 'outline-2 outline-offset-2 outline-black',
+      true: 'outline-2 outline-offset-2 outline-ring',
     },
     isInvalid: {
       true: 'border-destructive bg-destructive/10',

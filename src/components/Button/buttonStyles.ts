@@ -2,41 +2,36 @@ import { cva, type VariantProps } from 'cva';
 import { interactiveStyles, shadowStyles } from '@/design-system/shadowStyles';
 
 export const buttonVariants = cva({
-  base: 'relative inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
+  base: 'relative inline-flex items-center justify-center rounded-none text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background',
   variants: {
     variant: {
       primary: [
-        'bg-primary text-primary-foreground border-2 border-primary',
+        'bg-primary text-primary-foreground border-brutal-subtle border-primary',
         'hover:opacity-90',
         'pressed:opacity-80',
       ],
-      // Secondary: border なし（Outline との差別化）
       secondary: [
-        'bg-secondary text-secondary-foreground border-2 border-transparent',
+        'bg-secondary text-secondary-foreground border-brutal-subtle border-border',
         'hover:bg-muted',
         'pressed:bg-muted',
       ],
-      // Accent: 赤 — CTA、強調
       accent: [
-        'bg-accent text-accent-foreground border-2 border-accent',
+        'bg-accent text-accent-foreground border-brutal-subtle border-accent',
         'hover:opacity-90',
         'pressed:opacity-80',
       ],
-      // Destructive: 赤枠線 — 削除、危険なアクション（Accent=塗り との差別化）
       destructive: [
-        'bg-transparent text-destructive border-2 border-destructive',
-        'hover:bg-destructive hover:text-destructive-foreground',
-        'pressed:bg-destructive pressed:text-destructive-foreground',
+        'bg-destructive text-destructive-foreground border-brutal-subtle border-destructive',
+        'hover:opacity-90',
+        'pressed:opacity-80',
       ],
-      // Ghost: 透明
       ghost: [
-        'bg-transparent text-foreground border-2 border-transparent',
+        'bg-transparent text-foreground border-brutal-subtle border-transparent',
         'hover:bg-foreground/5',
         'pressed:bg-foreground/10',
       ],
-      // Outline: 白bg + 黒border（ライト） / transparent + 白border（ダーク）
       outline: [
-        'bg-outline text-outline-foreground border-2 border-outline-border',
+        'bg-outline text-outline-foreground border-brutal-subtle border-outline-border',
         'hover:bg-primary hover:text-primary-foreground',
         'pressed:bg-primary pressed:text-primary-foreground',
       ],
