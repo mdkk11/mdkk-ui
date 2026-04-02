@@ -19,7 +19,7 @@ export default defineConfig({
     tailwindcss(),
     react(),
     dts({
-      tsconfigPath: './tsconfig.app.json',
+      tsconfigPath: './tsconfig.build.json',
       insertTypesEntry: true,
     }),
   ],
@@ -30,16 +30,25 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(dirname, 'src/index.ts'),
+      entry: {
+        index: path.resolve(dirname, 'src/index.ts'),
+        'tailwind-plugin': path.resolve(dirname, 'src/tailwind-plugin.ts'),
+      },
+      cssFileName: 'index',
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_format, entryName) => `${entryName}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-      },
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react-aria-components',
+        'clsx',
+        'cva',
+        'tailwind-merge',
+        'tailwindcss/plugin',
+      ],
     },
     sourcemap: true,
     emptyOutDir: true,
