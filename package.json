@@ -1,6 +1,8 @@
 {
   "name": "mdkk-ui",
   "version": "0.0.0",
+  "description": "React component library built on top of react-aria-components",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -24,7 +26,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "prepack": "pnpm run build",
     "preview": "vite preview",
     "format": "biome format",
     "format:fix": "biome format --write",
@@ -40,13 +43,12 @@
   },
   "peerDependencies": {
     "react": "^19.2.0",
+    "react-aria-components": "^1.14.0",
     "react-dom": "^19.2.0"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.4",
-    "jp-zipcode-lookup": "^0.3.5",
-    "react-aria-components": "^1.14.0",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
@@ -78,7 +80,11 @@
     "globals": "^16.5.0",
     "happy-dom": "^20.0.11",
     "jsdom": "^27.0.1",
+    "jp-zipcode-lookup": "^0.3.5",
     "playwright": "^1.57.0",
+    "react": "^19.2.0",
+    "react-aria-components": "^1.14.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.2",
     "storybook": "^10.1.11",
     "tailwindcss": "^4.2.2",
