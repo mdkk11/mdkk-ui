@@ -8,9 +8,11 @@ import {
 
 const meta = {
   title: 'Components/Sidebar',
+  component: Sidebar.Root,
   parameters: {
     layout: 'fullscreen',
   },
+  tags: ['autodocs'],
 } satisfies Meta;
 
 export default meta;
@@ -20,11 +22,11 @@ const StatefulSidebarTrigger = () => {
   const { isCollapsed, isMobile, isMobileOpen } = useSidebar();
   const label = isMobile
     ? isMobileOpen
-      ? 'とじる'
-      : 'ひらく'
+      ? 'Close'
+      : 'Open'
     : isCollapsed
-      ? 'ひらく'
-      : 'とじる';
+      ? 'Open'
+      : 'Close';
 
   return <SidebarTrigger>{label}</SidebarTrigger>;
 };
@@ -146,7 +148,7 @@ export const GroupedSections: Story = {
         <main className='flex-1 p-4'>
           <Sidebar.Trigger />
           <p className='mt-4 text-sm text-muted-foreground'>
-            SidebarGroup で項目を見出しごとに分割する例。
+            Example of grouping navigation items by section headers.
           </p>
         </main>
       </Sidebar.Root>
@@ -178,7 +180,7 @@ export const TriggerWithStateLabel: Story = {
         <main className='flex-1 p-4'>
           <StatefulSidebarTrigger />
           <p className='mt-4 text-sm text-muted-foreground'>
-            useSidebar で状態を読み、Triggerラベルを切り替える例。
+            Example of switching trigger labels from `useSidebar` state.
           </p>
         </main>
       </Sidebar.Root>

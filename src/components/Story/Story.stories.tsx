@@ -3,10 +3,10 @@ import { AspectRatio } from '@/components/AspectRatio';
 import { Button } from '../Button';
 import { Story, type StorySet } from './index';
 
-// モックデータ: StorySet
+// Mock StorySet data for visual preview.
 const mockStorySet: StorySet = {
   id: 'story-set-1',
-  title: '開発ログ: 2024-01-01',
+  title: 'Dev Log: 2024-01-01',
   thumbnail:
     'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
   stories: [
@@ -20,7 +20,7 @@ const mockStorySet: StorySet = {
     {
       id: 'story-2',
       type: 'markdown',
-      content: '# コーディング中\n\n今日は新機能の実装をしています。',
+      content: '# Coding Session\n\nToday we are implementing a new feature.',
       backgroundColor: '#1a202c',
       duration: 5000,
     },
@@ -35,6 +35,7 @@ const mockStorySet: StorySet = {
 };
 
 const meta: Meta<typeof Story> = {
+  title: 'Components/Story',
   component: Story,
   parameters: {
     layout: 'centered',
@@ -46,8 +47,8 @@ export default meta;
 type StoryObjType = StoryObj<typeof Story>;
 
 /**
- * 基本的な使用方法（フルスクリーンモード）
- * デフォルトではサムネイルが表示され、クリックするとフルスクリーンでストーリーが開きます。
+ * Basic usage in fullscreen mode.
+ * A thumbnail is shown by default, and clicking opens the story viewer.
  */
 export const Default: StoryObjType = {
   render: (args) => (
@@ -75,9 +76,8 @@ export const Default: StoryObjType = {
 };
 
 /**
- * インライン表示モード
- * 親要素の中に埋め込んで再生します。
- * `options.displayMode: 'inline'` を指定します。
+ * Inline mode for embedded playback in the parent layout.
+ * Set `options.displayMode: 'inline'`.
  */
 export const Inline: StoryObjType = {
   render: (args) => (
@@ -104,22 +104,23 @@ export const Inline: StoryObjType = {
 };
 
 /**
- * カスタムトリガー
- * `<Story.Trigger>` の中に要素を配置することで、任意のボタンなどをトリガーにできます。
+ * Custom trigger composition.
+ * You can place any element inside `<Story.Trigger>`.
  */
 export const CustomTrigger: StoryObjType = {
   render: (args) => (
     <Story {...args}>
       <Story.Trigger>
-        <Button type='button'>ストーリーを見る</Button>
+        <Button type='button'>Open story</Button>
       </Story.Trigger>
 
       <Story.Overlay />
 
-      {/* 
-        Triggerがサムネイルを持たない場合、アスペクト比を維持するラッパーの外に書くか、
-        Content側でアスペクト比を持つように構成します。
-        ここではフルスクリーンモードなので Content 内でスタイルが当たります。
+      {/*
+        If Trigger does not render a thumbnail, keep aspect ratio either:
+        1) in a wrapper around trigger/content, or
+        2) inside content itself.
+        This example uses fullscreen mode, so content controls its layout.
       */}
       <Story.Content>
         <Story.Header />

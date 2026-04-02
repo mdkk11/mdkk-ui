@@ -5,6 +5,9 @@ import { CheckboxGroup } from './CheckboxGroup';
 const meta: Meta<typeof CheckboxGroup.Root> = {
   title: 'Components/CheckboxGroup',
   component: CheckboxGroup.Root,
+  parameters: {
+    layout: 'centered',
+  },
   subcomponents: {
     'CheckboxGroup.Label': CheckboxGroup.Label,
     'CheckboxGroup.Description': CheckboxGroup.Description,

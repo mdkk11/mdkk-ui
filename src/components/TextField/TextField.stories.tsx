@@ -4,6 +4,9 @@ import { TextField } from './TextField';
 const meta: Meta<typeof TextField.Root> = {
   title: 'Components/TextField',
   component: TextField.Root,
+  parameters: {
+    layout: 'centered',
+  },
   subcomponents: {
     'TextField.Label': TextField.Label,
     'TextField.Input': TextField.Input,
@@ -23,7 +26,7 @@ const meta: Meta<typeof TextField.Root> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const WithInput: Story = {
+export const Default: Story = {
   render: ({ ...args }) => (
     <TextField.Root {...args} className='flex flex-col gap-2 w-[300px]'>
       <div className='flex justify-between items-baseline'>

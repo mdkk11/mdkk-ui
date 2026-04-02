@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ProgressCircle } from './ProgressCircle';
 
 const meta = {
+  title: 'Components/ProgressCircle',
   component: ProgressCircle,
   parameters: {
     layout: 'centered',
