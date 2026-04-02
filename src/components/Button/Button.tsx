@@ -1,7 +1,7 @@
 import React from 'react';
 import type { PressEvent } from 'react-aria-components';
-import type { ButtonVariants } from '@/design-system/buttonStyles';
 import { ButtonAdapter } from './ButtonAdapter';
+import type { ButtonVariants } from './buttonStyles';
 
 export interface ButtonProps extends ButtonVariants {
   /**

@@ -3,6 +3,7 @@ import { fn } from 'storybook/test';
 import { Button } from './Button';
 
 const meta = {
+  title: 'Components/Button',
   component: Button,
   parameters: {
     layout: 'centered',
@@ -23,7 +24,7 @@ const meta = {
         'ghost',
         'outline',
       ],
-      description: 'ボタンの視覚スタイル',
+      description: 'Visual style of the button',
       table: {
         defaultValue: { summary: 'primary' },
       },
@@ -31,7 +32,7 @@ const meta = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg', 'xl'],
-      description: 'ボタンのサイズ',
+      description: 'Button size',
       table: {
         defaultValue: { summary: 'md' },
       },
@@ -42,11 +43,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-// ============================================
-// 1. 基本 Variants
-// ============================================
+// 1. Core variants
 
-/** Primary — メインCTA。黒bg + 白text */
+/** Default button maps to `primary` variant */
+export const Default: Story = {
+  args: {
+    children: 'Button',
+    variant: 'primary',
+  },
+};
+
+/** Primary: high-emphasis action */
 export const Primary: Story = {
   args: {
     children: 'Primary',
@@ -54,7 +61,7 @@ export const Primary: Story = {
   },
 };
 
-/** Secondary — サブアクション。白bg + 黒text、border なし */
+/** Secondary: low-emphasis secondary action */
 export const Secondary: Story = {
   args: {
     children: 'Secondary',
@@ -62,7 +69,7 @@ export const Secondary: Story = {
   },
 };
 
-/** Accent — 強調CTA。赤bg + 白text */
+/** Accent: brand-highlight action */
 export const Accent: Story = {
   args: {
     children: 'Accent',
@@ -70,7 +77,7 @@ export const Accent: Story = {
   },
 };
 
-/** Destructive — 削除・危険なアクション。赤bg + 白text */
+/** Destructive: irreversible or dangerous action */
 export const Destructive: Story = {
   args: {
     children: 'Delete',
@@ -78,7 +85,7 @@ export const Destructive: Story = {
   },
 };
 
-/** Outline — 控えめなアクション。白bg + 黒border */
+/** Outline: subtle bordered action */
 export const Outline: Story = {
   args: {
     children: 'Outline',
@@ -86,7 +93,7 @@ export const Outline: Story = {
   },
 };
 
-/** Ghost — 最も控えめ。透明bg、border なし */
+/** Ghost: minimal visual emphasis */
 export const Ghost: Story = {
   args: {
     children: 'Ghost',
@@ -94,18 +101,16 @@ export const Ghost: Story = {
   },
 };
 
-// ============================================
-// 2. カラーパレット一覧
-// ============================================
+// 2. Variant comparison
 
-/** 全 Variant を横並びで比較 */
+/** Compare all variants side by side */
 export const ColorPalette: Story = {
   render: () => (
     <div className='flex flex-col gap-8 p-8'>
       <section>
         <h3 className='text-lg font-bold mb-2 font-mono'>Variant Hierarchy</h3>
         <p className='text-sm text-muted-foreground mb-4 font-mono'>
-          上位ほど目立つ。用途に応じて使い分ける。
+          Higher emphasis variants should be reserved for key actions.
         </p>
         <div className='flex flex-wrap items-center gap-4'>
           <Button variant='accent'>Accent (CTA)</Button>
@@ -120,11 +125,9 @@ export const ColorPalette: Story = {
   ),
 };
 
-// ============================================
-// 3. サイズ
-// ============================================
+// 3. Size scale
 
-/** 全サイズの比較 */
+/** Compare all sizes */
 export const Sizes: Story = {
   render: () => (
     <div className='flex flex-wrap items-end gap-4 p-4'>
@@ -136,11 +139,9 @@ export const Sizes: Story = {
   ),
 };
 
-// ============================================
-// 4. シャドウ
-// ============================================
+// 4. Shadow presets
 
-/** Brutalist Shadow — 右方向 */
+/** Brutalist shadow offsets (right) */
 export const ShadowRight: Story = {
   render: () => (
     <div className='flex flex-wrap gap-6 p-4'>
@@ -157,7 +158,7 @@ export const ShadowRight: Story = {
   ),
 };
 
-/** Brutalist Shadow — 左方向 */
+/** Brutalist shadow offsets (left) */
 export const ShadowLeft: Story = {
   render: () => (
     <div className='flex flex-wrap gap-6 p-4'>
@@ -174,7 +175,7 @@ export const ShadowLeft: Story = {
   ),
 };
 
-/** Light Shadow — 暗い背景で使う白シャドウ */
+/** Light shadow variants for dark surfaces */
 export const ShadowLight: Story = {
   render: () => (
     <div className='bg-black p-6 rounded-lg flex flex-wrap gap-6'>
@@ -191,11 +192,9 @@ export const ShadowLight: Story = {
   ),
 };
 
-// ============================================
-// 5. インタラクション
-// ============================================
+// 5. Interaction modes
 
-/** Press — クリック時にシャドウが消えて押し込まれる */
+/** Press: offset collapses while pressed */
 export const InteractionPress: Story = {
   args: {
     children: 'Press me',
@@ -206,7 +205,7 @@ export const InteractionPress: Story = {
   },
 };
 
-/** Hover — ホバー時にシャドウが消えて押し込まれる */
+/** Hover: offset collapses on hover */
 export const InteractionHover: Story = {
   args: {
     children: 'Hover me',
@@ -217,11 +216,9 @@ export const InteractionHover: Story = {
   },
 };
 
-// ============================================
-// 6. 状態
-// ============================================
+// 6. Component states
 
-/** Disabled — 操作不可状態 */
+/** Disabled states */
 export const Disabled: Story = {
   render: () => (
     <div className='flex flex-wrap gap-4 p-4'>
@@ -242,7 +239,7 @@ export const Disabled: Story = {
   ),
 };
 
-/** Loading — 処理中状態 */
+/** Pending/loading states */
 export const Loading: Story = {
   render: () => (
     <div className='flex flex-wrap gap-4 p-4'>
@@ -257,11 +254,9 @@ export const Loading: Story = {
   ),
 };
 
-// ============================================
-// 7. レイアウト
-// ============================================
+// 7. Layout pattern
 
-/** Full Width — 親幅いっぱいに広がるボタン */
+/** Full-width action buttons */
 export const FullWidth: Story = {
   render: () => (
     <div className='w-80 space-y-3'>
@@ -276,44 +271,42 @@ export const FullWidth: Story = {
   ),
 };
 
-// ============================================
-// 8. 実用パターン
-// ============================================
+// 8. Common compositions
 
-/** 典型的なフォームアクション */
+/** Typical form actions */
 export const FormActions: Story = {
   render: () => (
     <div className='flex gap-3 p-4'>
-      <Button variant='primary'>保存</Button>
-      <Button variant='outline'>キャンセル</Button>
+      <Button variant='primary'>Save</Button>
+      <Button variant='outline'>Cancel</Button>
     </div>
   ),
 };
 
-/** 危険なアクションの確認 */
+/** Confirming destructive actions */
 export const DangerZone: Story = {
   render: () => (
     <div className='flex gap-3 p-4 border-2 border-destructive rounded-md'>
       <div className='flex-1'>
-        <p className='font-bold text-sm'>アカウント削除</p>
+        <p className='font-bold text-sm'>Delete account</p>
         <p className='text-xs text-muted-foreground'>
-          この操作は取り消せません
+          This action cannot be undone.
         </p>
       </div>
-      <Button variant='destructive'>削除する</Button>
+      <Button variant='destructive'>Delete</Button>
     </div>
   ),
 };
 
-/** CTA セクション */
+/** Hero-style call-to-action section */
 export const CTASection: Story = {
   render: () => (
     <div className='flex flex-col items-center gap-4 p-8'>
       <Button variant='accent' size='xl' shadow='right-lg' interactive='press'>
-        今すぐ始める
+        Get Started
       </Button>
       <Button variant='ghost' size='sm'>
-        詳しく見る →
+        Learn more →
       </Button>
     </div>
   ),
