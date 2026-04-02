@@ -1,0 +1,35 @@
+# Dependency Policy
+
+This library is intentionally built on top of `react-aria-components`.
+
+## Why This Dependency Exists
+
+- Accessibility behavior is difficult to implement correctly from scratch.
+- Keyboard interactions, focus management, and ARIA semantics are delegated to proven primitives.
+- This lets `mdkk-ui` focus on API ergonomics and design system consistency.
+
+## Contract with Consumers
+
+Consumers should assume:
+
+- `react-aria-components` is a core runtime dependency.
+- API behavior aligns with accessible interaction conventions provided by that dependency.
+
+## Internal Layer Rules
+
+- Primitive layer: may import `react-aria-components` directly.
+- Adapter layer: may use helper APIs (for example, `composeRenderProps`) when required.
+- Public layer: should not expose raw dependency types unless explicitly justified.
+
+## Versioning Expectations
+
+When upgrading `react-aria-components`:
+
+1. Verify no Public API leaks or type breaks.
+2. Re-run interaction and accessibility checks.
+3. Call out behavior changes in release notes.
+
+## Non-goals
+
+- This project does not aim to be dependency-free.
+- This project does not re-implement low-level accessibility primitives.

@@ -1,112 +1,87 @@
-# Sidebar Component Guide
+# Sidebar Usage
 
-This document explains how to use the `Sidebar` component set in this design system.
+This guide documents the recommended Sidebar composition pattern.
 
-## Goals
-
-- Provide an extensible navigation shell similar to modern app sidebars.
-- Keep API ergonomic via Compound Components.
-- Keep implementation details encapsulated behind Public API.
-
-## Basic Usage
+## Recommended Composition (Provider-first)
 
 ```tsx
-import { Sidebar } from '@/components/Sidebar';
+import { Sidebar } from 'mdkk-ui';
 
-export function Page() {
+function Page() {
   return (
-    <Sidebar.Root defaultWidth={280}>
-      <Sidebar.Panel>
-        <Sidebar.Header>
-          <h2>Workspace</h2>
-        </Sidebar.Header>
-        <Sidebar.Content>
-          <Sidebar.Nav>
-            <Sidebar.List>
-              <Sidebar.Item>
-                <Sidebar.ItemButton isActive>Home</Sidebar.ItemButton>
-              </Sidebar.Item>
-              <Sidebar.Item>
-                <Sidebar.ItemButton>Settings</Sidebar.ItemButton>
-              </Sidebar.Item>
-            </Sidebar.List>
-          </Sidebar.Nav>
-        </Sidebar.Content>
-        <Sidebar.ResizeHandle />
-      </Sidebar.Panel>
+    <Sidebar.Provider defaultWidth={280} minWidth={220}>
+      <Sidebar.Root>
+        <Sidebar.Panel>
+          <Sidebar.Header />
+          <Sidebar.Content />
+          <Sidebar.Footer />
+          <Sidebar.ResizeHandle />
+        </Sidebar.Panel>
 
-      <main>
-        <Sidebar.Trigger />
-      </main>
-    </Sidebar.Root>
+        <main>...</main>
+      </Sidebar.Root>
+
+      <Sidebar.Trigger>toggle</Sidebar.Trigger>
+    </Sidebar.Provider>
   );
 }
 ```
 
-## Public API
+## Why Provider-first
+
+- Shared sidebar state is owned at a layout boundary.
+- `Sidebar.Trigger` can be rendered outside `Sidebar.Root`.
+- Works well with app-shell style architecture.
+
+## Public APIs
+
+### `Sidebar.Provider`
+
+State-related props:
+
+- `isCollapsed?`
+- `defaultIsCollapsed?`
+- `onCollapsedChange?`
+- `defaultWidth?`
+- `collapsedWidth?`
+- `minWidth?`
+- `maxWidth?`
+- `isResizable?`
+- `onWidthChange?`
+- `mobileBreakpoint?`
+- `defaultMobileOpen?`
+- `onMobileOpenChange?`
 
 ### `Sidebar.Root`
 
-- `isCollapsed?: boolean`
-- `defaultIsCollapsed?: boolean`
-- `onCollapsedChange?: (isCollapsed: boolean) => void`
-- `defaultWidth?: number`
-- `collapsedWidth?: number`
-- `minWidth?: number`
-- `maxWidth?: number`
-- `isResizable?: boolean`
-- `onWidthChange?: (width: number) => void`
-- `mobileBreakpoint?: number`
-- `defaultMobileOpen?: boolean`
-- `onMobileOpenChange?: (isOpen: boolean) => void`
+Structure-related props:
+
+- `side?: 'left' | 'right'`
+- `className?`
+- `style?`
+
+### `Sidebar.Trigger`
+
+- Accepts arbitrary children (`ReactNode`)
+- Supports `onPress?`
+- Toggles collapsed/mobile-open state
 
 ### `Sidebar.Panel`
 
 - `tone?: 'subtle' | 'solid'`
-- Renders the actual `<aside>` container.
-
-### `Sidebar.Trigger`
-
-- `onPress?: () => void`
-- Toggles collapse state.
-- Accepts arbitrary children (`ReactNode`), for example icons or custom labels.
 
 ### `useSidebar`
 
-- Read sidebar state inside `Sidebar.Root` subtree.
-- Useful when trigger label/icon needs to react to state (`isCollapsed`, `isMobileOpen`).
+Use inside `Sidebar.Provider` subtree:
 
-Example:
+- `isCollapsed`
+- `isMobile`
+- `isMobileOpen`
+- `toggle()`
+- width controls
 
-```tsx
-import { Sidebar, SidebarTrigger, useSidebar } from '@/components/Sidebar';
+## Notes
 
-const SidebarToggleButton = () => {
-  const { isCollapsed, isMobile, isMobileOpen } = useSidebar();
-  const label = isMobile
-    ? isMobileOpen
-      ? 'とじる'
-      : 'ひらく'
-    : isCollapsed
-      ? 'ひらく'
-      : 'とじる';
-
-  return <SidebarTrigger>{label}</SidebarTrigger>;
-};
-```
-
-### `Sidebar.ResizeHandle`
-
-- Displays the drag handle and updates width internally.
-
-### `Sidebar.Nav` / `Sidebar.List` / `Sidebar.Item` / `Sidebar.ItemButton`
-
-- Navigation primitives for list-based sidebars.
-- `Sidebar.ItemButton` supports:
-  - `isActive?: boolean`
-  - `onPress?: () => void`
-
-## Migration from `Navigation`
-
-- `Navigation` remains as a compatibility wrapper.
-- New implementations should use `Sidebar` directly.
+- Mobile behavior includes backdrop + escape close.
+- Resize handle is hidden on mobile.
+- For global header trigger, keep it under the same `Sidebar.Provider`.

@@ -1,107 +1,121 @@
-# Architecture & Design Guidelines
+# Architecture
 
-This document outlines the architectural principles and directory structure for the component library. Ensuring consistency across components is critical for maintainability and scalability.
+This document defines the architectural rules for `mdkk-ui`.
+The goal is predictable maintenance, safe API evolution, and consistent accessibility.
 
-## Core Philosophy
+## 1. Layered Model (3-Tier)
 
-- **Public API as a Contract**: Component props are the public API. Changes to them are breaking changes.
-- **Encapsulation**: Dependencies on external UI libraries (e.g., `react-aria-components`) must be encapsulated within the implementation details, not exposed in the Public API.
-- **Strict Separation**: Implementation details and Public API must be strictly separated.
-- **Usability over Flexibility**: Prioritize "an API that cannot be misused" over "an API that can do anything".
+All components should follow this structure:
 
-## 3-Tier Component Architecture
+1. Public layer: `Component.tsx`
+2. Adapter layer: `ComponentAdapter.tsx`
+3. Primitive layer: `ComponentPrimitive.tsx`
 
-All components must adhere to the following 3-layer structure:
+### Public Layer
 
-### 1. Public API Layer (`Component.tsx`)
-- **Role**: The user-facing interface.
-- **Responsibility**:
-  - Exposes a simplified, framework-agnostic API.
-  - Maps "Human friendly" props to internal logic.
-  - Hides external library types (no `react-aria-components` imports in the interface).
-  - Acts as the default export.
-- **Location**: `src/components/Name/Name.tsx`
+Responsibilities:
 
-### 2. Adapter Layer (`ComponentAdapter.tsx`)
-- **Role**: The bridge between the primitive and the design system.
-- **Responsibility**:
-  - Applies styling using `cva` (Class Variance Authority).
-  - Handles internal layout and compound elements (e.g., icon placement, loading spinners).
-  - Maps Design System props (e.g., `variant="primary"`) to styles.
-- **Location**: `src/components/Name/NameAdapter.tsx`
+- Define and own the public API interface.
+- Expose human-friendly props and events.
+- Compose slots and context for compound components.
+- Avoid leaking low-level library types whenever possible.
 
-### 3. Primitive Layer (`ComponentPrimitive.tsx`)
-- **Role**: The foundational functionality.
-- **Responsibility**:
-  - Wrapper around `react-aria-components` or HTML elements.
-  - Receives exact props defined by the underlying library.
-  - **No business logic**.
-  - **Minimal styling**.
-- **Location**: `src/components/Name/NamePrimitive.tsx`
+### Adapter Layer
 
-## Directory Structure
+Responsibilities:
 
-We maintain a flat structure under `src/components` to maximize discoverability. Grouping into subdirectories (e.g., `inputs/`, `data-display/`) should only be considered when the number of components significantly exceeds 50.
+- Map design intent (`variant`, `size`, `tone`) to classes.
+- Apply `cva` variants and class composition.
+- Assemble visual sub-structures when needed.
 
-```
+### Primitive Layer
 
-## Compound Components
+Responsibilities:
 
-For multi-part UI primitives (such as Sidebar, Story, Tabs), expose a
-namespace-style Compound API from the Public layer.
+- Wrap DOM or `react-aria-components` primitives.
+- Keep logic minimal.
+- Keep styling minimal.
 
-Example:
+## 2. Dependency Boundary
+
+- `react-aria-components` usage is allowed in `Primitive` and sometimes `Adapter`.
+- Public layer should avoid direct re-export of raw dependency types.
+- If a dependency changes, Public API should remain stable whenever possible.
+
+See `docs/DEPENDENCY_POLICY.md`.
+
+## 3. Compound Components
+
+Complex components should expose a namespaced API:
 
 ```tsx
-import { Sidebar } from '@/components/Sidebar';
-
-<Sidebar.Root>
-  <Sidebar.Panel>
-    <Sidebar.Header />
-    <Sidebar.Content />
-  </Sidebar.Panel>
-  <main />
-</Sidebar.Root>;
+<Sidebar.Provider>
+  <Sidebar.Root>
+    <Sidebar.Panel>
+      <Sidebar.Header />
+      <Sidebar.Content />
+      <Sidebar.Footer />
+    </Sidebar.Panel>
+  </Sidebar.Root>
+  <Sidebar.Trigger />
+</Sidebar.Provider>
 ```
 
-Guidelines:
+Rules:
 
-- Keep stateful orchestration in `Component.tsx` (`Root` + context).
-- Keep style mapping and layout class composition in `ComponentAdapter.tsx`.
-- Keep low-level DOM wrappers in `ComponentPrimitive.tsx`.
-- Keep Public API event names simplified (`onPress`, `onChange`) and avoid
-  leaking raw DOM handlers when not required.
-- Exception pattern is allowed for global controls (for example `SidebarTrigger`)
-  when they need to be rendered outside the compound layout container.
-  In that case, state should be provided by `Component.Provider` and structural
-  layout parts should remain under `Component.Root`.
-src/
-├── components/
-│   ├── Button/
-│   │   ├── Button.tsx          (Public API)
-│   │   ├── ButtonAdapter.tsx   (Adapter)
-│   │   ├── ButtonPrimitive.tsx (Primitive)
-│   │   ├── Button.stories.tsx  (Documentation)
-│   │   ├── Button.test.tsx     (Tests)
-│   │   └── index.ts            (Export)
-│   └── ProgressCircle/
-│       ├── ...
-├── design-system/
-│   ├── styles/                 (CVA definitions)
-│   │   ├── buttonStyles.ts
-│   │   └── ...
-│   └── utils.ts
-└── ...
-```
+- `Provider` owns shared state for broad layout composition.
+- `Root` owns structural layout slots.
+- Global controls (for example, `Sidebar.Trigger`) may live outside `Root` but must be inside `Provider`.
+- Slot components should stay declarative and not require manual context wiring by consumers.
 
-## Props Design Guidelines
+### When to Use Compound Pattern
 
-### YES (Public API)
-- **Intent**: `variant`, `size`, `tone`
-- **State**: `isDisabled`, `isLoading`, `isSelected`
-- **Events**: `onPress`, `onChange` (high-level)
+Use compound API (`Component.Root`, `Component.Item`, etc.) when at least one of these is true:
 
-### NO (Internal / Primitive)
-- **Raw Library Props**: `react-aria-components` specific types used directly in Public API.
-- **Direct Style Overrides**: `style`, arbitrary `className` (unless explicitly allowed for layout capabilities).
-- **Low-level Events**: `onPressStart`, `onHoverChange` (unless necessary for specific advanced use cases).
+- multiple slots have structural rules or order constraints
+- slots share internal state/context
+- controls outside the visual container must affect internal state (for example, external trigger)
+
+Prefer flat exports (`Card`, `CardHeader`, `CardContent`) when:
+
+- parts are primarily visual composition
+- no shared runtime state/context is required
+- usage is clearer without namespaced orchestration
+
+Practical guidance in this codebase:
+
+- `Sidebar`: compound namespace + provider-first state model
+- `Story`: compound namespace
+- `Card`: flat slot exports are acceptable and preferred; `Provider/Root`-style orchestration is unnecessary
+
+## 4. Styling Strategy
+
+`mdkk-ui` styling is split into two concerns:
+
+1. Foundation tokens and semantic variables (`index.css`, `tokens.ts`)
+2. Component-level variant mapping (`*.styles.ts`, adapters)
+
+Do not hardcode one-off visual values in app pages when defining design system behavior.
+Prefer semantic classes and token-backed variables.
+
+See `docs/DESIGN_SYSTEM.md`.
+
+## 5. Directory Guidance
+
+`src/components/<Name>/` should contain:
+
+- `Name.tsx` (Public)
+- `NameAdapter.tsx` (Adapter)
+- `NamePrimitive.tsx` (Primitive)
+- `index.ts` (exports)
+- `Name.stories.tsx` (documentation)
+- `Name.test.tsx` (where behavior risk exists)
+
+## 6. API Evolution
+
+Treat Public API as a contract:
+
+- breaking change: prop rename/removal, event contract change, structural behavior change
+- non-breaking change: new optional prop, additive variant, visual polish without semantic break
+
+Before release, run `docs/RELEASE_CHECKLIST.md`.

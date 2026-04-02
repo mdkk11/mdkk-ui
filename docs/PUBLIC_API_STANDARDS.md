@@ -1,101 +1,119 @@
-# Component Public API Standards
+# Public API Standards
 
-To ensure the long-term maintainability and consistency of the UI library, all components must adhere to these Public API standards.
-These rules exist to prevent implementation details (like `react-aria-components`) from leaking into the consumer's code and to ensure a unified developer experience.
+This document defines how component APIs should be designed in `mdkk-ui`.
 
-## 1. The Golden Rule: Encapsulation
+## 1. API Ownership
 
-**❌ NEVER** extend or re-export types from the underlying library directly in the Public API.
+Public API is a product contract.
+Do not expose dependency-internal prop models as-is.
+
+Bad:
 
 ```tsx
-// ❌ BAD: Leaks react-aria internals. Changing the library later breaks the API.
 import { TextFieldProps as RACTextFieldProps } from 'react-aria-components';
 export interface TextFieldProps extends RACTextFieldProps {}
 ```
 
-**✅ GOOD**: Explicitly define the interface. This is your contract with the user.
+Preferred:
 
 ```tsx
-// ✅ GOOD: You own this interface.
 export interface TextFieldProps {
-  label?: string;
   value?: string;
   onChange?: (value: string) => void;
   isDisabled?: boolean;
 }
 ```
 
-## 2. Categorization of Public Props
+## 2. Prop Naming Conventions
 
-When designing a component, categorize props into these four buckets. If a prop doesn't fit, think twice before exposing it.
+### Boolean State
 
-### A. Core Data & Content
-Things the component *displays*.
-- `children`: (ReactNode)
-- `label`: (string) - For form controls.
-- `description`: (string) - Helper text.
-- `errorMessage`: (string) - Validation feedback.
+Use `isXxx` naming.
 
-### B. State (Booleans)
-Use the `isXxxx` naming convention (Booleans should ask a question).
-- **✅ Supported**:
-  - `isDisabled` (not `disabled`)
-  - `isSelected` (not `selected` or `checked`)
-  - `isLoading` / `isPending`
-  - `isReadOnly`
-  - `isInvalid` (often derived from `errorMessage`, but explicit prop is allowed)
-  - `isOpen` (for overlays)
+- `isDisabled`
+- `isInvalid`
+- `isSelected`
+- `isOpen`
+- `isPending`
 
-### C. Events (Simplified)
-Abstract away raw DOM events when possible.
-- **✅ Value Change**: `onChange?: (value: T) => void`
-  - Prefer passing the *value* directly, not the `ChangeEvent`.
-- **✅ Actions**: `onPress?: () => void` (or `onPress?: (e: PressEvent) => void` if precise coords needed)
-- **❌ Avoid**: `onMouseDown`, `onTouchStart` (unless building a low-level primitive)
+### Events
 
-### D. HTML Attributes (Whitelist)
-Do not blind-spread `React.HTMLAttributes<HTMLDivElement>`. Explicitly pick what makes sense for the component.
-- **Commonly Safe**: `id`, `className`, `style`, `role`, `tabIndex`.
-- **For Inputs**: `name`, `type`, `placeholder`, `autoFocus`, `autoComplete`, `maxLength`.
+Prefer intent-level events over low-level DOM events.
+
+- `onChange(value)`
+- `onPress(event?)`
+
+Avoid exposing low-level handlers unless the component is explicitly low-level.
+
+### Variants
+
+Use controlled design intent props:
+
+- `variant`
+- `size`
+- `tone`
 
 ## 3. Styling Hooks
-- exposing `className` is required for layout composition.
-- exposing `style` is acceptable for dynamic values (coordinates, colors).
-- `variant`, `size`, `tone` should be used for design system variations.
+
+- `className`: should generally be available for composition.
+- `style`: allow only when dynamic runtime style is necessary.
+- Avoid uncontrolled style-prop proliferation.
 
 ## 4. Ref Forwarding
-Always forward refs to the most meaningful underlying DOM element.
-- `Button` -> `<button>`
-- `TextField` -> `<input>`
-- `Card` -> `<div>`
 
-## 5. Compound Component API
+Forward refs to the most meaningful DOM target.
 
-For components with multiple coordinated slots, provide a namespaced API and
-keep slot responsibilities explicit.
+Examples:
+
+- `Button` -> button element
+- `TextField.Input` -> input element
+- `Card` -> root div
+
+## 5. Compound Component Rules
+
+For complex structures (`Sidebar`, `Story`, future `Tabs`):
+
+- provide namespaced slots
+- keep shared state/context internal
+- keep slot API declarative
+
+Example:
 
 ```tsx
-<Sidebar.Root defaultIsCollapsed={false}>
-  <Sidebar.Panel>
-    <Sidebar.Header />
-    <Sidebar.Content />
-    <Sidebar.Footer />
-  </Sidebar.Panel>
-  <Sidebar.Trigger />
-</Sidebar.Root>
+<Sidebar.Provider>
+  <Sidebar.Root>
+    <Sidebar.Panel>
+      <Sidebar.Header />
+      <Sidebar.Content />
+      <Sidebar.Footer />
+    </Sidebar.Panel>
+  </Sidebar.Root>
+</Sidebar.Provider>
 ```
 
-Rules:
+Decision rule:
 
-- `Root` owns coordination state and context.
-- Child slots (`Header`, `Content`, `Item`) should remain declarative and not
-  require consumers to manually wire internal state.
-- Prefer intent-driven props (`isActive`, `isCollapsed`) and simplified events
-  (`onPress`) over raw DOM event signatures.
+- choose compound namespace when slots share internal state or strict structural semantics
+- choose flat exports when slots are mostly visual and independent
 
-## Checklist for New Components
-Before calling a component "Done", verify:
-1. [ ] Is strict `interface` defined without `extends LibraryProps`?
-2. [ ] Are all boolean states named `isXxxx`?
-3. [ ] Is `onChange` simplified (if applicable)?
-4. [ ] Are internal sub-components (like `Input`, `Label` wrappers) hidden from the export?
+`Card` guidance:
+
+- `Card`, `CardHeader`, `CardContent`, `CardFooter` as flat exports is valid
+- forcing `Card.Provider/Card.Root` adds complexity with little benefit unless state orchestration appears later
+
+## 6. Backward Compatibility
+
+If a breaking change is unavoidable:
+
+1. add migration notes
+2. provide compatibility exports when possible
+3. defer removal to a major version
+
+## 7. New Component Checklist
+
+- [ ] Public interface is explicitly defined
+- [ ] No direct `extends` from dependency-heavy prop types in Public layer
+- [ ] Boolean props use `isXxx`
+- [ ] Events are intent-level
+- [ ] `variant/size/tone` model is coherent
+- [ ] Storybook examples and tests are added where behavior risk exists
