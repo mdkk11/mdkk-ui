@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Public API"
+  short_description: "Shape a stable mdkk-ui API"
+  default_prompt: "Use $design-public-api to define or review a stable mdkk-ui component API."

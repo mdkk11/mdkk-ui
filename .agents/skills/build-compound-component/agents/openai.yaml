@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Compound Component"
+  short_description: "Design a safe compound API"
+  default_prompt: "Use $build-compound-component to design or review a compound mdkk-ui component."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Component"
+  short_description: "Add a layered mdkk-ui component"
+  default_prompt: "Use $create-component to add a new mdkk-ui component with Public, Adapter, and Primitive layers."
