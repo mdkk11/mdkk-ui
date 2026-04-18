@@ -83,9 +83,6 @@ See `docs/DEPENDENCY_POLICY.md` for details.
 - `docs/DESIGN_SYSTEM.md`: tokens, semantic variables, Brutalist styling strategy
 - `docs/PUBLIC_API_STANDARDS.md`: API naming and prop design standards
 - `docs/COMPONENT_CATALOG.md`: exported components and usage notes
-- `docs/SIDEBAR_USAGE.md`: Sidebar provider-first usage and composition patterns
-- `docs/RELEASE_CHECKLIST.md`: pre-release and publishing checklist
-- `docs/FORM_GUIDE.md`: Japanese form UX and implementation standards
 
 ## Exported Surface
 

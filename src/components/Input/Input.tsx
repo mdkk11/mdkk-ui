@@ -1,7 +1,18 @@
 import React from 'react';
-import { InputAdapter, type InputAdapterProps } from './InputAdapter';
+import { InputAdapter } from './InputAdapter';
 
-export interface InputProps extends Omit<InputAdapterProps, 'onChange'> {
+type InputDOMProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  | 'className'
+  | 'defaultValue'
+  | 'disabled'
+  | 'onChange'
+  | 'readOnly'
+  | 'required'
+  | 'value'
+>;
+
+export interface InputProps extends InputDOMProps {
   /**
    * The current value (controlled).
    */
@@ -19,6 +30,10 @@ export interface InputProps extends Omit<InputAdapterProps, 'onChange'> {
    */
   isDisabled?: boolean;
   /**
+   * @deprecated Use `isDisabled` instead.
+   */
+  disabled?: boolean;
+  /**
    * Whether the input value is invalid.
    */
   isInvalid?: boolean;
@@ -27,17 +42,55 @@ export interface InputProps extends Omit<InputAdapterProps, 'onChange'> {
    */
   isReadOnly?: boolean;
   /**
+   * @deprecated Use `isReadOnly` instead.
+   */
+  readOnly?: boolean;
+  /**
    * Whether user input is required on the input before form submission.
    */
   isRequired?: boolean;
+  /**
+   * @deprecated Use `isRequired` instead.
+   */
+  required?: boolean;
+  /**
+   * Additional CSS classes to apply to the input.
+   */
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_rootProps?: Record<string, unknown>;
 }
 
 /**
  * An Input allows a user to enter a plain text value with a keyboard.
  */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (props, ref) => {
-    return <InputAdapter {...props} ref={ref} />;
+  (
+    {
+      isDisabled,
+      disabled,
+      isReadOnly,
+      readOnly,
+      isRequired,
+      required,
+      UNSAFE_rootProps,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <InputAdapter
+        {...UNSAFE_rootProps}
+        {...props}
+        disabled={isDisabled ?? disabled}
+        readOnly={isReadOnly ?? readOnly}
+        required={isRequired ?? required}
+        ref={ref}
+      />
+    );
   },
 );
 Input.displayName = 'Input';

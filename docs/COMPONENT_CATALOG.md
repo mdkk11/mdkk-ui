@@ -39,6 +39,40 @@ This catalog lists the currently exported component surface from `src/index.ts`.
 - `Story` (compound)
 - `StoryList`
 
+## Implementation Base
+
+`react-aria-components` backed primitives:
+
+- `Button`
+- `Checkbox`
+- `Combobox`
+- `Dialog`
+- `Drawer`
+- `DropdownMenu`
+- `FieldError`
+- `Input`
+- `Label`
+- `ProgressCircle`
+- `Select`
+- `Tabs`
+- `Text`
+- `TextArea`
+- `TextField`
+- `Toast`
+- `Tooltip`
+
+Custom DOM-backed primitives:
+
+- `AspectRatio`
+- `Badge`
+- `Card`
+- `Sidebar`
+- `Skeleton`
+
+Architecture exception (not full 3-tier split yet):
+
+- `Story`
+
 ## Sidebar API Highlights
 
 `Sidebar` exports a compound namespace and compatibility named exports.
@@ -51,8 +85,6 @@ Preferred usage:
 - `Sidebar.Nav`, `Sidebar.List`, `Sidebar.Item`, `Sidebar.ItemButton`
 - `Sidebar.Group`, `Sidebar.GroupLabel`, `Sidebar.GroupContent`
 - `Sidebar.useSidebar`
-
-See `docs/SIDEBAR_USAGE.md` for details.
 
 ## Tailwind Integration
 

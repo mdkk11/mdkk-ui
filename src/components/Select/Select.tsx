@@ -1,77 +1,236 @@
 import * as React from 'react';
 import {
   SelectDescriptionAdapter,
-  type SelectDescriptionAdapterProps,
   SelectErrorAdapter,
-  type SelectErrorAdapterProps,
   SelectItemAdapter,
-  type SelectItemAdapterProps,
   SelectLabelAdapter,
-  type SelectLabelAdapterProps,
   SelectListAdapter,
-  type SelectListAdapterProps,
   SelectPopoverAdapter,
-  type SelectPopoverAdapterProps,
   SelectRootAdapter,
-  type SelectRootAdapterProps,
   SelectTriggerAdapter,
-  type SelectTriggerAdapterProps,
   SelectValueAdapter,
-  type SelectValueAdapterProps,
 } from './SelectAdapter';
 
-export interface SelectRootProps extends SelectRootAdapterProps {}
-export interface SelectLabelProps extends SelectLabelAdapterProps {}
-export interface SelectTriggerProps extends SelectTriggerAdapterProps {}
-export interface SelectValueProps extends SelectValueAdapterProps {}
-export interface SelectPopoverProps extends SelectPopoverAdapterProps {}
-export interface SelectListProps extends SelectListAdapterProps {}
-export interface SelectItemProps extends SelectItemAdapterProps {}
-export interface SelectDescriptionProps extends SelectDescriptionAdapterProps {}
-export interface SelectErrorProps extends SelectErrorAdapterProps {}
+type CollectionRenderer = (item: unknown) => React.ReactNode;
+type CollectionChildren = React.ReactNode | CollectionRenderer;
+type SelectKey = string | number;
+
+export interface SelectRootProps {
+  children?: React.ReactNode;
+  className?: string;
+  id?: string;
+  name?: string;
+  placeholder?: string;
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+  isRequired?: boolean;
+  selectedKey?: SelectKey | null;
+  defaultSelectedKey?: SelectKey;
+  onSelectionChange?: (key: SelectKey | null) => void;
+  isOpen?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  validationBehavior?: 'aria' | 'native';
+  items?: Iterable<unknown>;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_rootProps?: Record<string, unknown>;
+}
+
+export interface SelectLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_labelProps?: Record<string, unknown>;
+}
+
+export interface SelectTriggerProps
+  extends Omit<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    'children' | 'className'
+  > {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Use `isDisabled` instead.
+   */
+  disabled?: boolean;
+  isDisabled?: boolean;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_triggerProps?: Record<string, unknown>;
+}
+
+export interface SelectValueProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
+  children?: React.ReactNode;
+  className?: string;
+  placeholder?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_valueProps?: Record<string, unknown>;
+}
+
+export interface SelectPopoverProps extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_popoverProps?: Record<string, unknown>;
+}
+
+export interface SelectListProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  children?: CollectionChildren;
+  className?: string;
+  items?: Iterable<unknown>;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_listProps?: Record<string, unknown>;
+}
+
+export interface SelectItemProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
+  children?: React.ReactNode;
+  className?: string;
+  id?: SelectKey;
+  textValue?: string;
+  isDisabled?: boolean;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_itemProps?: Record<string, unknown>;
+}
+
+export interface SelectDescriptionProps
+  extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_descriptionProps?: Record<string, unknown>;
+}
+
+export interface SelectErrorProps extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy react-aria props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_errorProps?: Record<string, unknown>;
+}
 
 const SelectRoot = React.forwardRef<HTMLDivElement, SelectRootProps>(
-  (props, ref) => <SelectRootAdapter {...props} ref={ref} />,
+  ({ UNSAFE_rootProps, ...props }, ref) => (
+    <SelectRootAdapter
+      {...UNSAFE_rootProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectRoot.displayName = 'Select.Root';
 
 const SelectLabel = React.forwardRef<HTMLLabelElement, SelectLabelProps>(
-  (props, ref) => <SelectLabelAdapter {...props} ref={ref} />,
+  ({ UNSAFE_labelProps, ...props }, ref) => (
+    <SelectLabelAdapter {...UNSAFE_labelProps} {...props} ref={ref} />
+  ),
 );
 SelectLabel.displayName = 'Select.Label';
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  (props, ref) => <SelectTriggerAdapter {...props} ref={ref} />,
+  ({ isDisabled, disabled, UNSAFE_triggerProps, ...props }, ref) => (
+    <SelectTriggerAdapter
+      {...UNSAFE_triggerProps}
+      {...(props as Record<string, unknown>)}
+      isDisabled={isDisabled ?? disabled}
+      ref={ref}
+    />
+  ),
 );
 SelectTrigger.displayName = 'Select.Trigger';
 
 const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(
-  (props, ref) => <SelectValueAdapter {...props} ref={ref} />,
+  ({ UNSAFE_valueProps, ...props }, ref) => (
+    <SelectValueAdapter
+      {...UNSAFE_valueProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectValue.displayName = 'Select.Value';
 
 const SelectPopover = React.forwardRef<HTMLElement, SelectPopoverProps>(
-  (props, ref) => <SelectPopoverAdapter {...props} ref={ref} />,
+  ({ UNSAFE_popoverProps, ...props }, ref) => (
+    <SelectPopoverAdapter
+      {...UNSAFE_popoverProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectPopover.displayName = 'Select.Popover';
 
 const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
-  (props, ref) => <SelectListAdapter {...props} ref={ref} />,
+  ({ UNSAFE_listProps, ...props }, ref) => (
+    <SelectListAdapter
+      {...UNSAFE_listProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectList.displayName = 'Select.List';
 
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  (props, ref) => <SelectItemAdapter {...props} ref={ref} />,
+  ({ UNSAFE_itemProps, ...props }, ref) => (
+    <SelectItemAdapter
+      {...UNSAFE_itemProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectItem.displayName = 'Select.Item';
 
 const SelectDescription = React.forwardRef<HTMLElement, SelectDescriptionProps>(
-  (props, ref) => <SelectDescriptionAdapter {...props} ref={ref} />,
+  ({ UNSAFE_descriptionProps, ...props }, ref) => (
+    <SelectDescriptionAdapter
+      {...UNSAFE_descriptionProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectDescription.displayName = 'Select.Description';
 
 const SelectError = React.forwardRef<HTMLElement, SelectErrorProps>(
-  (props, ref) => <SelectErrorAdapter {...props} ref={ref} />,
+  ({ UNSAFE_errorProps, ...props }, ref) => (
+    <SelectErrorAdapter
+      {...UNSAFE_errorProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 SelectError.displayName = 'Select.Error';
 

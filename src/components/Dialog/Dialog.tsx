@@ -2,54 +2,170 @@ import * as React from 'react';
 import {
   DialogBodyAdapter,
   DialogCloseAdapter,
-  type DialogCloseAdapterProps,
   DialogContentAdapter,
-  type DialogContentAdapterProps,
   DialogDescriptionAdapter,
   DialogFooterAdapter,
   DialogHeaderAdapter,
   DialogOverlayAdapter,
-  type DialogOverlayAdapterProps,
   DialogRootAdapter,
   DialogTitleAdapter,
   DialogTriggerAdapter,
 } from './DialogAdapter';
-import type { DialogRootPrimitiveProps } from './DialogPrimitive';
 
-export interface DialogRootProps extends DialogRootPrimitiveProps {}
-export type DialogTriggerProps = React.ComponentProps<
-  typeof DialogTriggerAdapter
+type DialogButtonDOMProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children' | 'className' | 'disabled'
 >;
-export interface DialogOverlayProps extends DialogOverlayAdapterProps {}
-export interface DialogContentProps extends DialogContentAdapterProps {}
-export type DialogHeaderProps = React.ComponentProps<
-  typeof DialogHeaderAdapter
->;
-export type DialogBodyProps = React.ComponentProps<typeof DialogBodyAdapter>;
-export type DialogFooterProps = React.ComponentProps<
-  typeof DialogFooterAdapter
->;
-export type DialogTitleProps = React.ComponentProps<typeof DialogTitleAdapter>;
-export type DialogDescriptionProps = React.ComponentProps<
-  typeof DialogDescriptionAdapter
->;
-export interface DialogCloseProps extends DialogCloseAdapterProps {}
 
-const DialogRoot = (props: DialogRootProps) => <DialogRootAdapter {...props} />;
+export interface DialogPressEvent {
+  target: EventTarget | null;
+  pointerType?: string;
+  [key: string]: unknown;
+}
+
+export interface DialogRootProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_rootProps?: Record<string, unknown>;
+}
+
+export interface DialogTriggerProps extends DialogButtonDOMProps {
+  children?: React.ReactNode;
+  className?: string;
+  isDisabled?: boolean;
+  /**
+   * @deprecated Use `isDisabled` instead.
+   */
+  disabled?: boolean;
+  onPress?: (event: DialogPressEvent) => void;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_triggerProps?: Record<string, unknown>;
+}
+
+export interface DialogOverlayProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'className'> {
+  children: React.ReactNode;
+  className?: string;
+  isDismissable?: boolean;
+  isKeyboardDismissDisabled?: boolean;
+  shouldCloseOnInteractOutside?: (element: Element) => boolean;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_overlayProps?: Record<string, unknown>;
+}
+
+export interface DialogContentProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className'> {
+  children: React.ReactNode;
+  className?: string;
+  size?: 'sm' | 'md' | 'lg';
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_contentProps?: Record<string, unknown>;
+}
+
+export interface DialogHeaderProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export interface DialogFooterProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
+
+export interface DialogTitleProps
+  extends React.HTMLAttributes<HTMLHeadingElement> {
+  children?: React.ReactNode;
+}
+
+export interface DialogDescriptionProps
+  extends React.HTMLAttributes<HTMLParagraphElement> {
+  children?: React.ReactNode;
+}
+
+export interface DialogCloseProps extends DialogButtonDOMProps {
+  children?: React.ReactNode;
+  className?: string;
+  isDisabled?: boolean;
+  /**
+   * @deprecated Use `isDisabled` instead.
+   */
+  disabled?: boolean;
+  onPress?: (event: DialogPressEvent) => void;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_closeProps?: Record<string, unknown>;
+}
+
+const DialogRoot = ({
+  UNSAFE_rootProps,
+  children,
+  ...props
+}: DialogRootProps) => (
+  <DialogRootAdapter
+    {...UNSAFE_rootProps}
+    {...(props as Record<string, unknown>)}
+  >
+    {children}
+  </DialogRootAdapter>
+);
 DialogRoot.displayName = 'Dialog.Root';
 
 const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
-  (props, ref) => <DialogTriggerAdapter {...props} ref={ref} />,
+  ({ isDisabled, disabled, UNSAFE_triggerProps, ...props }, ref) => (
+    <DialogTriggerAdapter
+      {...UNSAFE_triggerProps}
+      {...(props as Record<string, unknown>)}
+      isDisabled={isDisabled ?? disabled}
+      ref={ref}
+    />
+  ),
 );
 DialogTrigger.displayName = 'Dialog.Trigger';
 
 const DialogOverlay = React.forwardRef<HTMLDivElement, DialogOverlayProps>(
-  (props, ref) => <DialogOverlayAdapter {...props} ref={ref} />,
+  ({ UNSAFE_overlayProps, children, ...props }, ref) => (
+    <DialogOverlayAdapter
+      {...UNSAFE_overlayProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    >
+      {children}
+    </DialogOverlayAdapter>
+  ),
 );
 DialogOverlay.displayName = 'Dialog.Overlay';
 
 const DialogContent = React.forwardRef<HTMLElement, DialogContentProps>(
-  (props, ref) => <DialogContentAdapter {...props} ref={ref} />,
+  ({ UNSAFE_contentProps, children, ...props }, ref) => (
+    <DialogContentAdapter
+      {...UNSAFE_contentProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    >
+      {children}
+    </DialogContentAdapter>
+  ),
 );
 DialogContent.displayName = 'Dialog.Content';
 
@@ -80,8 +196,16 @@ const DialogDescription = React.forwardRef<
 DialogDescription.displayName = 'Dialog.Description';
 
 const DialogClose = React.forwardRef<HTMLButtonElement, DialogCloseProps>(
-  ({ children = 'Close', ...props }, ref) => (
-    <DialogCloseAdapter {...props} ref={ref}>
+  (
+    { isDisabled, disabled, UNSAFE_closeProps, children = 'Close', ...props },
+    ref,
+  ) => (
+    <DialogCloseAdapter
+      {...UNSAFE_closeProps}
+      {...(props as Record<string, unknown>)}
+      isDisabled={isDisabled ?? disabled}
+      ref={ref}
+    >
       {children}
     </DialogCloseAdapter>
   ),

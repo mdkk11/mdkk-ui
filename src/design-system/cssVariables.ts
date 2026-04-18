@@ -50,9 +50,11 @@ export const cssVariables = {
     '--sidebar': tokens.semantic.light.sidebar,
     '--sidebar-foreground': tokens.semantic.light.sidebarForeground,
     '--sidebar-primary': tokens.semantic.light.sidebarPrimary,
-    '--sidebar-primary-foreground': tokens.semantic.light.sidebarPrimaryForeground,
+    '--sidebar-primary-foreground':
+      tokens.semantic.light.sidebarPrimaryForeground,
     '--sidebar-accent': tokens.semantic.light.sidebarAccent,
-    '--sidebar-accent-foreground': tokens.semantic.light.sidebarAccentForeground,
+    '--sidebar-accent-foreground':
+      tokens.semantic.light.sidebarAccentForeground,
     '--sidebar-border': tokens.semantic.light.sidebarBorder,
     '--sidebar-ring': tokens.semantic.light.sidebarRing,
     '--chart-1': tokens.semantic.light.chart1,
@@ -115,7 +117,8 @@ export const cssVariables = {
     '--sidebar': tokens.semantic.dark.sidebar,
     '--sidebar-foreground': tokens.semantic.dark.sidebarForeground,
     '--sidebar-primary': tokens.semantic.dark.sidebarPrimary,
-    '--sidebar-primary-foreground': tokens.semantic.dark.sidebarPrimaryForeground,
+    '--sidebar-primary-foreground':
+      tokens.semantic.dark.sidebarPrimaryForeground,
     '--sidebar-accent': tokens.semantic.dark.sidebarAccent,
     '--sidebar-accent-foreground': tokens.semantic.dark.sidebarAccentForeground,
     '--sidebar-border': tokens.semantic.dark.sidebarBorder,

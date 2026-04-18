@@ -47,7 +47,7 @@
     --accent-foreground: var(--color-black);
 
     /* Destructive: 赤 - 削除、危険なアクション */
-    --destructive: var(--brutalist-accent);
+    --destructive: var(--color-accent);
     --destructive-foreground: var(--color-white);
 
     --card: var(--color-white);
@@ -75,7 +75,7 @@
     --sidebar-ring: var(--color-black);
 
     --chart-1: var(--color-black);
-    --chart-2: var(--brutalist-accent);
+    --chart-2: var(--color-accent);
     --chart-3: var(--color-gray-500);
     --chart-4: var(--color-gray-300);
     --chart-5: var(--color-gray-800);
@@ -139,7 +139,7 @@
   --accent-foreground: var(--color-black);
 
   /* Destructive: 赤 */
-  --destructive: var(--brutalist-accent);
+  --destructive: var(--color-accent);
   --destructive-foreground: var(--color-white);
 
   --card: var(--color-neutral-900);
@@ -167,7 +167,7 @@
   --sidebar-ring: var(--color-white);
 
   --chart-1: var(--color-white);
-  --chart-2: var(--brutalist-accent);
+  --chart-2: var(--color-accent);
   --chart-3: var(--color-gray-500);
   --chart-4: var(--color-neutral-700);
   --chart-5: var(--color-gray-300);

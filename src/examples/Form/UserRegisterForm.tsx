@@ -10,18 +10,18 @@ import { TextField } from '../../components/TextField';
 // --- Zod Schema ---
 
 const userRegisterSchema = z.object({
-  // 氏名は1フィールド（FORM_GUIDE: 「姓・名」で分けない）
+  // 氏名は1フィールド（「姓・名」で分けない）
   name: z
     .string()
     .min(1, '氏名を入力してください')
     .max(100, '100文字以内で入力してください'),
 
-  // メール再入力は不要（FORM_GUIDE: 確認メールで検証）
+  // メール再入力は不要（確認メールで検証）
   email: z
     .email('「@」を含む有効なメールアドレスを入力してください')
     .min(1, 'メールアドレスを入力してください'),
 
-  // パスワード（FORM_GUIDE: 再入力は避ける、表示/非表示トグル付き）
+  // パスワード（再入力は避ける、表示/非表示トグル付き）
   password: z
     .string()
     .min(8, 'パスワードは8文字以上で入力してください')
@@ -29,7 +29,7 @@ const userRegisterSchema = z.object({
     .regex(/[a-z]/, '小文字を1文字以上含めてください')
     .regex(/[0-9]/, '数字を1文字以上含めてください'),
 
-  // 電話番号（FORM_GUIDE: 1フィールド、ハイフンは後処理）
+  // 電話番号（1フィールド、ハイフンは後処理）
   phone: z
     .string()
     .min(1, '電話番号を入力してください')

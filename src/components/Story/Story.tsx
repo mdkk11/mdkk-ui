@@ -1,8 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState } from 'react';
-import { usePress } from 'react-aria';
+import { useState } from 'react';
 import { cn } from '@/design-system/utils';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { useStoryPlayback } from './hooks/useStoryPlayback';
@@ -86,30 +85,19 @@ const StoryRoot = ({
 
 const StoryTrigger = ({ children }: StoryTriggerProps) => {
   const { storySet, onOpen, isOpen } = useStoryContext();
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  const { pressProps } = usePress({
-    onPress: onOpen,
-  });
 
   if (children) {
     return (
-      // biome-ignore lint/a11y/useSemanticElements: React Aria pattern - usePress requires wrapper element. role="button" provides proper ARIA semantics, matching React Aria Components' useButton behavior
-      <div
-        {...pressProps}
-        ref={ref}
-        role='button'
-        tabIndex={0}
+      <button
+        type='button'
+        onClick={onOpen}
         aria-expanded={isOpen}
         data-state={isOpen ? 'open' : 'closed'}
         aria-haspopup='dialog'
-        style={{
-          display: 'inline-block',
-          cursor: 'pointer',
-        }}
+        className='inline-block cursor-pointer border-0 bg-transparent p-0 text-inherit'
       >
         <div style={{ pointerEvents: 'none' }}>{children}</div>
-      </div>
+      </button>
     );
   }
 

@@ -4,7 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { cssVariables } from './cssVariables';
 import { tokens } from './tokens';
 
-const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim();
+const normalizeWhitespace = (value: string) =>
+  value.replace(/\s+/g, ' ').trim();
 
 const rootDir = process.cwd();
 const indexCssSource = normalizeWhitespace(
@@ -53,7 +54,9 @@ describe('design token consistency', () => {
     expect(cssVariables.dark['--brutal-canvas']).toBe(
       tokens.brutalist.colors.dark.canvas,
     );
-    expect(cssVariables.dark['--brutal-grid-line']).toBe('rgb(255 255 255 / 9%)');
+    expect(cssVariables.dark['--brutal-grid-line']).toBe(
+      'rgb(255 255 255 / 9%)',
+    );
   });
 
   it('uses shared CSS variable maps in tailwind plugin base contract', () => {
@@ -67,7 +70,11 @@ describe('design token consistency', () => {
       '--primary',
       tokens.semantic.light.primary,
     );
-    expectCssDeclaration(indexCssSource, '--accent', tokens.semantic.light.accent);
+    expectCssDeclaration(
+      indexCssSource,
+      '--accent',
+      tokens.semantic.light.accent,
+    );
     expectCssDeclaration(
       indexCssSource,
       '--destructive',
@@ -86,8 +93,16 @@ describe('design token consistency', () => {
       cssVariables.root['--brutal-grid-line'],
     );
 
-    expectCssDeclaration(indexCssSource, '--primary', tokens.semantic.dark.primary);
-    expectCssDeclaration(indexCssSource, '--accent', tokens.semantic.dark.accent);
+    expectCssDeclaration(
+      indexCssSource,
+      '--primary',
+      tokens.semantic.dark.primary,
+    );
+    expectCssDeclaration(
+      indexCssSource,
+      '--accent',
+      tokens.semantic.dark.accent,
+    );
     expectCssDeclaration(
       indexCssSource,
       '--destructive',

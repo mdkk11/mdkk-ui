@@ -109,4 +109,3 @@ non-breaking change の例:
 
 - `docs/DESIGN_SYSTEM.md`
 - `docs/DEPENDENCY_POLICY.md`
-- `docs/RELEASE_CHECKLIST.md`

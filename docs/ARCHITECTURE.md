@@ -117,5 +117,3 @@ Treat Public API as a contract:
 
 - breaking change: prop rename/removal, event contract change, structural behavior change
 - non-breaking change: new optional prop, additive variant, visual polish without semantic break
-
-Before release, run `docs/RELEASE_CHECKLIST.md`.

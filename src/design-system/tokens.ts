@@ -22,8 +22,7 @@ export const tokens = {
   },
   base: {
     font: {
-      sans:
-        '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      sans: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       heading:
         '"Bricolage Grotesque", "Inter", system-ui, -apple-system, sans-serif',
       serif: '"Playfair Display", Georgia, serif',

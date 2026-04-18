@@ -9,9 +9,9 @@ const meta: Meta<typeof UserRegisterForm> = {
     docs: {
       description: {
         component: [
-          'Reference implementation of a user registration form aligned with FORM_GUIDE.md.',
+          'Reference implementation of a user registration form.',
           '',
-          '**FORM_GUIDE alignment points:**',
+          '**Form UX alignment points:**',
           '- Single full-name field (no first/last split)',
           '- No email re-entry field (verified through confirmation email)',
           '- Password visibility toggle near the password label',

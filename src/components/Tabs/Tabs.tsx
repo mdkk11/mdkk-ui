@@ -1,37 +1,107 @@
 import * as React from 'react';
 import {
   TabsListAdapter,
-  type TabsListAdapterProps,
   TabsPanelAdapter,
-  type TabsPanelAdapterProps,
   TabsRootAdapter,
-  type TabsRootAdapterProps,
   TabsTabAdapter,
-  type TabsTabAdapterProps,
 } from './TabsAdapter';
 
-export interface TabsRootProps extends TabsRootAdapterProps {}
-export interface TabsListProps extends TabsListAdapterProps {}
-export interface TabsTabProps extends TabsTabAdapterProps {}
-export interface TabsPanelProps extends TabsPanelAdapterProps {}
+type TabsKey = string | number;
+
+export interface TabsRootProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'className'> {
+  children: React.ReactNode;
+  className?: string;
+  selectedKey?: TabsKey;
+  defaultSelectedKey?: TabsKey;
+  onSelectionChange?: (key: TabsKey) => void;
+  orientation?: 'horizontal' | 'vertical';
+  keyboardActivation?: 'automatic' | 'manual';
+  isDisabled?: boolean;
+  disabledKeys?: Iterable<TabsKey>;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_rootProps?: Record<string, unknown>;
+}
+
+export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  className?: string;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_listProps?: Record<string, unknown>;
+}
+
+export interface TabsTabProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
+  id?: TabsKey;
+  className?: string;
+  children?: React.ReactNode;
+  isDisabled?: boolean;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_tabProps?: Record<string, unknown>;
+}
+
+export interface TabsPanelProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
+  id?: TabsKey;
+  className?: string;
+  children?: React.ReactNode;
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_panelProps?: Record<string, unknown>;
+}
 
 const TabsRoot = React.forwardRef<HTMLDivElement, TabsRootProps>(
-  (props, ref) => <TabsRootAdapter {...props} ref={ref} />,
+  ({ UNSAFE_rootProps, ...props }, ref) => (
+    <TabsRootAdapter
+      {...UNSAFE_rootProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 TabsRoot.displayName = 'Tabs.Root';
 
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
-  (props, ref) => <TabsListAdapter {...props} ref={ref} />,
+  ({ UNSAFE_listProps, ...props }, ref) => (
+    <TabsListAdapter
+      {...UNSAFE_listProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 TabsList.displayName = 'Tabs.List';
 
-const TabsTab = React.forwardRef<HTMLDivElement, TabsTabProps>((props, ref) => (
-  <TabsTabAdapter {...props} ref={ref} />
-));
+const TabsTab = React.forwardRef<HTMLDivElement, TabsTabProps>(
+  ({ UNSAFE_tabProps, ...props }, ref) => (
+    <TabsTabAdapter
+      {...UNSAFE_tabProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
+);
 TabsTab.displayName = 'Tabs.Tab';
 
 const TabsPanel = React.forwardRef<HTMLDivElement, TabsPanelProps>(
-  (props, ref) => <TabsPanelAdapter {...props} ref={ref} />,
+  ({ UNSAFE_panelProps, ...props }, ref) => (
+    <TabsPanelAdapter
+      {...UNSAFE_panelProps}
+      {...(props as Record<string, unknown>)}
+      ref={ref}
+    />
+  ),
 );
 TabsPanel.displayName = 'Tabs.Panel';
 

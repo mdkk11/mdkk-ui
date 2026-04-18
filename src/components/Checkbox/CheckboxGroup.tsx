@@ -1,19 +1,18 @@
 import React from 'react';
-import type { FieldErrorAdapterProps } from '../FieldError/FieldErrorAdapter';
-import type { LabelAdapterProps } from '../Label/LabelAdapter';
-import type { TextAdapterProps } from '../Text/TextAdapter';
+import type { FieldErrorProps } from '../FieldError';
+import type { LabelProps } from '../Label';
+import type { TextProps } from '../Text';
 import {
   CheckboxGroupDescriptionAdapter,
   CheckboxGroupErrorAdapter,
   CheckboxGroupLabelAdapter,
   CheckboxGroupRootAdapter,
-  type CheckboxGroupRootAdapterProps,
 } from './CheckboxGroupAdapter';
 
 export interface CheckboxGroupRootProps
   extends Omit<
-    CheckboxGroupRootAdapterProps,
-    'className' | 'style' | 'children'
+    React.HTMLAttributes<HTMLDivElement>,
+    'children' | 'defaultValue' | 'onChange'
   > {
   children?: React.ReactNode;
   className?: string;
@@ -25,35 +24,90 @@ export interface CheckboxGroupRootProps
   name?: string;
   value?: string[];
   defaultValue?: string[];
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_rootProps?: Record<string, unknown>;
 }
 
-export type CheckboxGroupLabelProps = LabelAdapterProps;
-export type CheckboxGroupDescriptionProps = TextAdapterProps;
-export type CheckboxGroupErrorProps = FieldErrorAdapterProps;
+export type CheckboxGroupLabelProps = Omit<LabelProps, 'UNSAFE_rootProps'> & {
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_labelProps?: Record<string, unknown>;
+};
+
+export type CheckboxGroupDescriptionProps = Omit<
+  TextProps,
+  'slot' | 'UNSAFE_rootProps'
+> & {
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_descriptionProps?: Record<string, unknown>;
+};
+
+export type CheckboxGroupErrorProps = Omit<
+  FieldErrorProps,
+  'UNSAFE_rootProps'
+> & {
+  /**
+   * @deprecated Migration-only escape hatch for legacy low-level props.
+   * Will be removed in the next major release.
+   */
+  UNSAFE_errorProps?: Record<string, unknown>;
+};
 
 // --- Component Exports ---
 
 const CheckboxGroupRoot = React.forwardRef<
   HTMLDivElement,
   CheckboxGroupRootProps
->((props, ref) => <CheckboxGroupRootAdapter {...props} ref={ref} />);
+>(({ UNSAFE_rootProps, ...props }, ref) => (
+  <CheckboxGroupRootAdapter
+    {...UNSAFE_rootProps}
+    {...(props as Record<string, unknown>)}
+    ref={ref}
+  />
+));
 CheckboxGroupRoot.displayName = 'CheckboxGroup.Root';
 
 const CheckboxGroupLabel = React.forwardRef<
   HTMLLabelElement,
   CheckboxGroupLabelProps
->((props, ref) => <CheckboxGroupLabelAdapter {...props} ref={ref} />);
+>(({ UNSAFE_labelProps, ...props }, ref) => (
+  <CheckboxGroupLabelAdapter
+    {...UNSAFE_labelProps}
+    {...(props as Record<string, unknown>)}
+    ref={ref}
+  />
+));
 CheckboxGroupLabel.displayName = 'CheckboxGroup.Label';
 
-const CheckboxGroupDescription = (props: CheckboxGroupDescriptionProps) => (
-  <CheckboxGroupDescriptionAdapter {...props} />
+const CheckboxGroupDescription = ({
+  UNSAFE_descriptionProps,
+  ...props
+}: CheckboxGroupDescriptionProps) => (
+  <CheckboxGroupDescriptionAdapter
+    {...UNSAFE_descriptionProps}
+    {...(props as Record<string, unknown>)}
+  />
 );
 CheckboxGroupDescription.displayName = 'CheckboxGroup.Description';
 
 const CheckboxGroupError = React.forwardRef<
   HTMLParagraphElement,
   CheckboxGroupErrorProps
->((props, ref) => <CheckboxGroupErrorAdapter {...props} ref={ref} />);
+>(({ UNSAFE_errorProps, ...props }, ref) => (
+  <CheckboxGroupErrorAdapter
+    {...UNSAFE_errorProps}
+    {...(props as Record<string, unknown>)}
+    ref={ref}
+  />
+));
 CheckboxGroupError.displayName = 'CheckboxGroup.Error';
 
 export const CheckboxGroup = {
