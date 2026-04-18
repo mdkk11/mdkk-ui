@@ -98,6 +98,24 @@ Practical guidance in this codebase:
 Do not hardcode one-off visual values in app pages when defining design system behavior.
 Prefer semantic classes and token-backed variables.
 
+### `src/design-system` Boundary
+
+`src/design-system` is reserved for cross-component foundation modules.
+
+Allowed:
+
+- token definitions (`tokens.ts`)
+- semantic CSS variable maps (`cssVariables.ts`)
+- global helper utilities shared across components (for example, `utils.ts`)
+
+Not allowed:
+
+- component-specific style presets (for example, button-only shadow/interaction maps)
+- component-local variants that are only consumed by one component
+
+Component-specific style presets should live in the component directory
+(`src/components/<Name>/`).
+
 See `docs/DESIGN_SYSTEM.md`.
 
 ## 5. Directory Guidance

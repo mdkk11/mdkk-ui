@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from 'cva';
-import { interactiveStyles, shadowStyles } from '@/design-system/shadowStyles';
+import { interactiveStyles, shadowStyles } from './buttonInteractionStyles';
 
 export const buttonVariants = cva({
   base: 'relative inline-flex items-center justify-center rounded-none text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background',

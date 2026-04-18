@@ -20,6 +20,8 @@ Consumers should assume:
 - Primitive layer: may import `react-aria-components` directly.
 - Adapter layer: may use helper APIs (for example, `composeRenderProps`) when required.
 - Public layer: should not expose raw dependency types unless explicitly justified.
+- `src/design-system`: keep only cross-component foundations (tokens, semantic variables, shared helpers).
+- Component-specific style presets should stay in each component directory.
 
 ## Versioning Expectations
 

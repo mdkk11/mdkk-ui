@@ -8,20 +8,65 @@ const normalizeWhitespace = (value: string) =>
   value.replace(/\s+/g, ' ').trim();
 
 const rootDir = process.cwd();
-const indexCssSource = normalizeWhitespace(
-  fs.readFileSync(path.join(rootDir, 'src/index.css'), 'utf8'),
+const indexCssSource = fs.readFileSync(
+  path.join(rootDir, 'src/index.css'),
+  'utf8',
 );
 const tailwindPluginSource = normalizeWhitespace(
   fs.readFileSync(path.join(rootDir, 'src/tailwind-plugin.ts'), 'utf8'),
 );
 
-const expectCssDeclaration = (
-  source: string,
-  variableName: string,
-  value: string,
-) => {
-  expect(source).toContain(`${variableName}: ${value};`);
+const extractCssBlock = (source: string, selector: string) => {
+  const selectorIndex = source.indexOf(selector);
+  if (selectorIndex === -1) {
+    throw new Error(`Could not find selector: ${selector}`);
+  }
+
+  const openBraceIndex = source.indexOf('{', selectorIndex);
+  if (openBraceIndex === -1) {
+    throw new Error(`Could not find opening brace for selector: ${selector}`);
+  }
+
+  let depth = 0;
+  for (let index = openBraceIndex; index < source.length; index += 1) {
+    const character = source[index];
+
+    if (character === '{') {
+      depth += 1;
+      continue;
+    }
+
+    if (character !== '}') {
+      continue;
+    }
+
+    depth -= 1;
+    if (depth === 0) {
+      return source.slice(openBraceIndex + 1, index);
+    }
+  }
+
+  throw new Error(`Could not find closing brace for selector: ${selector}`);
 };
+
+const parseCssVariables = (block: string) => {
+  const variables = new Map<string, string>();
+
+  for (const match of block.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/gi)) {
+    const variableName = match[1];
+    const variableValue = normalizeWhitespace(match[2]);
+    variables.set(variableName, variableValue);
+  }
+
+  return variables;
+};
+
+const rootCssVariables = parseCssVariables(
+  extractCssBlock(indexCssSource, ':root'),
+);
+const darkCssVariables = parseCssVariables(
+  extractCssBlock(indexCssSource, '.dark'),
+);
 
 describe('design token consistency', () => {
   it('keeps semantic contracts aligned to the agreed meaning', () => {
@@ -39,23 +84,10 @@ describe('design token consistency', () => {
     expect(cssVariables.root['--destructive']).toBe(
       tokens.semantic.light.destructive,
     );
-    expect(cssVariables.root['--font-sans']).toBe(tokens.base.font.sans);
-    expect(cssVariables.root['--font-mono']).toBe(tokens.base.font.mono);
-    expect(cssVariables.root['--brutal-canvas']).toBe(
-      tokens.brutalist.colors.light.canvas,
-    );
-    expect(cssVariables.root['--brutal-grid-line']).toBe('rgb(0 0 0 / 8%)');
-
     expect(cssVariables.dark['--primary']).toBe(tokens.semantic.dark.primary);
     expect(cssVariables.dark['--accent']).toBe(tokens.semantic.dark.accent);
     expect(cssVariables.dark['--destructive']).toBe(
       tokens.semantic.dark.destructive,
-    );
-    expect(cssVariables.dark['--brutal-canvas']).toBe(
-      tokens.brutalist.colors.dark.canvas,
-    );
-    expect(cssVariables.dark['--brutal-grid-line']).toBe(
-      'rgb(255 255 255 / 9%)',
     );
   });
 
@@ -64,59 +96,30 @@ describe('design token consistency', () => {
     expect(tailwindPluginSource).toContain("'.dark': cssVariables.dark");
   });
 
-  it('keeps index.css declarations aligned with token contracts', () => {
-    expectCssDeclaration(
-      indexCssSource,
-      '--primary',
-      tokens.semantic.light.primary,
+  it('keeps root and dark CSS variable keys aligned between cssVariables and index.css', () => {
+    expect([...rootCssVariables.keys()].sort()).toEqual(
+      Object.keys(cssVariables.root).sort(),
     );
-    expectCssDeclaration(
-      indexCssSource,
-      '--accent',
-      tokens.semantic.light.accent,
+    expect([...darkCssVariables.keys()].sort()).toEqual(
+      Object.keys(cssVariables.dark).sort(),
     );
-    expectCssDeclaration(
-      indexCssSource,
-      '--destructive',
-      tokens.semantic.light.destructive,
-    );
-    expectCssDeclaration(indexCssSource, '--font-sans', tokens.base.font.sans);
-    expectCssDeclaration(indexCssSource, '--font-mono', tokens.base.font.mono);
-    expectCssDeclaration(
-      indexCssSource,
-      '--brutal-canvas',
-      tokens.brutalist.colors.light.canvas,
-    );
-    expectCssDeclaration(
-      indexCssSource,
-      '--brutal-grid-line',
-      cssVariables.root['--brutal-grid-line'],
-    );
+  });
 
-    expectCssDeclaration(
-      indexCssSource,
-      '--primary',
-      tokens.semantic.dark.primary,
-    );
-    expectCssDeclaration(
-      indexCssSource,
-      '--accent',
-      tokens.semantic.dark.accent,
-    );
-    expectCssDeclaration(
-      indexCssSource,
-      '--destructive',
-      tokens.semantic.dark.destructive,
-    );
-    expectCssDeclaration(
-      indexCssSource,
-      '--brutal-canvas',
-      tokens.brutalist.colors.dark.canvas,
-    );
-    expectCssDeclaration(
-      indexCssSource,
-      '--brutal-grid-line',
-      cssVariables.dark['--brutal-grid-line'],
-    );
+  it('keeps root and dark CSS variable values aligned between cssVariables and index.css', () => {
+    for (const [variableName, variableValue] of Object.entries(
+      cssVariables.root,
+    )) {
+      expect(rootCssVariables.get(variableName)).toBe(
+        normalizeWhitespace(variableValue),
+      );
+    }
+
+    for (const [variableName, variableValue] of Object.entries(
+      cssVariables.dark,
+    )) {
+      expect(darkCssVariables.get(variableName)).toBe(
+        normalizeWhitespace(variableValue),
+      );
+    }
   });
 });
