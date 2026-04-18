@@ -13,9 +13,9 @@ It provides a strict component architecture, accessible behavior primitives, and
 ## Installation
 
 ```bash
-npm install mdkk-ui react react-dom react-aria-components
+npm install mdkk-ui react react-dom
 # or
-pnpm add mdkk-ui react react-dom react-aria-components
+pnpm add mdkk-ui react react-dom
 ```
 
 ## Quick Start
@@ -70,7 +70,8 @@ export function Example() {
 ## React Aria Dependency
 
 This library intentionally depends on `react-aria-components` for core behavior.
-Consumers should treat this as a foundational dependency, not an optional add-on.
+`react-aria-components` is managed internally by `mdkk-ui` as a runtime dependency.
+Consumers do not need to install it separately unless they also import it directly.
 
 - `Primitive` layer may import `react-aria-components`.
 - `Public` layer should not leak raw `react-aria-components` prop types.

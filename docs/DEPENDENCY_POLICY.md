@@ -12,7 +12,8 @@ This library is intentionally built on top of `react-aria-components`.
 
 Consumers should assume:
 
-- `react-aria-components` is a core runtime dependency.
+- `react-aria-components` is a core runtime dependency managed by `mdkk-ui`.
+- Consumers do not need to install `react-aria-components` separately unless they import it directly in their own app code.
 - API behavior aligns with accessible interaction conventions provided by that dependency.
 
 ## Internal Layer Rules

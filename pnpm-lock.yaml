@@ -14,18 +14,9 @@ importers:
       cva:
         specifier: 1.0.0-beta.4
         version: 1.0.0-beta.4(typescript@5.9.3)
-      jp-zipcode-lookup:
-        specifier: ^0.3.5
-        version: 0.3.5
-      react:
-        specifier: ^19.2.0
-        version: 19.2.3
       react-aria-components:
         specifier: ^1.14.0
         version: 1.14.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom:
-        specifier: ^19.2.0
-        version: 19.2.3(react@19.2.3)
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
@@ -111,12 +102,21 @@ importers:
       happy-dom:
         specifier: ^20.0.11
         version: 20.0.11
+      jp-zipcode-lookup:
+        specifier: ^0.3.5
+        version: 0.3.5
       jsdom:
         specifier: ^27.0.1
         version: 27.4.0
       playwright:
         specifier: ^1.57.0
         version: 1.57.0
+      react:
+        specifier: ^19.2.0
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.3(react@19.2.3)
       react-hook-form:
         specifier: ^7.71.2
         version: 7.71.2(react@19.2.3)
@@ -2341,6 +2341,7 @@ packages:
   glob@11.1.0:
     resolution: {integrity: sha512-vuNwKSaKiqm7g0THUBu2x7ckSs3XJLXE+2ssL7/MfTGPLLcrJQ/4Uq1CjPTtO5cCIiRxqvN6Twy1qOwhL0Xjcw==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   globals@14.0.0:
