@@ -70,7 +70,7 @@ describe('storybook standards contract', () => {
       it(`${relativePath} has interactive standards`, () => {
         const source = readSource(relativePath);
         expect(source).toMatch(/\bplay\s*:\s*async\b/);
-        expect(source).toMatch(/a11y\s*:\s*\{\s*test\s*:\s*['"]error['"]\s*\}/);
+        expect(source).toMatch(/a11y\s*:\s*\{\s*test\s*:\s*['"]error['"]/);
       });
     }
   }

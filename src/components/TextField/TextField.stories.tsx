@@ -39,7 +39,7 @@ export const Default: Story = {
     <TextField.Root {...args} className='flex flex-col gap-2 w-[300px]'>
       <div className='flex justify-between items-baseline'>
         <TextField.Label>Email Address</TextField.Label>
-        <span className='text-xs text-gray-500'>Optional</span>
+        <span className='text-xs text-muted-foreground'>Optional</span>
       </div>
       <TextField.Input placeholder='custom@example.com' />
       <TextField.Description className='text-xs'>

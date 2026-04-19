@@ -12,7 +12,6 @@ const meta = {
   tags: ['autodocs'],
   args: {
     children: 'Subscribe to newsletter',
-    isSelected: false,
     isDisabled: false,
     onChange: fn(),
   },

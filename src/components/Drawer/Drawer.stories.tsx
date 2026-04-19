@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from 'storybook/test';
+import { expect, screen } from 'storybook/test';
 import { Button } from '../Button';
 import { Drawer } from './Drawer';
 
@@ -57,7 +57,9 @@ export const Default: Story = {
   ),
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Open drawer' }));
-    await expect(canvas.getByText('Notifications')).toBeInTheDocument();
+    await expect(
+      await screen.findByRole('heading', { name: 'Notifications' }),
+    ).toBeInTheDocument();
   },
 };
 

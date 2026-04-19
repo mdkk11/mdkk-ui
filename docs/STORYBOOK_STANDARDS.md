@@ -80,6 +80,8 @@ Prefer concise, intent-based names over implementation details.
 2. Keep interaction stories keyboard-usable and use realistic text/state combinations.
 3. For interactive components, major stories must include `play` tests for primary interactions.
 4. For interactive components, major stories must enable strict a11y checks (`parameters.a11y.test = 'error'` or equivalent strict setting in current Storybook version).
+5. For portal-based UI (dialog, drawer, popover, tooltip, toast, listbox), query interactive targets in `play` with `screen` instead of canvas-scoped queries.
+6. In `play`, prefer role-based selectors (`getByRole`/`findByRole` with accessible `name`) over text-only selectors.
 
 ## 7. Composition Policy
 
@@ -100,5 +102,6 @@ Before merging story changes, verify:
 5. Interactive stories include `play` coverage for primary user flow.
 6. Interactive stories have strict a11y test settings.
 7. Keyboard interaction is verifiable in major interaction stories.
-8. `biome` passes for edited files.
-9. `typecheck` passes.
+8. Portal-based interaction assertions use `screen` queries and role-first selectors.
+9. `biome` passes for edited files.
+10. `typecheck` passes.

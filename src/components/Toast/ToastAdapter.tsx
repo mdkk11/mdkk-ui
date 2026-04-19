@@ -53,7 +53,7 @@ const toastToneLabelVariants = cva({
   variants: {
     tone: {
       info: 'text-foreground',
-      success: 'text-accent',
+      success: 'text-foreground',
       error: 'text-destructive',
     },
   },
@@ -172,7 +172,11 @@ const ToastItem = ({ toast }: ToastItemProps) => {
     tone === 'success' ? 'Success' : tone === 'error' ? 'Error' : 'Info';
 
   return (
-    <ToastPrimitive toast={toast} className={cn(toastVariants({ tone }))}>
+    <ToastPrimitive
+      toast={toast}
+      aria-label={toast.content.title}
+      className={cn(toastVariants({ tone }))}
+    >
       <span aria-hidden='true' className={toastIndicatorVariants({ tone })} />
 
       <ToastContentPrimitive>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from 'storybook/test';
+import { expect, screen } from 'storybook/test';
 import { DropdownMenu } from './DropdownMenu';
 
 const meta = {
@@ -42,7 +42,9 @@ export const Default: Story = {
   ),
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Actions' }));
-    await expect(canvas.getByText('Delete')).toBeInTheDocument();
+    await expect(
+      await screen.findByRole('menuitem', { name: 'Delete' }),
+    ).toBeInTheDocument();
   },
 };
 

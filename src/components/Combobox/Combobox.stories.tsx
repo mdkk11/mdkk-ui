@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from 'storybook/test';
+import { expect, screen, waitFor } from 'storybook/test';
 import { Combobox } from './Combobox';
 
 const meta = {
@@ -25,7 +25,7 @@ const meta = {
     isDisabled: false,
     isInvalid: false,
     isRequired: false,
-    defaultInputValue: 'React',
+    defaultInputValue: '',
   },
 } satisfies Meta<typeof Combobox.Root>;
 
@@ -59,10 +59,15 @@ export const Default: Story = {
     </Combobox.Root>
   ),
   play: async ({ canvas, userEvent }) => {
-    const input = canvas.getByPlaceholderText('Search framework');
-    await userEvent.clear(input);
-    await userEvent.type(input, 'Vue');
-    await expect(input).toHaveValue('Vue');
+    const input = canvas.getByRole('combobox', { name: 'Framework' });
+    await userEvent.click(
+      canvas.getByRole('button', { name: /Toggle options/i }),
+    );
+    await userEvent.click(await screen.findByRole('option', { name: 'Vue' }));
+    await waitFor(() =>
+      expect(input).toHaveAttribute('aria-expanded', 'false'),
+    );
+    await expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   },
 };
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from 'storybook/test';
+import { expect, screen, waitFor } from 'storybook/test';
 import { Select } from './Select';
 
 const meta = {
@@ -35,10 +35,7 @@ export const Default: Story = {
   render: ({ ...args }) => (
     <Select.Root {...args}>
       <Select.Label>Status</Select.Label>
-      <Select.Trigger>
-        <Select.Value />
-        <span aria-hidden='true'>▾</span>
-      </Select.Trigger>
+      <Select.Trigger />
       <Select.Description>Used for task workflow.</Select.Description>
       <Select.Popover>
         <Select.List>
@@ -53,8 +50,8 @@ export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole('button');
     await userEvent.click(trigger);
-    await userEvent.click(await canvas.findByText('Done'));
-    await expect(trigger).toHaveTextContent('Done');
+    await userEvent.click(await screen.findByRole('option', { name: 'Done' }));
+    await waitFor(() => expect(trigger).toHaveTextContent('Done'));
   },
 };
 
@@ -62,10 +59,7 @@ export const Invalid: Story = {
   render: () => (
     <Select.Root placeholder='Pick one' isInvalid isRequired>
       <Select.Label>Priority</Select.Label>
-      <Select.Trigger>
-        <Select.Value />
-        <span aria-hidden='true'>▾</span>
-      </Select.Trigger>
+      <Select.Trigger />
       <Select.Popover>
         <Select.List>
           <Select.Item id='low'>Low</Select.Item>

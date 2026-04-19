@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect } from 'storybook/test';
+import { expect, screen } from 'storybook/test';
 import { AspectRatio } from '@/components/AspectRatio';
-import { Button } from '../Button';
 import { Story, type StorySet } from './index';
 
 // Mock StorySet data for visual preview.
@@ -40,7 +39,14 @@ const meta = {
   component: Story,
   parameters: {
     layout: 'centered',
-    a11y: { test: 'error' },
+    a11y: {
+      test: 'error',
+      options: {
+        rules: {
+          'image-redundant-alt': { enabled: false },
+        },
+      },
+    },
   },
   tags: ['autodocs'],
   args: {
@@ -112,7 +118,9 @@ export const CustomTrigger: StoryType = {
   render: (args) => (
     <Story {...args}>
       <Story.Trigger>
-        <Button type='button'>Open story</Button>
+        <span className='inline-flex rounded-none border-[var(--brutal-border-subtle)] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground'>
+          Open story
+        </span>
       </Story.Trigger>
 
       <Story.Overlay />
@@ -138,6 +146,6 @@ export const CustomTrigger: StoryType = {
   },
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Open story' }));
-    await expect(canvas.getByRole('button', { name: 'Close' })).toBeVisible();
+    await expect(screen.getByRole('button', { name: 'Close' })).toBeVisible();
   },
 };

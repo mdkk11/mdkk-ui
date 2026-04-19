@@ -39,7 +39,9 @@
     "generate:figma-types": "openapi-typescript ./node_modules/@figma/rest-api-spec/openapi/openapi.yaml -o ./src/ui/libs/open-api/figma-api.d.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest --project=unit",
+    "test:unit": "vitest --project=unit",
+    "test-storybook": "vitest --project=storybook"
   },
   "peerDependencies": {
     "react": "^19.2.0",

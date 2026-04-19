@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { expect } from 'storybook/test';
+import { expect, screen } from 'storybook/test';
 import { Button } from '../Button';
 import { Toast, ToastProvider } from './Toast';
 
@@ -113,7 +113,7 @@ export const Default: Story = {
   ),
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Show success' }));
-    await expect(canvas.getByText('Saved')).toBeInTheDocument();
+    await expect(await screen.findByText('Saved')).toBeInTheDocument();
   },
 };
 

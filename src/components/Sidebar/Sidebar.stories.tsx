@@ -170,7 +170,7 @@ export const GroupedSections: Story = {
             <SidebarGroup>
               <SidebarGroupLabel>General</SidebarGroupLabel>
               <SidebarGroupContent>
-                <Sidebar.Nav>
+                <Sidebar.Nav aria-label='General navigation'>
                   <Sidebar.List>
                     <Sidebar.Item>
                       <Sidebar.ItemButton isActive>
@@ -187,7 +187,7 @@ export const GroupedSections: Story = {
             <SidebarGroup>
               <SidebarGroupLabel>Management</SidebarGroupLabel>
               <SidebarGroupContent>
-                <Sidebar.Nav>
+                <Sidebar.Nav aria-label='Management navigation'>
                   <Sidebar.List>
                     <Sidebar.Item>
                       <Sidebar.ItemButton>Members</Sidebar.ItemButton>
