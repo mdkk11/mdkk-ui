@@ -1,6 +1,10 @@
 import { cva } from 'cva';
 import React from 'react';
 import { composeRenderProps } from 'react-aria-components';
+import {
+  formControlFocusRingClass,
+  formControlInvalidFocusRingClass,
+} from '@/design-system/formControlStyles';
 import { cn } from '@/design-system/utils';
 import { InputPrimitive, type InputPrimitiveProps } from './InputPrimitive';
 
@@ -12,11 +16,11 @@ const inputStyles = cva({
     'outline-none',
     'placeholder:text-muted-foreground',
     'disabled:opacity-50 disabled:cursor-not-allowed',
-    'focus:outline-2 focus:outline-offset-2 focus:outline-ring',
+    formControlFocusRingClass,
   ],
   variants: {
     isInvalid: {
-      true: 'border-destructive bg-destructive/5 focus:outline-destructive',
+      true: `border-destructive bg-destructive/5 ${formControlInvalidFocusRingClass}`,
     },
   },
 });

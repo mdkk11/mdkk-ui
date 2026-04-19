@@ -2,7 +2,7 @@ export const tokens = {
   colors: {
     white: '#ffffff',
     black: '#000000',
-    accent: '#ff0000',
+    accent: '#c1121f',
     gray: {
       100: '#eeeeee',
       300: '#cccccc',
@@ -16,8 +16,8 @@ export const tokens = {
     },
     red: {
       400: '#ff3333',
-      500: '#ff1e1e',
-      600: '#ff0000',
+      500: '#d90429',
+      600: '#c1121f',
     },
   },
   base: {

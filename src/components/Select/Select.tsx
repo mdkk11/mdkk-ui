@@ -156,14 +156,39 @@ const SelectLabel = React.forwardRef<HTMLLabelElement, SelectLabelProps>(
 );
 SelectLabel.displayName = 'Select.Label';
 
+const SelectTriggerIndicator = () => (
+  <svg
+    data-slot='select-indicator'
+    viewBox='0 0 24 24'
+    width='16'
+    height='16'
+    aria-hidden='true'
+    className='shrink-0 text-muted-foreground transition-transform duration-150 ease-out group-aria-[expanded=true]:rotate-180'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+  >
+    <path d='m6 9 6 6 6-6' />
+  </svg>
+);
+
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ isDisabled, disabled, UNSAFE_triggerProps, ...props }, ref) => (
+  ({ children, isDisabled, disabled, UNSAFE_triggerProps, ...props }, ref) => (
     <SelectTriggerAdapter
       {...UNSAFE_triggerProps}
       {...(props as Record<string, unknown>)}
       isDisabled={isDisabled ?? disabled}
       ref={ref}
-    />
+    >
+      {children ?? (
+        <>
+          <SelectValueAdapter />
+          <SelectTriggerIndicator />
+        </>
+      )}
+    </SelectTriggerAdapter>
   ),
 );
 SelectTrigger.displayName = 'Select.Trigger';

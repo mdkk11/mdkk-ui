@@ -26,6 +26,9 @@ const boxStyles = cva({
     isIndeterminate: {
       true: 'bg-primary text-primary-foreground',
     },
+    isFocused: {
+      true: 'outline-2 outline-offset-2 outline-ring',
+    },
     isFocusVisible: {
       true: 'outline-2 outline-offset-2 outline-ring',
     },

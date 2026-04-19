@@ -20,7 +20,7 @@
     --color-neutral-700: #444444;
 
     /* Brand Colors */
-    --color-accent: #ff0000; /* Brutalist Red - 強烈な赤 */
+    --color-accent: #c1121f; /* Brutalist Red */
 
     --brutalist-black: var(--color-black);
     --brutalist-white: var(--color-white);
