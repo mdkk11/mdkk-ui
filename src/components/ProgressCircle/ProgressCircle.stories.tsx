@@ -8,6 +8,11 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    isIndeterminate: true,
+    size: 'md',
+    'aria-label': 'Loading...',
+  },
   argTypes: {
     value: { control: { type: 'range', min: 0, max: 100 } },
     isIndeterminate: { control: 'boolean' },

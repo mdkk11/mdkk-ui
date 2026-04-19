@@ -10,6 +10,8 @@ const meta = {
   tags: ['autodocs'],
   args: {
     children: 'Badge',
+    variant: 'default',
+    size: 'md',
   },
   argTypes: {
     variant: {
@@ -32,7 +34,7 @@ const meta = {
 } satisfies Meta<typeof Badge>;
 
 export default meta;
-type Story = StoryObj<typeof Badge>;
+type Story = StoryObj<typeof meta>;
 
 // 1. Core variants
 

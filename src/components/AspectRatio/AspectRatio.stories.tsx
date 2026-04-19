@@ -8,6 +8,9 @@ const meta = {
     layout: 'padded',
   },
   tags: ['autodocs'],
+  args: {
+    ratio: 16 / 9,
+  },
   argTypes: {
     ratio: {
       control: { type: 'number' },

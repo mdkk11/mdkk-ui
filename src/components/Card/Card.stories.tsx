@@ -17,14 +17,24 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  args: {
+    tone: 'brutal',
+  },
+  argTypes: {
+    tone: {
+      control: 'select',
+      options: ['default', 'brutal'],
+      description: 'Visual tone preset for the card container.',
+    },
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
-    <Card className='w-[380px] rotate-[-0.3deg]'>
+  render: ({ ...args }) => (
+    <Card {...args} className='w-[380px] rotate-[-0.3deg]'>
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
@@ -44,8 +54,8 @@ export const Default: Story = {
 };
 
 export const WithBadge: Story = {
-  render: () => (
-    <Card className='w-[380px] rotate-[0.3deg]'>
+  render: ({ ...args }) => (
+    <Card {...args} className='w-[380px] rotate-[0.3deg]'>
       <CardHeader>
         <div className='flex items-center justify-between'>
           <CardTitle>API Usage</CardTitle>
