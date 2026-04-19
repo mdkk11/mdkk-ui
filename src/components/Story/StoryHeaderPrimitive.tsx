@@ -22,9 +22,7 @@ export const StoryHeaderPrimitive = ({
   return (
     <div className='absolute top-4 left-3 right-3 flex items-center justify-between z-20 pointer-events-none'>
       <div className='flex items-center gap-2 pointer-events-auto'>
-        <span className='text-white font-bold text-sm drop-shadow-md'>
-          {title}
-        </span>
+        <span className='text-white font-bold text-sm'>{title}</span>
         <span className='text-white/60 text-xs ml-1 font-mono'>
           {currentIndex + 1}/{totalCount}
         </span>

@@ -23,7 +23,7 @@ export const StoryListItemPrimitive = memo(
     return (
       <button
         type='button'
-        className='group relative bg-white rounded-lg overflow-hidden shadow-sm cursor-pointer w-full h-full text-left p-0 border-none appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+        className='group relative bg-white rounded-lg overflow-hidden cursor-pointer w-full h-full text-left p-0 border-none appearance-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
         onClick={() => onSelect?.(index)}
       >
         <div className='relative w-full h-full'>
@@ -45,7 +45,7 @@ export const StoryListItemPrimitive = memo(
                   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               }}
             >
-              <span className='text-white font-black font-heading text-xl text-center uppercase leading-tight drop-shadow-md'>
+              <span className='text-white font-black font-heading text-xl text-center uppercase leading-tight'>
                 {storySet.title}
               </span>
             </div>

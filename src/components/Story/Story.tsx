@@ -128,7 +128,7 @@ const StoryContent = ({ children, className }: StoryContentProps) => {
 
   const contentClasses = cn(
     'relative h-full w-full overflow-hidden bg-black pointer-events-auto',
-    isFullscreen && 'md:max-w-md md:h-[90vh] md:rounded-lg md:shadow-2xl',
+    isFullscreen && 'md:max-w-md md:h-[90vh] md:rounded-lg',
     className,
   );
 

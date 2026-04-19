@@ -51,7 +51,7 @@ const demoGroupIds = [
 ];
 
 const sidebarItemBaseClass =
-  'brutal-button brutal-label shadow-brutal-sm w-full px-2 py-1.5 text-left text-xs';
+  'brutal-chip w-full px-2 py-1.5 text-left text-xs transition-colors';
 
 const sectionHeadingClass = 'brutal-heading font-heading text-base';
 
@@ -89,7 +89,7 @@ function App() {
         </div>
 
         <Sidebar.Root className='min-h-0 flex-1'>
-          <Sidebar.Panel className='brutal-rail'>
+          <Sidebar.Panel>
             <Sidebar.Header className='brutal-section-divider p-3'>
               <h2 className='brutal-kicker font-heading m-0 text-xs'>
                 mdkk workspace
@@ -110,7 +110,7 @@ function App() {
                       <Sidebar.Item>
                         <Sidebar.ItemButton
                           isActive
-                          className='brutal-chip-inverse brutal-label shadow-brutal-sm w-full px-2 py-1.5 text-left text-xs'
+                          className='brutal-chip-inverse w-full px-2 py-1.5 text-left text-xs transition-colors'
                         >
                           Home
                         </Sidebar.ItemButton>
@@ -226,7 +226,7 @@ function App() {
 
             <section className='space-y-2'>
               <h2 className={sectionHeadingClass}>Single Story</h2>
-              <div className='border-brutal-strong border-brutal-ink bg-brutal-panel text-brutal-ink shadow-brutal-md w-[150px]'>
+              <div className='border-brutal-strong border-brutal-ink bg-brutal-panel text-brutal-ink w-[150px]'>
                 <Story storySet={mockStorySet}>
                   <AspectRatio ratio={9 / 16}>
                     <Story.Trigger />
