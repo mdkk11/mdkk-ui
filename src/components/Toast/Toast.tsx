@@ -1,9 +1,6 @@
 import type React from 'react';
-import {
-  type ToastMessage,
-  ToastProviderAdapter,
-  useToastAdapter,
-} from './ToastAdapter';
+import type { ToastPayload, ToastShowOptions } from './Toast.types';
+import { ToastProviderAdapter, useToastAdapter } from './ToastAdapter';
 
 export interface ToastProviderProps {
   children: React.ReactNode;
@@ -17,12 +14,7 @@ export interface ToastProviderProps {
   UNSAFE_providerProps?: Record<string, unknown>;
 }
 
-export type ToastPayload = ToastMessage;
-export interface ToastShowOptions {
-  timeout?: number;
-  priority?: number;
-  [key: string]: unknown;
-}
+export type { ToastPayload, ToastShowOptions } from './Toast.types';
 
 export interface ToastAPI {
   show: (message: ToastPayload, options?: ToastShowOptions) => string;
