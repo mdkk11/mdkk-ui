@@ -1,5 +1,7 @@
 export {
   SidebarContentAdapter,
+  SidebarFooterAdapter,
+  SidebarHeaderAdapter,
   SidebarPanelAdapter,
   type SidebarPanelAdapterProps,
   SidebarSectionAdapter,

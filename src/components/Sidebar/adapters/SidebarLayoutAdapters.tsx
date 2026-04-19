@@ -80,9 +80,37 @@ export const SidebarSectionAdapter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionPrimitive ref={ref} className={cn(className)} {...props} />
+  <SidebarSectionPrimitive
+    ref={ref}
+    className={cn('flex shrink-0 flex-col', className)}
+    {...props}
+  />
 ));
 SidebarSectionAdapter.displayName = 'SidebarSectionAdapter';
+
+export const SidebarHeaderAdapter = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<'div'>
+>(({ className, ...props }, ref) => (
+  <SidebarSectionPrimitive
+    ref={ref}
+    className={cn('brutal-section-divider p-3', className)}
+    {...props}
+  />
+));
+SidebarHeaderAdapter.displayName = 'SidebarHeaderAdapter';
+
+export const SidebarFooterAdapter = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<'div'>
+>(({ className, ...props }, ref) => (
+  <SidebarSectionPrimitive
+    ref={ref}
+    className={cn('brutal-footer-divider p-3', className)}
+    {...props}
+  />
+));
+SidebarFooterAdapter.displayName = 'SidebarFooterAdapter';
 
 export const SidebarContentAdapter = React.forwardRef<
   HTMLDivElement,
@@ -90,7 +118,7 @@ export const SidebarContentAdapter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SidebarSectionPrimitive
     ref={ref}
-    className={cn('min-h-0 flex-1 overflow-auto', className)}
+    className={cn('min-h-0 flex-1 overflow-auto p-3', className)}
     {...props}
   />
 ));

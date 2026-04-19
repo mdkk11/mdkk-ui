@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'cva';
 
 export const sidebarShellVariants = cva({
-  base: 'relative flex h-full w-full',
+  base: 'relative flex h-full min-h-0 w-full',
   variants: {
     side: {
       left: 'flex-row',
@@ -14,11 +14,11 @@ export const sidebarShellVariants = cva({
 });
 
 export const sidebarPanelVariants = cva({
-  base: 'group/sidebar relative shrink-0 flex h-full min-h-0 flex-col overflow-hidden transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
+  base: 'group/sidebar relative flex h-full min-h-0 shrink-0 flex-col overflow-hidden transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
   variants: {
     side: {
-      left: '',
-      right: '',
+      left: 'border-r border-brutal-ink bg-brutal-panel text-brutal-ink',
+      right: 'border-l border-brutal-ink bg-brutal-panel text-brutal-ink',
     },
     tone: {
       subtle: '',
@@ -40,7 +40,7 @@ export const sidebarItemButtonVariants = cva({
   base: 'flex w-full items-center text-left',
   variants: {
     isActive: {
-      true: '',
+      true: 'brutal-chip-inverse',
       false: '',
     },
   },
@@ -50,7 +50,7 @@ export const sidebarItemButtonVariants = cva({
 });
 
 export const sidebarTriggerVariants = cva({
-  base: 'inline-flex items-center justify-center',
+  base: 'brutal-button brutal-label inline-flex items-center justify-center text-xs transition-colors',
   variants: {
     size: {
       sm: 'h-8 px-2',

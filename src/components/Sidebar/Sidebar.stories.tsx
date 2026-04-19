@@ -227,3 +227,54 @@ export const ProviderWithExternalTrigger: Story = {
     </Sidebar.Provider>
   ),
 };
+
+export const MobileViewport: Story = {
+  render: () => (
+    <Sidebar.Provider
+      defaultMobileOpen
+      defaultWidth={280}
+      minWidth={220}
+      mobileBreakpoint={99999}
+      mobileDetection='viewport'
+    >
+      <div className='min-h-screen p-6'>
+        <header className='mb-4 flex items-center justify-between rounded-lg border bg-background p-3'>
+          <StatefulSidebarTrigger />
+          <p className='text-sm text-muted-foreground'>
+            Mobile dialog preview with an external trigger
+          </p>
+        </header>
+        <Sidebar.Root className='min-h-[560px] rounded-lg border'>
+          <Sidebar.Panel>
+            <Sidebar.Header>
+              <h2 className='text-lg font-semibold'>Workspace</h2>
+            </Sidebar.Header>
+            <Sidebar.Content>
+              <Sidebar.Nav>
+                <Sidebar.List>
+                  <Sidebar.Item>
+                    <Sidebar.ItemButton isActive>Dashboard</Sidebar.ItemButton>
+                  </Sidebar.Item>
+                  <Sidebar.Item>
+                    <Sidebar.ItemButton>Projects</Sidebar.ItemButton>
+                  </Sidebar.Item>
+                  <Sidebar.Item>
+                    <Sidebar.ItemButton>Settings</Sidebar.ItemButton>
+                  </Sidebar.Item>
+                </Sidebar.List>
+              </Sidebar.Nav>
+            </Sidebar.Content>
+            <Sidebar.Footer>
+              <p className='text-xs text-muted-foreground'>Mobile preview</p>
+            </Sidebar.Footer>
+          </Sidebar.Panel>
+          <main className='flex-1 p-4'>
+            <p className='text-sm text-muted-foreground'>
+              The sidebar opens as a dialog on mobile-sized viewports.
+            </p>
+          </main>
+        </Sidebar.Root>
+      </div>
+    </Sidebar.Provider>
+  ),
+};

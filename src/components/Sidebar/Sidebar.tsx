@@ -2,12 +2,13 @@ import * as React from 'react';
 import { cn } from '@/design-system/utils';
 import {
   SidebarContentAdapter,
+  SidebarFooterAdapter,
+  SidebarHeaderAdapter,
   SidebarItemButtonAdapter,
   SidebarListAdapter,
   SidebarListItemAdapter,
   SidebarNavAdapter,
   SidebarPanelAdapter,
-  SidebarSectionAdapter,
   SidebarShellAdapter,
   SidebarTriggerAdapter,
 } from './SidebarAdapter';
@@ -18,6 +19,7 @@ import {
 } from './SidebarGroup';
 
 type SidebarSide = 'left' | 'right';
+type SidebarMobileDetection = 'viewport' | 'touch-viewport';
 
 type SidebarLayoutContextValue = {
   side: SidebarSide;
@@ -30,6 +32,7 @@ type SidebarStateContextValue = {
   isMobile: boolean;
   isMobileOpen: boolean;
   setMobileOpen: (next: boolean) => void;
+  isMobileAutoCloseOnItemPress: boolean;
   width: number;
   setWidth: (next: number) => void;
   collapsedWidth: number;
@@ -42,6 +45,36 @@ const SidebarLayoutContext =
   React.createContext<SidebarLayoutContextValue | null>(null);
 const SidebarStateContext =
   React.createContext<SidebarStateContextValue | null>(null);
+
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[contenteditable="true"]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
+
+const getFocusableElements = (root: HTMLElement) =>
+  Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => !element.hasAttribute('disabled'),
+  );
+
+const mergeRefs =
+  <T,>(...refs: Array<React.Ref<T> | undefined>) =>
+  (node: T | null) => {
+    for (const ref of refs) {
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref && 'current' in ref) {
+        ref.current = node;
+      }
+    }
+  };
+
+const isHTMLElement = (value: unknown): value is HTMLElement =>
+  value instanceof HTMLElement;
 
 const useSidebarLayoutContext = () => {
   const context = React.useContext(SidebarLayoutContext);
@@ -65,13 +98,18 @@ const useSidebarStateContext = () => {
 
 export const useSidebar = () => useSidebarStateContext();
 
-const useIsMobileViewport = (breakpoint: number) => {
+const useIsMobileViewport = (
+  breakpoint: number,
+  detection: SidebarMobileDetection,
+) => {
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
     const query = window.matchMedia(
-      `(max-width: ${breakpoint}px) and (hover: none) and (pointer: coarse)`,
+      detection === 'touch-viewport'
+        ? `(max-width: ${breakpoint}px) and (hover: none) and (pointer: coarse)`
+        : `(max-width: ${breakpoint}px)`,
     );
     const onChange = (event: MediaQueryListEvent) => {
       setIsMobile(event.matches);
@@ -79,7 +117,7 @@ const useIsMobileViewport = (breakpoint: number) => {
     setIsMobile(query.matches);
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
-  }, [breakpoint]);
+  }, [breakpoint, detection]);
 
   return isMobile;
 };
@@ -95,8 +133,10 @@ interface SidebarStateProps {
   isResizable?: boolean;
   onWidthChange?: (width: number) => void;
   mobileBreakpoint?: number;
+  mobileDetection?: SidebarMobileDetection;
   defaultMobileOpen?: boolean;
   onMobileOpenChange?: (isOpen: boolean) => void;
+  isMobileAutoCloseOnItemPress?: boolean;
 }
 
 const useSidebarState = ({
@@ -110,14 +150,16 @@ const useSidebarState = ({
   isResizable = true,
   onWidthChange,
   mobileBreakpoint = 768,
+  mobileDetection = 'viewport',
   defaultMobileOpen = false,
   onMobileOpenChange,
+  isMobileAutoCloseOnItemPress = false,
 }: SidebarStateProps): SidebarStateContextValue => {
   const [internalCollapsed, setInternalCollapsed] =
     React.useState(defaultIsCollapsed);
   const [isMobileOpen, setIsMobileOpen] = React.useState(defaultMobileOpen);
   const [width, setWidthState] = React.useState(defaultWidth);
-  const isMobile = useIsMobileViewport(mobileBreakpoint);
+  const isMobile = useIsMobileViewport(mobileBreakpoint, mobileDetection);
   const collapsed = isCollapsed ?? internalCollapsed;
 
   const setCollapsed = React.useCallback(
@@ -190,6 +232,7 @@ const useSidebarState = ({
       isMobile,
       isMobileOpen,
       setMobileOpen,
+      isMobileAutoCloseOnItemPress,
       width,
       setWidth,
       collapsedWidth,
@@ -204,6 +247,7 @@ const useSidebarState = ({
       isMobile,
       isMobileOpen,
       setMobileOpen,
+      isMobileAutoCloseOnItemPress,
       width,
       setWidth,
       collapsedWidth,
@@ -285,6 +329,9 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
       collapsedWidth,
     } = useSidebarStateContext();
     const { side } = useSidebarLayoutContext();
+    const panelRef = React.useRef<HTMLElement | null>(null);
+    const overlayRef = React.useRef<HTMLButtonElement | null>(null);
+    const mergedPanelRef = mergeRefs(ref, panelRef);
     const isOpen = isMobile ? isMobileOpen : !isCollapsed;
     const resolvedWidth = isCollapsed ? collapsedWidth : width;
     const contentHidden = !isOpen;
@@ -303,14 +350,141 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
       ...(isMobile ? { width: `min(${width}px, 90vw)` } : {}),
     };
 
+    React.useEffect(() => {
+      if (!isMobile || !isMobileOpen) return;
+
+      const panelNode = panelRef.current;
+      if (!panelNode) return;
+
+      const parentNode = panelNode.parentElement;
+      if (!parentNode) return;
+
+      const excludedNodes = new Set<Node>([panelNode]);
+      if (overlayRef.current) {
+        excludedNodes.add(overlayRef.current);
+      }
+
+      const siblings = Array.from(parentNode.children).filter(
+        (element) => !excludedNodes.has(element),
+      );
+      const previousStates = siblings.map((element) => ({
+        element,
+        ariaHidden: element.getAttribute('aria-hidden'),
+        inert: element.hasAttribute('inert'),
+      }));
+
+      for (const element of siblings) {
+        element.setAttribute('aria-hidden', 'true');
+        element.setAttribute('inert', '');
+      }
+
+      return () => {
+        for (const previous of previousStates) {
+          if (previous.ariaHidden === null) {
+            previous.element.removeAttribute('aria-hidden');
+          } else {
+            previous.element.setAttribute('aria-hidden', previous.ariaHidden);
+          }
+
+          if (previous.inert) {
+            previous.element.setAttribute('inert', '');
+          } else {
+            previous.element.removeAttribute('inert');
+          }
+        }
+      };
+    }, [isMobile, isMobileOpen]);
+
+    React.useEffect(() => {
+      if (!isMobile || !isMobileOpen) return;
+
+      const panelNode = panelRef.current;
+      if (!panelNode) return;
+
+      const previousFocusedElement = isHTMLElement(document.activeElement)
+        ? document.activeElement
+        : null;
+
+      const focusFirstElement = () => {
+        const focusableElements = getFocusableElements(panelNode);
+        const nextFocusableElement = focusableElements[0] ?? panelNode;
+        nextFocusableElement.focus({ preventScroll: true });
+      };
+
+      focusFirstElement();
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setMobileOpen(false);
+          return;
+        }
+
+        if (event.key !== 'Tab') return;
+
+        const focusableElements = getFocusableElements(panelNode);
+        const activeElement = document.activeElement;
+        const firstFocusableElement = focusableElements[0] ?? panelNode;
+        const lastFocusableElement =
+          focusableElements[focusableElements.length - 1] ?? panelNode;
+
+        if (
+          !isHTMLElement(activeElement) ||
+          !panelNode.contains(activeElement)
+        ) {
+          event.preventDefault();
+          if (event.shiftKey) {
+            lastFocusableElement.focus({ preventScroll: true });
+          } else {
+            firstFocusableElement.focus({ preventScroll: true });
+          }
+          return;
+        }
+
+        if (event.shiftKey && activeElement === firstFocusableElement) {
+          event.preventDefault();
+          lastFocusableElement.focus({ preventScroll: true });
+        } else if (!event.shiftKey && activeElement === lastFocusableElement) {
+          event.preventDefault();
+          firstFocusableElement.focus({ preventScroll: true });
+        }
+      };
+
+      const handleFocusIn = (event: FocusEvent) => {
+        const target = event.target;
+        if (!(target instanceof Node) || panelNode.contains(target)) return;
+
+        const focusableElements = getFocusableElements(panelNode);
+        const nextFocusableElement = focusableElements[0] ?? panelNode;
+        nextFocusableElement.focus({ preventScroll: true });
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('focusin', handleFocusIn);
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('focusin', handleFocusIn);
+        if (
+          isHTMLElement(previousFocusedElement) &&
+          previousFocusedElement.isConnected
+        ) {
+          previousFocusedElement.focus({ preventScroll: true });
+        }
+      };
+    }, [isMobile, isMobileOpen, setMobileOpen]);
+
     return (
       <>
         {isMobile ? (
           <button
+            ref={overlayRef}
             type='button'
-            aria-label='Close sidebar'
-            aria-hidden={!isMobileOpen}
+            aria-hidden='true'
+            tabIndex={-1}
+            data-sidebar-overlay
             onClick={() => setMobileOpen(false)}
+            onMouseDown={(event) => event.preventDefault()}
             className={cn(
               'fixed inset-0 z-40 bg-black/40 transition-opacity duration-220 ease-out',
               isMobileOpen
@@ -320,7 +494,7 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
           />
         ) : null}
         <SidebarPanelAdapter
-          ref={ref}
+          ref={mergedPanelRef}
           side={side}
           state={isOpen ? 'expanded' : 'collapsed'}
           width={isMobile ? width : resolvedWidth}
@@ -342,26 +516,23 @@ const SidebarPanel = React.forwardRef<HTMLElement, SidebarPanelProps>(
               ),
           )}
           style={panelMotionStyle}
+          role={isMobile && isMobileOpen ? 'dialog' : undefined}
+          aria-modal={isMobile && isMobileOpen ? true : undefined}
+          aria-label={isMobile && isMobileOpen ? 'Sidebar' : undefined}
+          tabIndex={isMobile && isMobileOpen ? -1 : undefined}
           aria-hidden={!isOpen}
         >
           <div
             aria-hidden={contentHidden}
             className={cn(
-              'flex h-full min-h-0 flex-col will-change-[opacity,transform] transition-[opacity,transform,visibility] ease-[cubic-bezier(0.4,0,0.2,1)]',
+              'flex h-full min-h-0 flex-col will-change-[opacity] transition-[opacity,visibility] ease-[cubic-bezier(0.4,0,0.2,1)]',
               contentHidden
-                ? cn(
-                    'pointer-events-none invisible opacity-0',
-                    side === 'left' ? '-translate-x-2' : 'translate-x-2',
-                  )
-                : 'visible translate-x-0 opacity-100',
+                ? 'pointer-events-none invisible opacity-0'
+                : 'visible opacity-100',
             )}
             style={{
-              transitionDuration: contentHidden
-                ? '120ms, 180ms, 0ms'
-                : '180ms, 240ms, 0ms',
-              transitionDelay: contentHidden
-                ? '0ms, 0ms, 180ms'
-                : '0ms, 0ms, 0ms',
+              transitionDuration: contentHidden ? '120ms, 0ms' : '180ms, 0ms',
+              transitionDelay: contentHidden ? '0ms, 180ms' : '0ms, 0ms',
             }}
           >
             {children}
@@ -377,7 +548,7 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionAdapter ref={ref} className={className} {...props} />
+  <SidebarHeaderAdapter ref={ref} className={className} {...props} />
 ));
 SidebarHeader.displayName = 'Sidebar.Header';
 
@@ -393,7 +564,7 @@ const SidebarFooter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(({ className, ...props }, ref) => (
-  <SidebarSectionAdapter ref={ref} className={className} {...props} />
+  <SidebarFooterAdapter ref={ref} className={className} {...props} />
 ));
 SidebarFooter.displayName = 'Sidebar.Footer';
 
@@ -410,6 +581,7 @@ export const SidebarTrigger = React.forwardRef<
   return (
     <SidebarTriggerAdapter
       ref={ref}
+      aria-haspopup={isMobile ? 'dialog' : undefined}
       aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
       onClick={(event) => {
         onClick?.(event);
@@ -507,9 +679,27 @@ export interface SidebarItemButtonProps
 const SidebarItemButton = React.forwardRef<
   HTMLButtonElement,
   SidebarItemButtonProps
->(({ onPress, ...props }, ref) => (
-  <SidebarItemButtonAdapter ref={ref} onPress={onPress} {...props} />
-));
+>(({ onPress, ...props }, ref) => {
+  const {
+    isMobile,
+    isMobileOpen,
+    setMobileOpen,
+    isMobileAutoCloseOnItemPress,
+  } = useSidebarStateContext();
+
+  return (
+    <SidebarItemButtonAdapter
+      ref={ref}
+      onPress={() => {
+        onPress?.();
+        if (isMobileAutoCloseOnItemPress && isMobile && isMobileOpen) {
+          setMobileOpen(false);
+        }
+      }}
+      {...props}
+    />
+  );
+});
 SidebarItemButton.displayName = 'Sidebar.ItemButton';
 
 export const Sidebar = {

@@ -24,7 +24,10 @@ export const SidebarGroupLabel = React.forwardRef<
     <div
       ref={ref}
       data-sidebar='group-label'
-      className={cn('flex shrink-0 items-center', className)}
+      className={cn(
+        'brutal-kicker mb-2 flex shrink-0 items-center text-[11px]',
+        className,
+      )}
       {...props}
     />
   );

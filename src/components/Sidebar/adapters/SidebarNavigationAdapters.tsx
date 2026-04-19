@@ -57,7 +57,11 @@ export const SidebarItemButtonAdapter = React.forwardRef<
   <SidebarTriggerPrimitive
     ref={ref}
     type='button'
-    className={cn(sidebarItemButtonVariants({ isActive }), className)}
+    className={cn(
+      'brutal-chip w-full px-2 py-1.5 text-left text-xs transition-colors',
+      sidebarItemButtonVariants({ isActive }),
+      className,
+    )}
     onClick={onPress}
     {...props}
   />
