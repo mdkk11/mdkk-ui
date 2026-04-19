@@ -16,7 +16,7 @@ const tooltipTriggerVariants = cva({
 });
 
 const tooltipContentVariants = cva({
-  base: 'z-50 rounded-none border-[var(--brutal-border-subtle)] border-border bg-foreground px-2 py-1 text-xs text-background shadow-brutal-sm transition duration-150 ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0',
+  base: 'z-50 rounded-none border-[var(--brutal-border-subtle)] border-border bg-foreground px-2 py-1 text-xs text-background transition duration-150 ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0',
 });
 
 export const TooltipRootAdapter = ({

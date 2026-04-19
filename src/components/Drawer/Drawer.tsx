@@ -138,10 +138,11 @@ const DrawerTrigger = React.forwardRef<HTMLButtonElement, DrawerTriggerProps>(
 DrawerTrigger.displayName = 'Drawer.Trigger';
 
 const DrawerOverlay = React.forwardRef<HTMLDivElement, DrawerOverlayProps>(
-  ({ UNSAFE_overlayProps, children, ...props }, ref) => (
+  ({ UNSAFE_overlayProps, children, isDismissable = true, ...props }, ref) => (
     <DrawerOverlayAdapter
       {...UNSAFE_overlayProps}
       {...(props as Record<string, unknown>)}
+      isDismissable={isDismissable}
       ref={ref}
     >
       {children}

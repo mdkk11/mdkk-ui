@@ -65,11 +65,7 @@ const SidebarToggleButton = () => {
       ? 'ひらく'
       : 'とじる';
 
-  return (
-    <Sidebar.Trigger className='brutal-button brutal-label px-3 py-1.5 text-xs transition-colors'>
-      {label}
-    </Sidebar.Trigger>
-  );
+  return <Sidebar.Trigger aria-label={label} title={label} />;
 };
 
 function App() {

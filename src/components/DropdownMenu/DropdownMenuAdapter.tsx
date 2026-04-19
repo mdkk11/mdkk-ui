@@ -24,7 +24,7 @@ const dropdownTriggerVariants = cva({
 });
 
 const dropdownPopoverVariants = cva({
-  base: 'z-50 rounded-none border-[var(--brutal-border-default)] border-border bg-popover p-1 text-popover-foreground shadow-brutal-sm data-[entering]:animate-in data-[exiting]:animate-out data-[entering]:fade-in-0 data-[exiting]:fade-out-0',
+  base: 'z-50 overflow-hidden rounded-none border-[var(--brutal-border-subtle)] border-border bg-popover p-1 text-popover-foreground data-[entering]:animate-in data-[exiting]:animate-out data-[entering]:fade-in-0 data-[exiting]:fade-out-0',
 });
 
 const dropdownMenuVariants = cva({
@@ -32,11 +32,11 @@ const dropdownMenuVariants = cva({
 });
 
 const dropdownItemVariants = cva({
-  base: 'flex cursor-default items-center gap-2 border-[var(--brutal-border-subtle)] border-transparent px-2 py-1.5 text-sm outline-none transition-colors data-[focused]:border-border data-[focused]:bg-muted data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+  base: 'flex cursor-default items-center gap-2 rounded-none px-2.5 py-2 text-sm leading-5 outline-none transition-colors data-[focused]:bg-muted/70 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
   variants: {
     tone: {
       default: 'text-foreground',
-      destructive: 'text-destructive',
+      destructive: 'text-destructive data-[focused]:bg-destructive/10',
     },
   },
   defaultVariants: {

@@ -51,11 +51,11 @@ export const sidebarItemButtonVariants = cva({
 });
 
 export const sidebarTriggerVariants = cva({
-  base: 'brutal-button brutal-label inline-flex items-center justify-center text-xs transition-colors',
+  base: 'inline-flex items-center justify-center border-0 bg-transparent text-brutal-ink transition-colors hover:bg-brutal-ink/10 hover:text-brutal-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brutal-ink/40 disabled:pointer-events-none disabled:opacity-50',
   variants: {
     size: {
-      sm: 'h-8 px-2',
-      md: 'h-9 px-3',
+      sm: 'h-10 w-10',
+      md: 'h-11 w-11',
     },
   },
   defaultVariants: {

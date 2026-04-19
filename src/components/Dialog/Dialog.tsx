@@ -144,10 +144,11 @@ const DialogTrigger = React.forwardRef<HTMLButtonElement, DialogTriggerProps>(
 DialogTrigger.displayName = 'Dialog.Trigger';
 
 const DialogOverlay = React.forwardRef<HTMLDivElement, DialogOverlayProps>(
-  ({ UNSAFE_overlayProps, children, ...props }, ref) => (
+  ({ UNSAFE_overlayProps, children, isDismissable = true, ...props }, ref) => (
     <DialogOverlayAdapter
       {...UNSAFE_overlayProps}
       {...(props as Record<string, unknown>)}
+      isDismissable={isDismissable}
       ref={ref}
     >
       {children}

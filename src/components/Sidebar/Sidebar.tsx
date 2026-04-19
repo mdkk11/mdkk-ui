@@ -572,17 +572,67 @@ export interface SidebarTriggerProps extends React.ComponentProps<'button'> {
   onPress?: () => void;
 }
 
+interface SidebarTriggerIconProps {
+  side: SidebarSide;
+  isOpen: boolean;
+}
+
+const SidebarTriggerIcon = ({ side, isOpen }: SidebarTriggerIconProps) => {
+  const dividerPath = side === 'left' ? 'M9 3v18' : 'M15 3v18';
+  const chevronPath =
+    side === 'left'
+      ? isOpen
+        ? 'm16 15-3-3 3-3'
+        : 'm14 9 3 3-3 3'
+      : isOpen
+        ? 'm8 9 3 3-3 3'
+        : 'm10 15-3-3 3-3';
+
+  return (
+    <svg
+      viewBox='0 0 24 24'
+      width='24'
+      height='24'
+      aria-hidden='true'
+      className='shrink-0'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <rect x='3' y='3' width='18' height='18' rx='2' ry='2' />
+      <path d={dividerPath} />
+      <path d={chevronPath} />
+    </svg>
+  );
+};
+
 export const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
 >(({ children, onPress, onClick, ...props }, ref) => {
   const { isCollapsed, isMobile, isMobileOpen, toggle } =
     useSidebarStateContext();
+  const side = React.useContext(SidebarLayoutContext)?.side ?? 'left';
+  const isOpen = isMobile ? isMobileOpen : !isCollapsed;
+  const defaultLabel = isOpen ? 'Close sidebar' : 'Open sidebar';
+  const hasCustomLabel = children !== undefined && children !== null;
+
   return (
     <SidebarTriggerAdapter
       ref={ref}
       aria-haspopup={isMobile ? 'dialog' : undefined}
       aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
+      aria-pressed={isOpen}
+      aria-label={
+        hasCustomLabel || props['aria-label'] !== undefined
+          ? props['aria-label']
+          : defaultLabel
+      }
+      title={
+        hasCustomLabel || props.title !== undefined ? props.title : defaultLabel
+      }
       onClick={(event) => {
         onClick?.(event);
         onPress?.();
@@ -590,7 +640,14 @@ export const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      {children}
+      {hasCustomLabel ? (
+        children
+      ) : (
+        <>
+          <SidebarTriggerIcon side={side} isOpen={isOpen} />
+          <span className='sr-only'>{defaultLabel}</span>
+        </>
+      )}
     </SidebarTriggerAdapter>
   );
 });
