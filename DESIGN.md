@@ -193,15 +193,6 @@ Border color は原則 Ink（`#000000` / `#ffffff`）。Muted border は Ink の
 - 丸みは原則として付けない
 - 形そのものに意味がある場合（chip、badge、avatar など）のみ例外を認める
 
-### 6-4. Elevation (Optional)
-
-既定は shadow なし。まず境界・面・コントラストで階層を作る。  
-shadow は「境界だけでは情報分離が弱い」場合に限って補助的に使う。
-
-- 既定: `none`
-- 例外: モーダルやポップオーバーなど、重なり順の識別が必要な場面のみ
-- Dark mode でも「まず境界、次に必要なら最小の shadow」を守る
-
 ---
 
 ## 7. State & Interaction
