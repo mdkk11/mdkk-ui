@@ -7,6 +7,17 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'Combobox.Label': Combobox.Label,
+    'Combobox.Field': Combobox.Field,
+    'Combobox.Input': Combobox.Input,
+    'Combobox.Trigger': Combobox.Trigger,
+    'Combobox.Description': Combobox.Description,
+    'Combobox.Popover': Combobox.Popover,
+    'Combobox.List': Combobox.List,
+    'Combobox.Item': Combobox.Item,
+    'Combobox.Error': Combobox.Error,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Combobox.Root>;
 

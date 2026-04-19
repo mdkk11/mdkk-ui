@@ -8,6 +8,16 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  subcomponents: {
+    'Drawer.Trigger': Drawer.Trigger,
+    'Drawer.Overlay': Drawer.Overlay,
+    'Drawer.Content': Drawer.Content,
+    'Drawer.Header': Drawer.Header,
+    'Drawer.Title': Drawer.Title,
+    'Drawer.Close': Drawer.Close,
+    'Drawer.Body': Drawer.Body,
+    'Drawer.Footer': Drawer.Footer,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Drawer.Root>;
 

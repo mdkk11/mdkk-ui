@@ -8,6 +8,17 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'Dialog.Trigger': Dialog.Trigger,
+    'Dialog.Overlay': Dialog.Overlay,
+    'Dialog.Content': Dialog.Content,
+    'Dialog.Header': Dialog.Header,
+    'Dialog.Title': Dialog.Title,
+    'Dialog.Description': Dialog.Description,
+    'Dialog.Body': Dialog.Body,
+    'Dialog.Footer': Dialog.Footer,
+    'Dialog.Close': Dialog.Close,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Dialog.Root>;
 

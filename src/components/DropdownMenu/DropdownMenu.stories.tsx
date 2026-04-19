@@ -7,6 +7,13 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'DropdownMenu.Trigger': DropdownMenu.Trigger,
+    'DropdownMenu.Content': DropdownMenu.Content,
+    'DropdownMenu.Section': DropdownMenu.Section,
+    'DropdownMenu.Item': DropdownMenu.Item,
+    'DropdownMenu.Separator': DropdownMenu.Separator,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof DropdownMenu.Root>;
 

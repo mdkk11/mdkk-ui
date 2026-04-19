@@ -7,6 +7,10 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'Tooltip.Trigger': Tooltip.Trigger,
+    'Tooltip.Content': Tooltip.Content,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Tooltip.Root>;
 

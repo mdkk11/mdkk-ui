@@ -6,14 +6,55 @@ import {
   SidebarGroupLabel,
 } from './SidebarGroup';
 
-const meta = {
+const meta: Meta<typeof Sidebar.Root> = {
   title: 'Components/Sidebar',
   component: Sidebar.Root,
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          'Compound API: `Sidebar.Provider`, `Sidebar.Root`, `Sidebar.Panel`, `Sidebar.Header`, `Sidebar.Content`, `Sidebar.Footer`, `Sidebar.Trigger`, `Sidebar.ResizeHandle`, `Sidebar.Nav`, `Sidebar.List`, `Sidebar.Item`, `Sidebar.ItemButton`.',
+      },
+    },
+  },
+  subcomponents: {
+    'Sidebar.Provider': Sidebar.Provider,
+    'Sidebar.Panel': Sidebar.Panel,
+    'Sidebar.Header': Sidebar.Header,
+    'Sidebar.Content': Sidebar.Content,
+    'Sidebar.Footer': Sidebar.Footer,
+    'Sidebar.Trigger': Sidebar.Trigger,
+    'Sidebar.ResizeHandle': Sidebar.ResizeHandle,
+    'Sidebar.Nav': Sidebar.Nav,
+    'Sidebar.List': Sidebar.List,
+    'Sidebar.Item': Sidebar.Item,
+    'Sidebar.ItemButton': Sidebar.ItemButton,
+    'Sidebar.Group': Sidebar.Group,
+    'Sidebar.GroupLabel': Sidebar.GroupLabel,
+    'Sidebar.GroupContent': Sidebar.GroupContent,
   },
   tags: ['autodocs'],
-} satisfies Meta;
+  argTypes: {
+    side: {
+      control: 'radio',
+      options: ['left', 'right'],
+    },
+    defaultIsCollapsed: { control: 'boolean' },
+    defaultWidth: { control: 'number' },
+    collapsedWidth: { control: 'number' },
+    minWidth: { control: 'number' },
+    maxWidth: { control: 'number' },
+    isResizable: { control: 'boolean' },
+    mobileBreakpoint: { control: 'number' },
+    mobileDetection: {
+      control: 'radio',
+      options: ['viewport', 'touch-viewport'],
+    },
+    defaultMobileOpen: { control: 'boolean' },
+    isMobileAutoCloseOnItemPress: { control: 'boolean' },
+  },
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;

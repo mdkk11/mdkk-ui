@@ -7,6 +7,16 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'Select.Label': Select.Label,
+    'Select.Trigger': Select.Trigger,
+    'Select.Value': Select.Value,
+    'Select.Description': Select.Description,
+    'Select.Popover': Select.Popover,
+    'Select.List': Select.List,
+    'Select.Item': Select.Item,
+    'Select.Error': Select.Error,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Select.Root>;
 

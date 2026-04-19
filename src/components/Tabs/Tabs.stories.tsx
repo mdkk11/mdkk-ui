@@ -7,6 +7,11 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  subcomponents: {
+    'Tabs.List': Tabs.List,
+    'Tabs.Tab': Tabs.Tab,
+    'Tabs.Panel': Tabs.Panel,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Tabs.Root>;
 
