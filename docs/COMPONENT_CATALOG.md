@@ -86,6 +86,9 @@ Preferred usage:
 - `Sidebar.Group`, `Sidebar.GroupLabel`, `Sidebar.GroupContent`
 - `Sidebar.useSidebar`
 
+`Sidebar.Provider` / `Sidebar.Root` accept mobile behavior props such as
+`mobileDetection` and `isMobileAutoCloseOnItemPress`.
+
 ## Tailwind Integration
 
 - `mdkkPlugin` is exported from `mdkk-ui/tailwind-plugin`.

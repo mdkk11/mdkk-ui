@@ -10,7 +10,7 @@ Design primitives and brand-level constants.
 
 - core colors
 - type families
-- radius and shadow offsets
+- radius and optional elevation offsets
 - Brutalist semantic seed values (`tokens.brutalist`)
 
 ### `src/index.css`
@@ -33,6 +33,8 @@ Use this order when defining styles:
 5. local class usage in app/screen
 
 Avoid skipping directly to step 5 when the style is reusable.
+Do not add shadows by default; use shadow tokens only when the component's
+visual intent requires elevation or separation.
 
 ## 3. Brutalist Semantic Variables
 

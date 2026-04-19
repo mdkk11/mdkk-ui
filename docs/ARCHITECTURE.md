@@ -110,7 +110,7 @@ Allowed:
 
 Not allowed:
 
-- component-specific style presets (for example, button-only shadow/interaction maps)
+- component-specific style presets (for example, button-only interaction maps)
 - component-local variants that are only consumed by one component
 
 Component-specific style presets should live in the component directory
