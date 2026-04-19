@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Sidebar, SidebarTrigger, useSidebar } from './Sidebar';
 import {
   SidebarGroup,
@@ -6,11 +7,12 @@ import {
   SidebarGroupLabel,
 } from './SidebarGroup';
 
-const meta: Meta<typeof Sidebar.Root> = {
+const meta = {
   title: 'Components/Sidebar',
   component: Sidebar.Root,
   parameters: {
     layout: 'fullscreen',
+    a11y: { test: 'error' },
     docs: {
       description: {
         component:
@@ -35,6 +37,19 @@ const meta: Meta<typeof Sidebar.Root> = {
     'Sidebar.GroupContent': Sidebar.GroupContent,
   },
   tags: ['autodocs'],
+  args: {
+    side: 'left',
+    defaultIsCollapsed: false,
+    defaultWidth: 280,
+    collapsedWidth: 0,
+    minWidth: 220,
+    maxWidth: 420,
+    isResizable: true,
+    mobileBreakpoint: 768,
+    mobileDetection: 'viewport',
+    defaultMobileOpen: false,
+    isMobileAutoCloseOnItemPress: false,
+  },
   argTypes: {
     side: {
       control: 'radio',
@@ -54,7 +69,7 @@ const meta: Meta<typeof Sidebar.Root> = {
     defaultMobileOpen: { control: 'boolean' },
     isMobileAutoCloseOnItemPress: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof Sidebar.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -227,6 +242,10 @@ export const TriggerWithStateLabel: Story = {
       </Sidebar.Root>
     </div>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Close' }));
+    await expect(canvas.getByRole('button', { name: 'Open' })).toBeVisible();
+  },
 };
 
 export const ProviderWithExternalTrigger: Story = {

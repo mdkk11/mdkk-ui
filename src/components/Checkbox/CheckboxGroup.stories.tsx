@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Checkbox } from './Checkbox';
 import { CheckboxGroup } from './CheckboxGroup';
 
-const meta: Meta<typeof CheckboxGroup.Root> = {
+const meta = {
   title: 'Components/CheckboxGroup',
   component: CheckboxGroup.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'CheckboxGroup.Label': CheckboxGroup.Label,
@@ -14,13 +16,19 @@ const meta: Meta<typeof CheckboxGroup.Root> = {
     'CheckboxGroup.Error': CheckboxGroup.Error,
   },
   tags: ['autodocs'],
+  args: {
+    isDisabled: false,
+    isReadOnly: false,
+    isRequired: false,
+    isInvalid: false,
+  },
   argTypes: {
     isDisabled: { control: 'boolean' },
     isReadOnly: { control: 'boolean' },
     isRequired: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof CheckboxGroup.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -37,6 +45,11 @@ export const Default: Story = {
       </CheckboxGroup.Description>
     </CheckboxGroup.Root>
   ),
+  play: async ({ canvas, userEvent }) => {
+    const soccer = canvas.getByRole('checkbox', { name: 'Soccer' });
+    await userEvent.click(soccer);
+    await expect(soccer).toBeChecked();
+  },
 };
 
 export const Disabled: Story = {

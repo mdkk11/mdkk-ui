@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import { Checkbox } from './Checkbox';
 
 const meta = {
@@ -7,9 +7,13 @@ const meta = {
   component: Checkbox,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   tags: ['autodocs'],
   args: {
+    children: 'Subscribe to newsletter',
+    isSelected: false,
+    isDisabled: false,
     onChange: fn(),
   },
 } satisfies Meta<typeof Checkbox>;
@@ -18,8 +22,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    children: 'Subscribe to newsletter',
+  play: async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByRole('checkbox', {
+      name: 'Subscribe to newsletter',
+    });
+    await userEvent.click(checkbox);
+    await expect(checkbox).toBeChecked();
   },
 };
 
@@ -52,7 +60,7 @@ export const DisabledSelected: Story = {
   },
 };
 
-export const AllStates = {
+export const AllStates: Story = {
   render: () => (
     <div className='flex flex-col gap-6 p-8'>
       {/* Default States */}

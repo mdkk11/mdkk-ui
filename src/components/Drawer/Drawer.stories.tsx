@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Button } from '../Button';
 import { Drawer } from './Drawer';
 
@@ -7,6 +8,7 @@ const meta = {
   component: Drawer.Root,
   parameters: {
     layout: 'fullscreen',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'Drawer.Trigger': Drawer.Trigger,
@@ -19,15 +21,18 @@ const meta = {
     'Drawer.Footer': Drawer.Footer,
   },
   tags: ['autodocs'],
+  args: {
+    defaultOpen: false,
+  },
 } satisfies Meta<typeof Drawer.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
+  render: ({ ...args }) => (
     <div className='min-h-screen p-6'>
-      <Drawer.Root>
+      <Drawer.Root {...args}>
         <Drawer.Trigger>Open drawer</Drawer.Trigger>
         <Drawer.Overlay isDismissable>
           <Drawer.Content side='right'>
@@ -50,6 +55,10 @@ export const Default: Story = {
       </Drawer.Root>
     </div>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Open drawer' }));
+    await expect(canvas.getByText('Notifications')).toBeInTheDocument();
+  },
 };
 
 export const MobileMenu: Story = {

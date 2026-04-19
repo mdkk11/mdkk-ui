@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { DropdownMenu } from './DropdownMenu';
 
 const meta = {
@@ -6,6 +7,7 @@ const meta = {
   component: DropdownMenu.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'DropdownMenu.Trigger': DropdownMenu.Trigger,
@@ -15,14 +17,17 @@ const meta = {
     'DropdownMenu.Separator': DropdownMenu.Separator,
   },
   tags: ['autodocs'],
+  args: {
+    defaultOpen: false,
+  },
 } satisfies Meta<typeof DropdownMenu.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
-    <DropdownMenu.Root>
+  render: ({ ...args }) => (
+    <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger>Actions</DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Item id='edit'>Edit</DropdownMenu.Item>
@@ -35,6 +40,10 @@ export const Default: Story = {
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Actions' }));
+    await expect(canvas.getByText('Delete')).toBeInTheDocument();
+  },
 };
 
 export const WithSections: Story = {

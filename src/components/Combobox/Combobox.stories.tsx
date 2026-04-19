@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Combobox } from './Combobox';
 
 const meta = {
@@ -6,6 +7,7 @@ const meta = {
   component: Combobox.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'Combobox.Label': Combobox.Label,
@@ -19,6 +21,12 @@ const meta = {
     'Combobox.Error': Combobox.Error,
   },
   tags: ['autodocs'],
+  args: {
+    isDisabled: false,
+    isInvalid: false,
+    isRequired: false,
+    defaultInputValue: 'React',
+  },
 } satisfies Meta<typeof Combobox.Root>;
 
 export default meta;
@@ -32,8 +40,8 @@ const items = [
 ];
 
 export const Default: Story = {
-  render: () => (
-    <Combobox.Root defaultItems={items} defaultInputValue='React'>
+  render: ({ ...args }) => (
+    <Combobox.Root defaultItems={items} {...args}>
       <Combobox.Label>Framework</Combobox.Label>
       <Combobox.Field>
         <Combobox.Input placeholder='Search framework' />
@@ -50,6 +58,12 @@ export const Default: Story = {
       <Combobox.Error />
     </Combobox.Root>
   ),
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByPlaceholderText('Search framework');
+    await userEvent.clear(input);
+    await userEvent.type(input, 'Vue');
+    await expect(input).toHaveValue('Vue');
+  },
 };
 
 export const Required: Story = {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Select } from './Select';
 
 const meta = {
@@ -6,6 +7,7 @@ const meta = {
   component: Select.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'Select.Label': Select.Label,
@@ -18,14 +20,20 @@ const meta = {
     'Select.Error': Select.Error,
   },
   tags: ['autodocs'],
+  args: {
+    placeholder: 'Select status',
+    isDisabled: false,
+    isInvalid: false,
+    isRequired: false,
+  },
 } satisfies Meta<typeof Select.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
-    <Select.Root placeholder='Select status'>
+  render: ({ ...args }) => (
+    <Select.Root {...args}>
       <Select.Label>Status</Select.Label>
       <Select.Trigger>
         <Select.Value />
@@ -42,6 +50,12 @@ export const Default: Story = {
       <Select.Error />
     </Select.Root>
   ),
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole('button');
+    await userEvent.click(trigger);
+    await userEvent.click(await canvas.findByText('Done'));
+    await expect(trigger).toHaveTextContent('Done');
+  },
 };
 
 export const Invalid: Story = {

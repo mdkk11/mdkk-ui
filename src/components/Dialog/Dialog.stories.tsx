@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Button } from '../Button';
 import { Dialog } from './Dialog';
 
@@ -7,6 +8,7 @@ const meta = {
   component: Dialog.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'Dialog.Trigger': Dialog.Trigger,
@@ -20,14 +22,17 @@ const meta = {
     'Dialog.Close': Dialog.Close,
   },
   tags: ['autodocs'],
+  args: {
+    defaultOpen: false,
+  },
 } satisfies Meta<typeof Dialog.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
-    <Dialog.Root>
+  render: ({ ...args }) => (
+    <Dialog.Root {...args}>
       <Dialog.Trigger>Open dialog</Dialog.Trigger>
       <Dialog.Overlay isDismissable>
         <Dialog.Content>
@@ -50,6 +55,10 @@ export const Default: Story = {
       </Dialog.Overlay>
     </Dialog.Root>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }));
+    await expect(canvas.getByText('Delete project')).toBeInTheDocument();
+  },
 };
 
 export const EditModal: Story = {

@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { TextField } from './TextField';
 
-const meta: Meta<typeof TextField.Root> = {
+const meta = {
   title: 'Components/TextField',
   component: TextField.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'TextField.Label': TextField.Label,
@@ -15,13 +17,19 @@ const meta: Meta<typeof TextField.Root> = {
     'TextField.Error': TextField.Error,
   },
   tags: ['autodocs'],
+  args: {
+    isDisabled: false,
+    isReadOnly: false,
+    isRequired: false,
+    isInvalid: false,
+  },
   argTypes: {
     isDisabled: { control: 'boolean' },
     isReadOnly: { control: 'boolean' },
     isRequired: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
   },
-};
+} satisfies Meta<typeof TextField.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -42,6 +50,11 @@ export const Default: Story = {
   ),
   args: {
     isInvalid: false,
+  },
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByPlaceholderText('custom@example.com');
+    await userEvent.type(input, 'hello@example.com');
+    await expect(input).toHaveValue('hello@example.com');
   },
 };
 

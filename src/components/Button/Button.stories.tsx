@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import { Button } from './Button';
 
 const meta = {
@@ -7,6 +7,7 @@ const meta = {
   component: Button,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   tags: ['autodocs'],
   args: {
@@ -41,7 +42,7 @@ const meta = {
 } satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
 // 1. Core variants
 
@@ -50,6 +51,11 @@ export const Default: Story = {
   args: {
     children: 'Button',
     variant: 'primary',
+  },
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole('button', { name: 'Button' });
+    await userEvent.click(button);
+    await expect(button).toBeEnabled();
   },
 };
 

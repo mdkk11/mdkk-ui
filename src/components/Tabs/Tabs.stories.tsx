@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { Tabs } from './Tabs';
 
 const meta = {
@@ -6,6 +7,7 @@ const meta = {
   component: Tabs.Root,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   subcomponents: {
     'Tabs.List': Tabs.List,
@@ -13,15 +15,19 @@ const meta = {
     'Tabs.Panel': Tabs.Panel,
   },
   tags: ['autodocs'],
+  args: {
+    defaultSelectedKey: 'overview',
+    isDisabled: false,
+  },
 } satisfies Meta<typeof Tabs.Root>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => (
+  render: ({ ...args }) => (
     <div className='w-[520px]'>
-      <Tabs.Root defaultSelectedKey='overview'>
+      <Tabs.Root {...args}>
         <Tabs.List aria-label='Project sections'>
           <Tabs.Tab id='overview'>Overview</Tabs.Tab>
           <Tabs.Tab id='members'>Members</Tabs.Tab>
@@ -40,6 +46,14 @@ export const Default: Story = {
       </Tabs.Root>
     </div>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('tab', { name: 'Members' }));
+    await expect(
+      canvas.getByText(
+        'Invite teammates, assign roles, and manage permissions.',
+      ),
+    ).toBeInTheDocument();
+  },
 };
 
 export const DisabledTab: Story = {

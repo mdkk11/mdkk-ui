@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect } from 'storybook/test';
 import { AspectRatio } from '@/components/AspectRatio';
 import { Button } from '../Button';
 import { Story, type StorySet } from './index';
@@ -34,23 +35,30 @@ const mockStorySet: StorySet = {
   ],
 };
 
-const meta: Meta<typeof Story> = {
+const meta = {
   title: 'Components/Story',
   component: Story,
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   tags: ['autodocs'],
-};
+  args: {
+    storySet: mockStorySet,
+    options: {
+      displayMode: 'fullscreen',
+    },
+  },
+} satisfies Meta<typeof Story>;
 
 export default meta;
-type StoryObjType = StoryObj<typeof Story>;
+type StoryType = StoryObj<typeof meta>;
 
 /**
  * Basic usage in fullscreen mode.
  * A thumbnail is shown by default, and clicking opens the story viewer.
  */
-export const Default: StoryObjType = {
+export const Default: StoryType = {
   render: (args) => (
     <div className='w-[300px]'>
       <Story {...args}>
@@ -67,19 +75,13 @@ export const Default: StoryObjType = {
       </Story>
     </div>
   ),
-  args: {
-    storySet: mockStorySet,
-    options: {
-      displayMode: 'fullscreen',
-    },
-  },
 };
 
 /**
  * Inline mode for embedded playback in the parent layout.
  * Set `options.displayMode: 'inline'`.
  */
-export const Inline: StoryObjType = {
+export const Inline: StoryType = {
   render: (args) => (
     <div className='w-[300px]'>
       <Story {...args}>
@@ -96,7 +98,6 @@ export const Inline: StoryObjType = {
     </div>
   ),
   args: {
-    storySet: mockStorySet,
     options: {
       displayMode: 'inline',
     },
@@ -107,7 +108,7 @@ export const Inline: StoryObjType = {
  * Custom trigger composition.
  * You can place any element inside `<Story.Trigger>`.
  */
-export const CustomTrigger: StoryObjType = {
+export const CustomTrigger: StoryType = {
   render: (args) => (
     <Story {...args}>
       <Story.Trigger>
@@ -131,6 +132,12 @@ export const CustomTrigger: StoryObjType = {
     </Story>
   ),
   args: {
-    storySet: mockStorySet,
+    options: {
+      displayMode: 'fullscreen',
+    },
+  },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Open story' }));
+    await expect(canvas.getByRole('button', { name: 'Close' })).toBeVisible();
   },
 };

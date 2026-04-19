@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
+import { expect } from 'storybook/test';
 import { Button } from '../Button';
 import { Toast, ToastProvider } from './Toast';
 
@@ -12,6 +13,7 @@ const meta = {
   },
   parameters: {
     layout: 'centered',
+    a11y: { test: 'error' },
   },
   argTypes: {
     maxVisibleToasts: {
@@ -109,6 +111,10 @@ export const Default: Story = {
       <DemoButtons />
     </ToastProvider>
   ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Show success' }));
+    await expect(canvas.getByText('Saved')).toBeInTheDocument();
+  },
 };
 
 export const ToneStylingPreview: Story = {
