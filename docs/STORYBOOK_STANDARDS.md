@@ -10,7 +10,7 @@ Each story file must communicate three things:
 2. visual intent (variants, sizes, states)
 3. composition patterns (realistic usage examples)
 
-## 2. Required File Structure
+## 2. Required File Structure and CSF Shape
 
 Every `*.stories.tsx` file should include:
 
@@ -22,16 +22,34 @@ Every `*.stories.tsx` file should include:
    - `States` story (disabled, invalid, loading, etc.)
    - composition/pattern story
 
-Use explicit titles to keep stable Storybook navigation and avoid path-based drift.
+Use the TypeScript CSF shape below as the project standard:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { Component } from './Component';
+
+const meta = {
+  title: 'Components/Component',
+  component: Component,
+  tags: ['autodocs'],
+} satisfies Meta<typeof Component>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+```
+
+Storybook 10 can infer titles automatically, but this repository keeps explicit `title` mandatory to keep navigation stable and prevent path-based drift.
 
 ## 3. Language and Comment Policy
 
-Use English for:
+Use English by default for:
 
 1. story names
 2. docs descriptions
 3. comments
 4. example labels/placeholders in stories
+
+Exception: non-English labels are allowed only when the story is intentionally validating i18n behavior (for example locale, typography, overflow, or language-specific UX).
 
 Comments should be short and structural. Avoid long prose comments when the story name already explains intent.
 
@@ -50,15 +68,18 @@ Prefer concise, intent-based names over implementation details.
 ## 5. Args and Controls Policy
 
 1. Provide control-friendly defaults in `meta.args`.
-2. Add `argTypes.description` for non-obvious props.
-3. Use `options` for enum-like controls.
-4. Keep controls focused on public API; do not expose internal-only knobs.
+2. Do not use `argTypes.defaultValue`; it is deprecated. Use `meta.args` instead.
+3. Add `argTypes.description` for non-obvious props.
+4. Use `options` + an appropriate `control` for enum-like inputs.
+5. Keep controls focused on public API.
+6. Hide callback/internal/migration-only props from controls when they are not intended for public docs exploration.
 
-## 6. Accessibility Policy
+## 6. Accessibility and Interaction Policy
 
 1. Include accessible names for non-text UI (`aria-label` for icon/progress-only cases).
-2. Keep interaction stories keyboard-usable.
-3. Prefer realistic text and state combinations.
+2. Keep interaction stories keyboard-usable and use realistic text/state combinations.
+3. For interactive components, major stories must include `play` tests for primary interactions.
+4. For interactive components, major stories must enable strict a11y checks (`parameters.a11y.test = 'error'` or equivalent strict setting in current Storybook version).
 
 ## 7. Composition Policy
 
@@ -72,8 +93,12 @@ Design-system components using compound composition should include stories that 
 
 Before merging story changes, verify:
 
-1. English-only labels/comments/docs in updated stories
-2. `title` defined in each edited story file
-3. Story names are intention-revealing and consistent
-4. `biome` passes for edited files
-5. `typecheck` passes
+1. English-first labels/comments/docs in updated stories, except explicit i18n validation stories.
+2. `title` defined in each edited story file.
+3. Story names are intention-revealing and consistent.
+4. `meta.args` is used for defaults (`argTypes.defaultValue` is not used).
+5. Interactive stories include `play` coverage for primary user flow.
+6. Interactive stories have strict a11y test settings.
+7. Keyboard interaction is verifiable in major interaction stories.
+8. `biome` passes for edited files.
+9. `typecheck` passes.
