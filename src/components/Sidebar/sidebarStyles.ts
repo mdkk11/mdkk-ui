@@ -27,7 +27,7 @@ export const sidebarPanelVariants = cva({
     },
     state: {
       expanded: '',
-      collapsed: '',
+      collapsed: 'border-l-0 border-r-0',
     },
   },
   defaultVariants: {
