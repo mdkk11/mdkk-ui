@@ -4,8 +4,16 @@ import type { progressCircleVariants } from './ProgressCircleAdapter';
 import { ProgressCircleAdapter } from './ProgressCircleAdapter';
 
 export interface ProgressCircleProps
-  extends React.ComponentProps<typeof ProgressCircleAdapter>,
-    VariantProps<typeof progressCircleVariants> {}
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
+    VariantProps<typeof progressCircleVariants> {
+  value?: number;
+  minValue?: number;
+  maxValue?: number;
+  valueLabel?: string;
+  isIndeterminate?: boolean;
+  isDisabled?: boolean;
+  formatOptions?: Intl.NumberFormatOptions;
+}
 
 /**
  * ProgressCircle component

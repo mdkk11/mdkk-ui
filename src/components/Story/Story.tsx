@@ -8,7 +8,7 @@ import { useStoryPlayback } from './hooks/useStoryPlayback';
 import { StoryContext, type StoryView, useStoryContext } from './StoryContext';
 import { StoryHeaderPrimitive } from './StoryHeaderPrimitive';
 import { StoryItemPrimitive } from './StoryItemPrimitive';
-import { StoryListItemPrimitive } from './StoryListItemPrimitive';
+import { StoryListItem } from './StoryListItem';
 import { StoryNavigationPrimitive } from './StoryNavigationPrimitive';
 import { StoryProgressBarPrimitive } from './StoryProgressBarPrimitive';
 import {
@@ -101,9 +101,7 @@ const StoryTrigger = ({ children }: StoryTriggerProps) => {
     );
   }
 
-  return (
-    <StoryListItemPrimitive storySet={storySet} index={0} onSelect={onOpen} />
-  );
+  return <StoryListItem storySet={storySet} index={0} onSelect={onOpen} />;
 };
 
 const StoryContent = ({ children, className }: StoryContentProps) => {
