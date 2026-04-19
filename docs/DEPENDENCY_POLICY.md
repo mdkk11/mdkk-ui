@@ -16,6 +16,13 @@ Consumers should assume:
 - Consumers do not need to install `react-aria-components` separately unless they import it directly in their own app code.
 - API behavior aligns with accessible interaction conventions provided by that dependency.
 
+Package boundary:
+
+- `react` and `react-dom` are peer dependencies (provided by the app).
+- `react-aria-components` is a runtime dependency of `mdkk-ui`.
+- If the app uses Tailwind state variants like `pressed:`/`focused:` with mdkk-ui classes,
+  install `tailwindcss-react-aria-components` in the app.
+
 ## Internal Layer Rules
 
 - Primitive layer: may import `react-aria-components` directly.

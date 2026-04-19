@@ -18,6 +18,15 @@ npm install mdkk-ui react react-dom
 pnpm add mdkk-ui react react-dom
 ```
 
+If your app uses Tailwind and you want React Aria state variants
+(`pressed:`, `focused:`, etc.), also install:
+
+```bash
+npm install -D tailwindcss-react-aria-components
+# or
+pnpm add -D tailwindcss-react-aria-components
+```
+
 ## Quick Start
 
 ### 1) Import base styles
@@ -26,7 +35,7 @@ pnpm add mdkk-ui react react-dom
 import 'mdkk-ui/dist/index.css';
 ```
 
-### 2) Configure Tailwind v4 (recommended)
+### 2) Configure Tailwind v4
 
 ```js
 // tailwind.config.js
@@ -72,6 +81,8 @@ export function Example() {
 This library intentionally depends on `react-aria-components` for core behavior.
 `react-aria-components` is managed internally by `mdkk-ui` as a runtime dependency.
 Consumers do not need to install it separately unless they also import it directly.
+
+`react` and `react-dom` remain peer dependencies and should be provided by the consumer app.
 
 - `Primitive` layer may import `react-aria-components`.
 - `Public` layer should not leak raw `react-aria-components` prop types.

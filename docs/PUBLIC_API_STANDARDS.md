@@ -55,7 +55,7 @@ Use controlled design intent props:
 
 ## 3. Styling Hooks
 
-- `className`: should generally be available for composition.
+- `className`: should be available for composition.
 - `style`: allow only when dynamic runtime style is necessary.
 - Avoid uncontrolled style-prop proliferation.
 

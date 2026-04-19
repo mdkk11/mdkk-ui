@@ -8,6 +8,12 @@
 - `PUBLIC_API_STANDARDS.md`: public API and prop naming standards
 - `STORYBOOK_STANDARDS.md`: Storybook authoring, naming, and language rules
 
+Install baseline for consumers:
+
+- `mdkk-ui react react-dom`
+- `react-aria-components` is included via `mdkk-ui` runtime dependency.
+- `tailwindcss-react-aria-components` is needed only when app-side Tailwind variant support is required.
+
 ## Productization
 
 - `COMPONENT_CATALOG.md`: current exported component surface

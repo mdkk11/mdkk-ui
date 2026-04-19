@@ -89,10 +89,4 @@ Preferred usage:
 ## Tailwind Integration
 
 - `mdkkPlugin` is exported from `mdkk-ui/tailwind-plugin`.
-
-## Planned Candidates (not yet in export surface)
-
-Commonly needed for application-scale use:
-
-- `Table`
-- `Pagination`
+- For app-side state variants (`pressed:`, `focused:`, etc.), install and enable `tailwindcss-react-aria-components`.
