@@ -633,8 +633,8 @@ const SidebarResizeHandle = React.forwardRef<
       aria-label='Resize sidebar'
       onMouseDown={handleMouseDown}
       className={cn(
-        'absolute top-0 h-full w-1 cursor-ew-resize bg-transparent transition hover:bg-primary/20',
-        side === 'left' ? 'right-0' : 'left-0',
+        'absolute top-0 z-20 h-full w-3 cursor-ew-resize bg-transparent transition hover:bg-primary/20',
+        side === 'left' ? '-right-1.5' : '-left-1.5',
         className,
       )}
       {...props}

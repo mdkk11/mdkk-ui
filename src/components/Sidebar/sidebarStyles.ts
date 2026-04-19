@@ -17,8 +17,9 @@ export const sidebarPanelVariants = cva({
   base: 'group/sidebar relative flex h-full min-h-0 shrink-0 flex-col overflow-hidden transition-[width,min-width,max-width,flex-basis] duration-[280ms] ease-[cubic-bezier(0.33,1,0.68,1)]',
   variants: {
     side: {
-      left: 'border-r border-brutal-ink bg-brutal-panel text-brutal-ink',
-      right: 'border-l border-brutal-ink bg-brutal-panel text-brutal-ink',
+      left: 'border-l-0 border-r-[length:var(--brutal-border-default)] border-brutal-ink bg-brutal-panel text-brutal-ink',
+      right:
+        'border-r-0 border-l-[length:var(--brutal-border-default)] border-brutal-ink bg-brutal-panel text-brutal-ink',
     },
     tone: {
       subtle: '',
