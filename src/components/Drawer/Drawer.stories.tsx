@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, screen } from 'storybook/test';
+import { expect, screen, waitFor } from 'storybook/test';
 import { Button } from '../Button';
 import { Drawer } from './Drawer';
 
@@ -34,7 +34,7 @@ export const Default: Story = {
     <div className='min-h-screen p-6'>
       <Drawer.Root {...args}>
         <Drawer.Trigger>Open drawer</Drawer.Trigger>
-        <Drawer.Overlay isDismissable>
+        <Drawer.Overlay isDismissable data-testid='drawer-overlay'>
           <Drawer.Content side='right'>
             <Drawer.Header>
               <Drawer.Title>Notifications</Drawer.Title>
@@ -60,6 +60,12 @@ export const Default: Story = {
     await expect(
       await screen.findByRole('heading', { name: 'Notifications' }),
     ).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId('drawer-overlay'));
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('heading', { name: 'Notifications' }),
+      ).not.toBeInTheDocument(),
+    );
   },
 };
 

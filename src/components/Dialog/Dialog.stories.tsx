@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, screen } from 'storybook/test';
+import { expect, screen, waitFor } from 'storybook/test';
 import { Button } from '../Button';
 import { Dialog } from './Dialog';
 
@@ -34,7 +34,7 @@ export const Default: Story = {
   render: ({ ...args }) => (
     <Dialog.Root {...args}>
       <Dialog.Trigger>Open dialog</Dialog.Trigger>
-      <Dialog.Overlay isDismissable>
+      <Dialog.Overlay isDismissable data-testid='dialog-overlay'>
         <Dialog.Content>
           <Dialog.Header>
             <Dialog.Title>Delete project</Dialog.Title>
@@ -60,6 +60,12 @@ export const Default: Story = {
     await expect(
       await screen.findByRole('heading', { name: 'Delete project' }),
     ).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId('dialog-overlay'));
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('heading', { name: 'Delete project' }),
+      ).not.toBeInTheDocument(),
+    );
   },
 };
 

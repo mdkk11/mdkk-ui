@@ -21,11 +21,11 @@ const dialogOverlayVariants = cva({
 });
 
 const dialogModalVariants = cva({
-  base: 'fixed inset-0 z-50 flex items-center justify-center p-4',
+  base: 'pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4',
 });
 
 const dialogContentVariants = cva({
-  base: 'w-full rounded-none border-y-[var(--brutal-border-subtle)] border-x-0 border-border bg-background text-foreground outline-none transition duration-200 ease-out data-[entering]:scale-[0.98] data-[entering]:opacity-0 data-[exiting]:scale-[0.98] data-[exiting]:opacity-0',
+  base: 'pointer-events-auto w-full rounded-none border-y-[var(--brutal-border-subtle)] border-x-0 border-border bg-background text-foreground outline-none transition duration-200 ease-out data-[entering]:scale-[0.98] data-[entering]:opacity-0 data-[exiting]:scale-[0.98] data-[exiting]:opacity-0',
   variants: {
     size: {
       sm: 'max-w-sm',

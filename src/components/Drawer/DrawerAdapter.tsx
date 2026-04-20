@@ -20,11 +20,11 @@ const drawerOverlayVariants = cva({
 });
 
 const drawerModalVariants = cva({
-  base: 'fixed inset-0 z-50',
+  base: 'pointer-events-none fixed inset-0 z-50',
 });
 
 const drawerContentVariants = cva({
-  base: 'fixed rounded-none border-[var(--brutal-border-default)] border-border bg-background text-foreground shadow-brutal-md outline-none transition duration-200 ease-out',
+  base: 'pointer-events-auto fixed rounded-none border-[var(--brutal-border-default)] border-border bg-background text-foreground shadow-brutal-md outline-none transition duration-200 ease-out',
   variants: {
     side: {
       left: 'inset-y-0 left-0 w-[min(90vw,420px)] border-r-[var(--brutal-border-default)] data-[entering]:-translate-x-full data-[exiting]:-translate-x-full',
