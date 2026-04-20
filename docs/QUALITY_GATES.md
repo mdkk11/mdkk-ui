@@ -52,7 +52,9 @@ VRT runs on:
 VRT uses Chromatic via `chromaui/action` with:
 
 - `onlyChanged: true` (TurboSnap-based changed story optimization)
+- `externals` globs for assets/style/token changes outside the module graph
 - `exitZeroOnChanges: true` (non-blocking introduction phase)
+- action version pinned to major (`chromaui/action@v1`) for CI stability
 
 Required repository secret:
 

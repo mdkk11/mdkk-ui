@@ -144,7 +144,8 @@ It runs static checks, type checks, unit tests, Storybook interaction tests, and
 Visual regression testing workflow is defined in `.github/workflows/vrt.yml`.
 
 - runs on PRs/pushes to `main` and via `workflow_dispatch`
-- uses `chromaui/action` with `onlyChanged: true`
+- uses `chromaui/action@v1` (major pinned) with `onlyChanged: true`
+- defines `externals` globs for CSS/assets/design-system token changes
 - starts non-blocking (`exitZeroOnChanges: true`) for phased adoption
 
 Configure this repository secret before running VRT:

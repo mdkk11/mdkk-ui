@@ -39,10 +39,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Chromatic
-        uses: chromaui/action@latest
+        uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
           onlyChanged: true
+          externals: |
+            public/**
+            src/**/*.css
+            src/design-system/**
+            tailwind.config.js
+            .storybook/preview-head.html
           exitZeroOnChanges: true
           buildScriptName: build-storybook
