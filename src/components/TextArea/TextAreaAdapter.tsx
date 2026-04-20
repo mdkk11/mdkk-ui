@@ -19,13 +19,12 @@ const textAreaStyles = cva({
     'outline-none',
     'placeholder:text-muted-foreground',
     'disabled:opacity-50 disabled:cursor-not-allowed',
-    'focus:border-ring',
     formControlFocusRingClass,
     'min-h-[80px]',
   ],
   variants: {
     isInvalid: {
-      true: `border-destructive bg-destructive/5 focus:border-destructive ${formControlInvalidFocusRingClass}`,
+      true: `border-destructive bg-destructive/5 ${formControlInvalidFocusRingClass}`,
     },
   },
 });

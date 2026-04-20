@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect } from 'storybook/test';
+import { Combobox } from '../Combobox';
+import { Select } from '../Select';
 import { TextField } from './TextField';
 
 const meta = {
@@ -33,6 +35,12 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const frameworkItems = [
+  { id: 'react', label: 'React' },
+  { id: 'vue', label: 'Vue' },
+  { id: 'svelte', label: 'Svelte' },
+];
 
 export const Default: Story = {
   render: ({ ...args }) => (
@@ -80,4 +88,45 @@ export const WithError: Story = {
   args: {
     isInvalid: true,
   },
+};
+
+export const FocusRingComparison: Story = {
+  render: () => (
+    <div className='w-[420px] space-y-5'>
+      <Combobox.Root defaultItems={frameworkItems}>
+        <Combobox.Label>Combobox</Combobox.Label>
+        <Combobox.Field>
+          <Combobox.Input placeholder='Choose framework' />
+          <Combobox.Trigger aria-label='Toggle options'>▾</Combobox.Trigger>
+        </Combobox.Field>
+        <Combobox.Popover>
+          <Combobox.List>
+            {(item) => <Combobox.Item id={item.id}>{item.label}</Combobox.Item>}
+          </Combobox.List>
+        </Combobox.Popover>
+      </Combobox.Root>
+
+      <Select.Root placeholder='Choose status'>
+        <Select.Label>Select</Select.Label>
+        <Select.Trigger />
+        <Select.Popover>
+          <Select.List>
+            <Select.Item id='todo'>To Do</Select.Item>
+            <Select.Item id='doing'>Doing</Select.Item>
+            <Select.Item id='done'>Done</Select.Item>
+          </Select.List>
+        </Select.Popover>
+      </Select.Root>
+
+      <TextField.Root>
+        <TextField.Label>TextField (Input)</TextField.Label>
+        <TextField.Input placeholder='Type here' />
+      </TextField.Root>
+
+      <TextField.Root>
+        <TextField.Label>TextField (TextArea)</TextField.Label>
+        <TextField.TextArea placeholder='Write details' />
+      </TextField.Root>
+    </div>
+  ),
 };

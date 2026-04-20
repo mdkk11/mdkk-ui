@@ -1,6 +1,7 @@
 import { cva } from 'cva';
 import * as React from 'react';
 import { composeRenderProps } from 'react-aria-components';
+import { formControlFocusRingClass } from '@/design-system/formControlStyles';
 import { cn } from '@/design-system/utils';
 import {
   ComboboxDescriptionPrimitive,
@@ -32,7 +33,7 @@ const comboboxLabelVariants = cva({
 });
 
 const comboboxFieldVariants = cva({
-  base: 'flex w-full items-stretch rounded-none border-2 border-border bg-background text-foreground focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring',
+  base: `flex w-full items-stretch rounded-none border-2 border-border bg-background text-foreground ${formControlFocusRingClass}`,
 });
 
 const comboboxInputVariants = cva({

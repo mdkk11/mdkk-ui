@@ -33,7 +33,7 @@ const selectLabelVariants = cva({
 });
 
 const selectTriggerVariants = cva({
-  base: `group flex w-full items-center gap-2 rounded-none border-2 border-border bg-background px-3 py-3 text-base text-foreground outline-none transition-colors hover:bg-muted/40 disabled:cursor-not-allowed disabled:opacity-50 ${formControlFocusRingClass} aria-invalid:border-destructive aria-invalid:bg-destructive/5 aria-invalid:focus:outline-destructive [&>[data-slot='select-value']]:min-w-0 [&>[data-slot='select-value']]:flex-1 [&>[data-slot='select-value']]:truncate [&>[data-slot='select-value']]:text-left`,
+  base: `group flex w-full items-center gap-2 rounded-none border-2 border-border bg-background px-3 py-3 text-base text-foreground outline-none transition-colors hover:bg-muted/40 disabled:cursor-not-allowed disabled:opacity-50 ${formControlFocusRingClass} aria-invalid:border-destructive aria-invalid:bg-destructive/5 aria-invalid:focus:outline-destructive aria-invalid:focus-within:outline-destructive [&>[data-slot='select-value']]:min-w-0 [&>[data-slot='select-value']]:flex-1 [&>[data-slot='select-value']]:truncate [&>[data-slot='select-value']]:text-left`,
 });
 
 const selectValueVariants = cva({
