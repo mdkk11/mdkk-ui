@@ -3,6 +3,8 @@ import * as React from 'react';
 import { composeRenderProps } from 'react-aria-components';
 import { cn } from '@/design-system/utils';
 import {
+  TooltipArrowPrimitive,
+  type TooltipArrowPrimitiveProps,
   TooltipContentPrimitive,
   type TooltipContentPrimitiveProps,
   TooltipRootPrimitive,
@@ -19,9 +21,13 @@ const tooltipContentVariants = cva({
   base: 'z-50 rounded-none border-[var(--brutal-border-subtle)] border-border bg-foreground px-2 py-1 text-xs text-background transition duration-150 ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0',
 });
 
+const tooltipArrowVariants = cva({
+  base: 'block size-2 rotate-45 border-t border-l border-border bg-foreground',
+});
+
 export const TooltipRootAdapter = ({
-  delay = 250,
-  closeDelay = 80,
+  delay = 1500,
+  closeDelay = 500,
   ...props
 }: TooltipRootPrimitiveProps) => (
   <TooltipRootPrimitive delay={delay} closeDelay={closeDelay} {...props} />
@@ -60,5 +66,23 @@ export const TooltipContentAdapter = React.forwardRef<
   />
 ));
 TooltipContentAdapter.displayName = 'TooltipContentAdapter';
+
+export interface TooltipArrowAdapterProps extends TooltipArrowPrimitiveProps {}
+
+export const TooltipArrowAdapter = React.forwardRef<
+  HTMLElement,
+  TooltipArrowAdapterProps
+>(({ className, children, ...props }, ref) => (
+  <TooltipArrowPrimitive
+    ref={ref}
+    className={composeRenderProps(className, (className) =>
+      cn(tooltipArrowVariants(), className),
+    )}
+    {...props}
+  >
+    {children}
+  </TooltipArrowPrimitive>
+));
+TooltipArrowAdapter.displayName = 'TooltipArrowAdapter';
 
 export type { TooltipRootPrimitiveProps };
