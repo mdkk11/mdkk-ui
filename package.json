@@ -27,6 +27,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "hooks:install": "lefthook install",
     "prepack": "pnpm run build",
     "preview": "vite preview",
     "format": "biome format",
@@ -84,6 +85,7 @@
     "happy-dom": "^20.0.11",
     "jp-zipcode-lookup": "^0.3.5",
     "jsdom": "^27.0.1",
+    "lefthook": "^2.1.6",
     "playwright": "^1.57.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

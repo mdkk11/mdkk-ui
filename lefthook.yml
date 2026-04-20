@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: false
+  commands:
+    check:
+      run: pnpm -s check
+
+pre-push:
+  parallel: true
+  commands:
+    typecheck:
+      run: pnpm -s typecheck
+    test_unit:
+      run: pnpm -s test:unit

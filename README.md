@@ -123,6 +123,22 @@ npm run typecheck
 npm run check
 ```
 
+### Git Hooks
+
+This repository uses `lefthook` for local quality gates.
+
+```bash
+pnpm run hooks:install
+```
+
+- `pre-commit`: `pnpm -s check`
+- `pre-push`: `pnpm -s typecheck` and `pnpm -s test:unit`
+
+### CI
+
+GitHub Actions CI is defined in `.github/workflows/ci.yml`.
+It runs static checks, type checks, unit tests, Storybook interaction tests, and build validation on PRs/pushes to `main`.
+
 ## License
 
 MIT

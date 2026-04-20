@@ -7,6 +7,7 @@
 - `DEPENDENCY_POLICY.md`: `react-aria-components` dependency contract
 - `PUBLIC_API_STANDARDS.md`: public API and prop naming standards
 - `STORYBOOK_STANDARDS.md`: Storybook authoring, naming, and language rules
+- `QUALITY_GATES.md`: local hook and CI quality gate policy
 
 Install baseline for consumers:
 
