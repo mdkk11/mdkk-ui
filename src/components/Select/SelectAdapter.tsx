@@ -49,7 +49,7 @@ const selectListVariants = cva({
 });
 
 const selectItemVariants = cva({
-  base: 'cursor-default truncate border border-transparent px-2 py-2 text-sm outline-none transition-colors data-[focused]:border-border data-[focused]:bg-muted data-[selected]:font-semibold data-[disabled]:opacity-50',
+  base: 'cursor-default truncate px-2.5 py-2 text-sm outline-none transition-colors data-[focused]:bg-muted/70 data-[selected]:font-semibold data-[disabled]:opacity-50',
 });
 
 const selectDescriptionVariants = cva({
