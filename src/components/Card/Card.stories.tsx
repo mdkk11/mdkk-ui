@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: ({ ...args }) => (
-    <Card {...args} className='w-[380px] rotate-[-0.3deg]'>
+    <Card {...args} className='w-[380px]'>
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
@@ -55,7 +55,7 @@ export const Default: Story = {
 
 export const WithBadge: Story = {
   render: ({ ...args }) => (
-    <Card {...args} className='w-[380px] rotate-[0.3deg]'>
+    <Card {...args} className='w-[380px]'>
       <CardHeader>
         <div className='flex items-center justify-between'>
           <CardTitle>API Usage</CardTitle>
