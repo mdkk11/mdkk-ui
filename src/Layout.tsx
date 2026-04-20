@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className='flex h-screen min-h-screen flex-col'>
+    <div className='mdkk-theme flex h-screen min-h-screen flex-col'>
       <AnyProvider>
         <Sidebar.Provider defaultWidth={280} minWidth={220}>
           {children}

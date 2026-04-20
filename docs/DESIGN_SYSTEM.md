@@ -20,6 +20,7 @@ Runtime semantic CSS variables and utility/component classes.
 - global semantic variables (`--background`, `--foreground`, ...)
 - Brutalist semantic variables (`--brutal-*`)
 - dark mode overrides
+- opt-in root theme scope (`.mdkk-theme`) for base typography/colors
 - semantic component classes (`.brutal-card`, `.brutal-button`, ...)
 
 ## 2. Styling Hierarchy

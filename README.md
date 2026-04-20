@@ -35,6 +35,17 @@ pnpm add -D tailwindcss-react-aria-components
 import 'mdkk-ui/dist/index.css';
 ```
 
+`mdkk-ui` no longer styles `body` automatically.
+Wrap your app root with `mdkk-theme` to opt into design-system base typography/colors:
+
+```tsx
+export function AppRoot() {
+  return <div className='mdkk-theme'>{/* app */}</div>;
+}
+```
+
+If you want global behavior, add `class="mdkk-theme"` to your app `body`.
+
 ### 2) Configure Tailwind v4
 
 ```js

@@ -10,7 +10,7 @@ export const mdkkPlugin = plugin(
     addBase({
       ':root': cssVariables.root,
       '.dark': cssVariables.dark,
-      body: {
+      '.mdkk-theme': {
         background: 'var(--background)',
         color: 'var(--foreground)',
         fontFamily: 'var(--font-sans)',
