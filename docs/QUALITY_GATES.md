@@ -38,3 +38,28 @@ Jobs:
    - `pnpm install --frozen-lockfile`
    - `pnpm exec playwright install --with-deps chromium`
    - `pnpm -s test-storybook`
+
+## Visual Regression Tests (VRT)
+
+Workflow file: `.github/workflows/vrt.yml`
+
+VRT runs on:
+
+- `pull_request` to `main`
+- `push` to `main`
+- `workflow_dispatch` for manual validation
+
+VRT uses Chromatic via `chromaui/action` with:
+
+- `onlyChanged: true` (TurboSnap-based changed story optimization)
+- `exitZeroOnChanges: true` (non-blocking introduction phase)
+
+Required repository secret:
+
+- `CHROMATIC_PROJECT_TOKEN`
+
+Rollout policy:
+
+1. Start non-blocking to stabilize baseline and review process.
+2. After the project is stable, change to `exitZeroOnChanges: false`.
+3. Mark the VRT check as required in repository branch protection.

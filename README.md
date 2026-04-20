@@ -139,6 +139,21 @@ pnpm run hooks:install
 GitHub Actions CI is defined in `.github/workflows/ci.yml`.
 It runs static checks, type checks, unit tests, Storybook interaction tests, and build validation on PRs/pushes to `main`.
 
+### Storybook VRT (Chromatic)
+
+Visual regression testing workflow is defined in `.github/workflows/vrt.yml`.
+
+- runs on PRs/pushes to `main` and via `workflow_dispatch`
+- uses `chromaui/action` with `onlyChanged: true`
+- starts non-blocking (`exitZeroOnChanges: true`) for phased adoption
+
+Configure this repository secret before running VRT:
+
+- `CHROMATIC_PROJECT_TOKEN`
+
+After baseline and workflow stabilize, switch `exitZeroOnChanges` to `false`
+and mark the VRT check as required in branch protection.
+
 ## License
 
 MIT
