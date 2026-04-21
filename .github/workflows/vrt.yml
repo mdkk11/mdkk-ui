@@ -50,5 +50,5 @@ jobs:
             src/design-system/**
             tailwind.config.js
             .storybook/preview-head.html
-          exitZeroOnChanges: true
+          exitZeroOnChanges: false
           buildScriptName: build-storybook

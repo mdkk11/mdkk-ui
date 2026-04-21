@@ -146,14 +146,13 @@ Visual regression testing workflow is defined in `.github/workflows/vrt.yml`.
 - runs on PRs/pushes to `main` and via `workflow_dispatch`
 - uses `chromaui/action@v1` (major pinned) with `onlyChanged: true`
 - defines `externals` globs for CSS/assets/design-system token changes
-- starts non-blocking (`exitZeroOnChanges: true`) for phased adoption
+- runs in strict mode (`exitZeroOnChanges: false`) to fail on visual changes
 
 Configure this repository secret before running VRT:
 
 - `CHROMATIC_PROJECT_TOKEN`
 
-After baseline and workflow stabilize, switch `exitZeroOnChanges` to `false`
-and mark the VRT check as required in branch protection.
+Keep `Chromatic Visual Tests` as a required check in branch protection.
 
 ## License
 
