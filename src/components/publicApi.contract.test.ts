@@ -26,11 +26,19 @@ const resolveExportTarget = (baseDir: string, target: string) => {
 
 const collectNpmComponentIndexes = () => {
   const source = readSource(publicEntryPath);
-  const matches = source.matchAll(
+  const starMatches = source.matchAll(
     /export\s+\*\s+from\s+'\.\/components\/([^']+)'/g,
   );
+  const namedMatches = source.matchAll(
+    /export\s+(?:type\s+)?\{[\s\S]*?\}\s+from\s+'\.\/components\/([^']+)'/g,
+  );
 
-  return [...new Set(Array.from(matches, ([, component]) => component))]
+  return [
+    ...new Set([
+      ...Array.from(starMatches, ([, component]) => component),
+      ...Array.from(namedMatches, ([, component]) => component),
+    ]),
+  ]
     .map((component) =>
       path.join(repoRoot, 'src/components', component, 'index.ts'),
     )

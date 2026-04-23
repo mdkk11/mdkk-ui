@@ -70,7 +70,7 @@ TooltipContentAdapter.displayName = 'TooltipContentAdapter';
 export interface TooltipArrowAdapterProps extends TooltipArrowPrimitiveProps {}
 
 export const TooltipArrowAdapter = React.forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   TooltipArrowAdapterProps
 >(({ className, children, ...props }, ref) => (
   <TooltipArrowPrimitive

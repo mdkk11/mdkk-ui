@@ -18,6 +18,110 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./aspect-ratio": {
+      "types": "./dist/components/AspectRatio/AspectRatio.d.ts",
+      "import": "./dist/components/AspectRatio/AspectRatio.js"
+    },
+    "./badge": {
+      "types": "./dist/components/Badge/Badge.d.ts",
+      "import": "./dist/components/Badge/Badge.js"
+    },
+    "./button": {
+      "types": "./dist/components/Button/Button.d.ts",
+      "import": "./dist/components/Button/Button.js"
+    },
+    "./card": {
+      "types": "./dist/components/Card/Card.d.ts",
+      "import": "./dist/components/Card/Card.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/Checkbox/Checkbox.d.ts",
+      "import": "./dist/components/Checkbox/Checkbox.js"
+    },
+    "./checkbox-group": {
+      "types": "./dist/components/Checkbox/CheckboxGroup.d.ts",
+      "import": "./dist/components/Checkbox/CheckboxGroup.js"
+    },
+    "./combobox": {
+      "types": "./dist/components/Combobox/Combobox.d.ts",
+      "import": "./dist/components/Combobox/Combobox.js"
+    },
+    "./dialog": {
+      "types": "./dist/components/Dialog/Dialog.d.ts",
+      "import": "./dist/components/Dialog/Dialog.js"
+    },
+    "./drawer": {
+      "types": "./dist/components/Drawer/Drawer.d.ts",
+      "import": "./dist/components/Drawer/Drawer.js"
+    },
+    "./dropdown-menu": {
+      "types": "./dist/components/DropdownMenu/DropdownMenu.d.ts",
+      "import": "./dist/components/DropdownMenu/DropdownMenu.js"
+    },
+    "./field-error": {
+      "types": "./dist/components/FieldError/FieldError.d.ts",
+      "import": "./dist/components/FieldError/FieldError.js"
+    },
+    "./input": {
+      "types": "./dist/components/Input/Input.d.ts",
+      "import": "./dist/components/Input/Input.js"
+    },
+    "./label": {
+      "types": "./dist/components/Label/Label.d.ts",
+      "import": "./dist/components/Label/Label.js"
+    },
+    "./progress-circle": {
+      "types": "./dist/components/ProgressCircle/ProgressCircle.d.ts",
+      "import": "./dist/components/ProgressCircle/ProgressCircle.js"
+    },
+    "./select": {
+      "types": "./dist/components/Select/Select.d.ts",
+      "import": "./dist/components/Select/Select.js"
+    },
+    "./sidebar": {
+      "types": "./dist/components/Sidebar/index.d.ts",
+      "import": "./dist/components/Sidebar/index.js"
+    },
+    "./skeleton": {
+      "types": "./dist/components/Skeleton/Skeleton.d.ts",
+      "import": "./dist/components/Skeleton/Skeleton.js"
+    },
+    "./story": {
+      "types": "./dist/components/Story/Story.d.ts",
+      "import": "./dist/components/Story/Story.js"
+    },
+    "./story-list": {
+      "types": "./dist/components/Story/StoryList.d.ts",
+      "import": "./dist/components/Story/StoryList.js"
+    },
+    "./story-list-item": {
+      "types": "./dist/components/Story/StoryListItem.d.ts",
+      "import": "./dist/components/Story/StoryListItem.js"
+    },
+    "./tabs": {
+      "types": "./dist/components/Tabs/Tabs.d.ts",
+      "import": "./dist/components/Tabs/Tabs.js"
+    },
+    "./text": {
+      "types": "./dist/components/Text/Text.d.ts",
+      "import": "./dist/components/Text/Text.js"
+    },
+    "./text-area": {
+      "types": "./dist/components/TextArea/TextArea.d.ts",
+      "import": "./dist/components/TextArea/TextArea.js"
+    },
+    "./text-field": {
+      "types": "./dist/components/TextField/TextField.d.ts",
+      "import": "./dist/components/TextField/TextField.js"
+    },
+    "./toast": {
+      "types": "./dist/components/Toast/Toast.d.ts",
+      "import": "./dist/components/Toast/Toast.js"
+    },
+    "./tooltip": {
+      "types": "./dist/components/Tooltip/Tooltip.d.ts",
+      "import": "./dist/components/Tooltip/Tooltip.js"
+    },
     "./tailwind-plugin": {
       "types": "./dist/tailwind-plugin.d.ts",
       "import": "./dist/tailwind-plugin.js"
@@ -30,7 +134,7 @@
     "prebuild": "pnpm run generate:icons",
     "build": "vite build",
     "hooks:install": "lefthook install",
-    "prepack": "pnpm run build",
+    "prepack": "pnpm run check && pnpm run typecheck && pnpm run build",
     "preview": "vite preview",
     "format": "biome format",
     "format:fix": "biome format --write",
