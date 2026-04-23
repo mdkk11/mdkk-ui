@@ -23,6 +23,8 @@ Package boundary:
 - Icons are sourced from Lucide (`lucide-static`) at build/dev time and compiled into `mdkk-ui`.
 - If the app uses Tailwind state variants like `pressed:`/`focused:` with mdkk-ui classes,
   install `tailwindcss-react-aria-components` in the app.
+- Tailwind plugin is imported from `mdkk-ui/tailwind-plugin` (not from package root).
+- Base styles are explicit opt-in via `mdkk-ui/dist/index.css`.
 
 ## Internal Layer Rules
 

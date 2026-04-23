@@ -3,5 +3,24 @@
   "compilerOptions": {
     "noEmit": false
   },
-  "include": ["src/index.ts", "src/tailwind-plugin.ts"]
+  "include": [
+    "src/index.ts",
+    "src/styles.ts",
+    "src/tailwind-plugin.ts",
+    "src/components/**/*.ts",
+    "src/components/**/*.tsx",
+    "src/design-system/**/*.ts"
+  ],
+  "exclude": [
+    "src/examples/**",
+    "src/**/*.stories.tsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/App.tsx",
+    "src/Layout.tsx",
+    "src/main.tsx",
+    "src/setupTests.ts",
+    "src/test/**",
+    "src/vite-env.d.ts"
+  ]
 }

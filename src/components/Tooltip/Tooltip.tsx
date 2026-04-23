@@ -91,7 +91,7 @@ export interface TooltipContentProps
 }
 
 export interface TooltipArrowProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'className'> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
   children?: React.ReactNode;
   className?: string;
   /**
@@ -147,7 +147,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
 );
 TooltipContent.displayName = 'Tooltip.Content';
 
-const TooltipArrow = React.forwardRef<HTMLElement, TooltipArrowProps>(
+const TooltipArrow = React.forwardRef<HTMLDivElement, TooltipArrowProps>(
   ({ UNSAFE_arrowProps, ...props }, ref) => (
     <TooltipArrowAdapter
       {...UNSAFE_arrowProps}

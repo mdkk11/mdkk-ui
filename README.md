@@ -87,6 +87,13 @@ export function Example() {
 }
 ```
 
+Subpath imports are also supported for tighter bundles:
+
+```tsx
+import { Button } from 'mdkk-ui/button';
+import { TextField } from 'mdkk-ui/text-field';
+```
+
 ## React Aria Dependency
 
 This library intentionally depends on `react-aria-components` for core behavior.
@@ -120,6 +127,7 @@ See `docs/DEPENDENCY_POLICY.md` for details.
 The package exports:
 
 - components from `src/index.ts`
+- component subpaths (for example `mdkk-ui/button`, `mdkk-ui/text-field`)
 - Tailwind plugin via `mdkk-ui/tailwind-plugin`
 - built CSS via `mdkk-ui/dist/index.css`
 

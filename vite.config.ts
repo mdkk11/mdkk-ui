@@ -20,7 +20,35 @@ export default defineConfig({
     react(),
     dts({
       tsconfigPath: './tsconfig.build.json',
+      include: [
+        'src/index.ts',
+        'src/styles.ts',
+        'src/tailwind-plugin.ts',
+        'src/components/**/*.ts',
+        'src/components/**/*.tsx',
+        'src/design-system/**/*.ts',
+      ],
+      exclude: [
+        'src/examples/**',
+        'src/**/*.stories.tsx',
+        'src/**/*.test.ts',
+        'src/**/*.test.tsx',
+        'src/App.tsx',
+        'src/Layout.tsx',
+        'src/main.tsx',
+        'src/setupTests.ts',
+        'src/test/**',
+      ],
       insertTypesEntry: true,
+      skipDiagnostics: false,
+      logDiagnostics: true,
+      afterDiagnostic(diagnostics) {
+        if (diagnostics.length > 0) {
+          throw new Error(
+            `Declaration generation failed with ${diagnostics.length} diagnostics.`,
+          );
+        }
+      },
     }),
   ],
   resolve: {
@@ -33,6 +61,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(dirname, 'src/index.ts'),
+        styles: path.resolve(dirname, 'src/styles.ts'),
         'tailwind-plugin': path.resolve(dirname, 'src/tailwind-plugin.ts'),
       },
       cssFileName: 'index',
@@ -50,6 +79,10 @@ export default defineConfig({
         'tailwind-merge',
         'tailwindcss/plugin',
       ],
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: 'src',
+      },
     },
     sourcemap: true,
     emptyOutDir: true,

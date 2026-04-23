@@ -95,3 +95,9 @@ Preferred usage:
 
 - `mdkkPlugin` is exported from `mdkk-ui/tailwind-plugin`.
 - For app-side state variants (`pressed:`, `focused:`, etc.), install and enable `tailwindcss-react-aria-components`.
+
+## Import Guidance
+
+- Root import: `import { Button, Select } from 'mdkk-ui'`
+- Subpath import (bundle-optimized): `import { Button } from 'mdkk-ui/button'`
+- Styles are explicit: `import 'mdkk-ui/dist/index.css'`
