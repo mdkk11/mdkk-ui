@@ -31,6 +31,7 @@ Jobs:
 1. `Check, Type, Unit, Build`
    - `pnpm install --frozen-lockfile`
    - `pnpm -s check`
+     - includes Lucide icon provenance verification (`check:icons`)
    - `pnpm -s typecheck`
    - `pnpm -s test:unit`
    - `pnpm -s build`
@@ -53,15 +54,14 @@ VRT uses Chromatic via `chromaui/action` with:
 
 - `onlyChanged: true` (TurboSnap-based changed story optimization)
 - `externals` globs for assets/style/token changes outside the module graph
-- `exitZeroOnChanges: true` (non-blocking introduction phase)
+- `exitZeroOnChanges: false` (fails when visual changes are detected)
 - action version pinned to major (`chromaui/action@v1`) for CI stability
 
 Required repository secret:
 
 - `CHROMATIC_PROJECT_TOKEN`
 
-Rollout policy:
+Repository policy:
 
-1. Start non-blocking to stabilize baseline and review process.
-2. After the project is stable, change to `exitZeroOnChanges: false`.
-3. Mark the VRT check as required in repository branch protection.
+1. Visual changes fail the VRT workflow by default.
+2. Keep `Chromatic Visual Tests` as a required branch protection check.

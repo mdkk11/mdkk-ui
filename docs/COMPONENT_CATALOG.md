@@ -27,6 +27,7 @@ This catalog lists the currently exported component surface from `src/index.ts`.
 ## Feedback and Display
 
 - `Badge`
+- `Icon`
 - `ProgressCircle`
 - `Text`
 - `DropdownMenu` (compound)
@@ -66,6 +67,7 @@ Custom DOM-backed primitives:
 - `AspectRatio`
 - `Badge`
 - `Card`
+- `Icon`
 - `Sidebar`
 - `Skeleton`
 

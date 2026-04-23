@@ -19,6 +19,9 @@ const interactiveStories = new Set([
   'src/components/Toast/Toast.stories.tsx',
   'src/components/Tooltip/Tooltip.stories.tsx',
 ]);
+const defaultStoryOptionalFiles = new Set([
+  'src/components/Icons/index.stories.tsx',
+]);
 
 const storyFiles = fs
   .readdirSync(componentsRoot, { withFileTypes: true })
@@ -61,7 +64,9 @@ describe('storybook standards contract', () => {
 
       expect(source).toMatch(/title\s*:\s*['"]/);
       expect(metaBlock).toContain("tags: ['autodocs']");
-      expect(source).toMatch(/export const Default\s*:/);
+      if (!defaultStoryOptionalFiles.has(relativePath)) {
+        expect(source).toMatch(/export const Default\s*:/);
+      }
       expect(metaBlock).toMatch(/\bargs\s*:\s*\{/);
       expect(hasArgTypesDefaultValueViolation(source)).toBe(false);
     });

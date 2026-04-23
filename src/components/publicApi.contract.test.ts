@@ -70,6 +70,12 @@ describe('public API contract', () => {
     expect(npmPublicFiles.length).toBeGreaterThan(0);
   });
 
+  it('includes Icons in npm export surface', () => {
+    expect(npmComponentIndexes).toContain(
+      path.join(repoRoot, 'src/components/Icons/index.ts'),
+    );
+  });
+
   for (const indexPath of npmComponentIndexes) {
     const relativePath = path.relative(repoRoot, indexPath);
 

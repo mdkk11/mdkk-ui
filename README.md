@@ -100,12 +100,20 @@ Consumers do not need to install it separately unless they also import it direct
 
 See `docs/DEPENDENCY_POLICY.md` for details.
 
+## Icons
+
+`Icon` is publicly exported and fully standardized on Lucide.
+
+- Source and rules: `docs/ICONS.md`
+- Third-party license notice: `THIRD_PARTY_LICENSES.md`
+
 ## Documentation Map
 
 - `docs/ARCHITECTURE.md`: component architecture, layers, and responsibilities
 - `docs/DESIGN_SYSTEM.md`: tokens, semantic variables, Brutalist styling strategy
 - `docs/PUBLIC_API_STANDARDS.md`: API naming and prop design standards
 - `docs/COMPONENT_CATALOG.md`: exported components and usage notes
+- `docs/ICONS.md`: icon source policy
 
 ## Exported Surface
 
@@ -146,14 +154,13 @@ Visual regression testing workflow is defined in `.github/workflows/vrt.yml`.
 - runs on PRs/pushes to `main` and via `workflow_dispatch`
 - uses `chromaui/action@v1` (major pinned) with `onlyChanged: true`
 - defines `externals` globs for CSS/assets/design-system token changes
-- starts non-blocking (`exitZeroOnChanges: true`) for phased adoption
+- runs in strict mode (`exitZeroOnChanges: false`) to fail on visual changes
 
 Configure this repository secret before running VRT:
 
 - `CHROMATIC_PROJECT_TOKEN`
 
-After baseline and workflow stabilize, switch `exitZeroOnChanges` to `false`
-and mark the VRT check as required in branch protection.
+Keep `Chromatic Visual Tests` as a required check in branch protection.
 
 ## License
 
