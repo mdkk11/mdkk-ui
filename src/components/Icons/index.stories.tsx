@@ -33,17 +33,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const Decorative: Story = {
-  args: {
-    type: 'loader',
-    isDecorative: true,
-    'aria-label': undefined,
-  },
-};
-
-export const AllIcons: Story = {
+export const All: Story = {
   render: (args) => (
     <div className='grid grid-cols-4 gap-4 sm:grid-cols-6 md:grid-cols-8'>
       {iconNames.map((name) => (
