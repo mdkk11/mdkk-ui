@@ -100,12 +100,20 @@ Consumers do not need to install it separately unless they also import it direct
 
 See `docs/DEPENDENCY_POLICY.md` for details.
 
+## Icons
+
+`Icon` is publicly exported and fully standardized on Lucide.
+
+- Source and rules: `docs/ICONS.md`
+- Third-party license notice: `THIRD_PARTY_LICENSES.md`
+
 ## Documentation Map
 
 - `docs/ARCHITECTURE.md`: component architecture, layers, and responsibilities
 - `docs/DESIGN_SYSTEM.md`: tokens, semantic variables, Brutalist styling strategy
 - `docs/PUBLIC_API_STANDARDS.md`: API naming and prop design standards
 - `docs/COMPONENT_CATALOG.md`: exported components and usage notes
+- `docs/ICONS.md`: icon source policy
 
 ## Exported Surface
 

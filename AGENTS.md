@@ -105,6 +105,15 @@ non-breaking change の例:
 - Compound Component 設計: `skills/build-compound-component.md`
 - `react-aria-components` 更新: `skills/upgrade-react-aria-components.md`
 
+## 9. Icon 運用ルール
+
+- `Icon` は Lucide を唯一の定義源として扱う
+- `src/components/Icons/assets` には Lucide canonical 名 (`kebab-case`) の SVG のみを置く
+- assets の SVG を手編集しない（必要な変更は Lucide 側のアイコン差し替えで対応する）
+- Icon 追加・更新時は必ず `pnpm -s generate:icons` を実行し、生成物を更新する
+- `pnpm -s check` の Lucide 検証を通すこと（非Lucide混入・改変SVGは不可）
+- `Sidebar` / `Story` / `Checkbox` を含む内部実装でも、独自SVGより共通 `Icon` 利用を優先する
+
 設計背景や詳細仕様は `docs/` を参照すること。
 
 - `docs/DESIGN_SYSTEM.md`

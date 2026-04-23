@@ -1,11 +1,11 @@
 import { cva } from 'cva';
 import React from 'react';
 import { composeRenderProps } from 'react-aria-components';
+import { Icon } from '../Icons';
 import {
   CheckboxPrimitive,
   type CheckboxPrimitiveProps,
 } from './CheckboxPrimitive';
-import { CheckIcon, MinusIcon } from './icons';
 
 const checkboxStyles = cva({
   base: 'flex gap-2 items-center group font-medium text-sm transition relative [-webkit-tap-highlight-color:transparent] text-foreground',
@@ -68,10 +68,11 @@ export const CheckboxAdapter = React.forwardRef<
               })}
             >
               {isIndeterminate ? (
-                <MinusIcon aria-hidden className={iconStyles} />
+                <Icon type='minus' isDecorative className={iconStyles} />
               ) : (
-                <CheckIcon
-                  aria-hidden
+                <Icon
+                  type='check'
+                  isDecorative
                   className={`${iconStyles} ${isSelected ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}
                 />
               )}

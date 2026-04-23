@@ -10,6 +10,7 @@ export * from './components/Dialog';
 export * from './components/Drawer';
 export * from './components/DropdownMenu';
 export * from './components/FieldError';
+export * from './components/Icons';
 export * from './components/Input';
 export * from './components/Label';
 export * from './components/ProgressCircle';

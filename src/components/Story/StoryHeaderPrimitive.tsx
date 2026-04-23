@@ -1,4 +1,4 @@
-import { CloseIcon, PauseIcon, PlayIcon } from './icons';
+import { Icon } from '../Icons';
 
 interface StoryHeaderPrimitiveProps {
   title: string;
@@ -38,7 +38,11 @@ export const StoryHeaderPrimitive = ({
             }}
             className='text-white hover:opacity-70 transition p-1'
           >
-            {isPaused ? <PlayIcon /> : <PauseIcon />}
+            {isPaused ? (
+              <Icon type='play' isDecorative size='sm' />
+            ) : (
+              <Icon type='pause' isDecorative size='sm' />
+            )}
           </button>
         )}
         <button
@@ -50,7 +54,7 @@ export const StoryHeaderPrimitive = ({
           className='text-white hover:opacity-70 transition p-1'
           aria-label='Close'
         >
-          <CloseIcon />
+          <Icon type='x' isDecorative size='md' />
         </button>
       </div>
     </div>

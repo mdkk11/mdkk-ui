@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/design-system/utils';
+import { Icon } from '../Icons';
 import {
   SidebarContentAdapter,
   SidebarFooterAdapter,
@@ -578,34 +579,16 @@ interface SidebarTriggerIconProps {
 }
 
 const SidebarTriggerIcon = ({ side, isOpen }: SidebarTriggerIconProps) => {
-  const dividerPath = side === 'left' ? 'M9 3v18' : 'M15 3v18';
-  const chevronPath =
+  const type =
     side === 'left'
       ? isOpen
-        ? 'm16 15-3-3 3-3'
-        : 'm14 9 3 3-3 3'
+        ? 'panelLeftClose'
+        : 'panelLeftOpen'
       : isOpen
-        ? 'm8 9 3 3-3 3'
-        : 'm10 15-3-3 3-3';
+        ? 'panelRightClose'
+        : 'panelRightOpen';
 
-  return (
-    <svg
-      viewBox='0 0 24 24'
-      width='24'
-      height='24'
-      aria-hidden='true'
-      className='shrink-0'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-    >
-      <rect x='3' y='3' width='18' height='18' rx='2' ry='2' />
-      <path d={dividerPath} />
-      <path d={chevronPath} />
-    </svg>
-  );
+  return <Icon type={type} size='lg' isDecorative />;
 };
 
 export const SidebarTrigger = React.forwardRef<

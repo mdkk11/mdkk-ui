@@ -31,6 +31,7 @@ Jobs:
 1. `Check, Type, Unit, Build`
    - `pnpm install --frozen-lockfile`
    - `pnpm -s check`
+     - includes Lucide icon provenance verification (`check:icons`)
    - `pnpm -s typecheck`
    - `pnpm -s test:unit`
    - `pnpm -s build`

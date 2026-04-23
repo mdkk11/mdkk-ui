@@ -20,6 +20,7 @@ Package boundary:
 
 - `react` and `react-dom` are peer dependencies (provided by the app).
 - `react-aria-components` is a runtime dependency of `mdkk-ui`.
+- Icons are sourced from Lucide (`lucide-static`) at build/dev time and compiled into `mdkk-ui`.
 - If the app uses Tailwind state variants like `pressed:`/`focused:` with mdkk-ui classes,
   install `tailwindcss-react-aria-components` in the app.
 
