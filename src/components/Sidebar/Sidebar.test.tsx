@@ -110,6 +110,21 @@ describe('Sidebar', () => {
     expect(panel).toHaveStyle({ width: '0px' });
   });
 
+  it('applies right-side layout when side is right', async () => {
+    installMatchMedia({ width: 1440 });
+    const { container } = render(
+      <SidebarHarness rootProps={{ side: 'right' }} />,
+    );
+
+    const panel = container.querySelector('aside');
+    const shell = panel?.parentElement;
+    const resizeHandle = screen.getByLabelText('Resize sidebar');
+
+    expect(shell?.className).toContain('flex-row-reverse');
+    expect(panel).toHaveAttribute('data-side', 'right');
+    expect(resizeHandle.className).toContain('-left-1.5');
+  });
+
   it('treats viewport mobile as a dialog and traps focus', async () => {
     installMatchMedia({ width: 480 });
     const user = userEvent.setup();

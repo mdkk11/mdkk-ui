@@ -13,16 +13,16 @@ import {
 } from './ToastPrimitive';
 
 const toastRegionVariants = cva({
-  base: 'fixed bottom-4 right-4 z-[100] flex w-[min(92vw,360px)] flex-col gap-2 outline-none',
+  base: 'fixed bottom-4 right-4 z-100 flex w-[min(92vw,360px)] flex-col gap-2 outline-none',
 });
 
 const toastVariants = cva({
-  base: 'grid grid-cols-[auto_1fr_auto] items-start gap-3 rounded-none border-[var(--brutal-border-default)] bg-background p-3',
+  base: 'grid grid-cols-[auto_1fr_auto] items-start gap-3 rounded-none shadow-sm bg-background p-3 motion-safe:animate-[motion-enter-x_220ms_cubic-bezier(0.16,1,0.3,1)] motion-reduce:animate-none',
   variants: {
     tone: {
-      info: 'border-border text-foreground',
-      success: 'border-accent text-foreground',
-      error: 'border-destructive text-foreground',
+      info: 'text-foreground',
+      success: 'text-foreground',
+      error: 'text-foreground',
     },
   },
   defaultVariants: {
@@ -67,7 +67,7 @@ const toastDescriptionVariants = cva({
 });
 
 const toastCloseVariants = cva({
-  base: 'inline-flex items-center justify-center rounded-none border-[var(--brutal-border-subtle)] px-2 py-1 text-xs font-medium text-foreground hover:bg-muted',
+  base: 'inline-flex items-center justify-center rounded-none px-2 py-1 text-xs font-medium text-foreground hover:bg-muted',
 });
 
 export interface ToastContextValue {

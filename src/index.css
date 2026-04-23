@@ -306,3 +306,16 @@
     color: var(--brutal-ink-inverse);
   }
 }
+
+/* Motion keyframes naming: motion-{action}-{axis|style} */
+@keyframes motion-enter-x {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
