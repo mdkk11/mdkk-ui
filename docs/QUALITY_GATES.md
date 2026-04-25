@@ -17,6 +17,30 @@ Configured hooks:
 
 These hooks are intentionally split by cost: fast static checks at commit time, deeper checks before push.
 
+## Bundle Size Budget (Dev-First)
+
+Bundle size monitoring is enabled locally via `size-limit`.
+
+Run:
+
+```bash
+pnpm -s size:check
+```
+
+Initial monitored targets (`dist` artifacts, public-entry set):
+
+- `index.js` (raw): `4 KB`
+- `tailwind-plugin.js` (gzip): `1 KB`
+- `index.css` (gzip): `11 KB`
+
+Policy:
+
+1. If size budget fails, explain root cause in the PR.
+2. Prioritize reducing unintended growth before changing budget.
+3. If budget update is required, include explicit rationale in the same PR.
+4. CI gating is intentionally deferred; current phase is dev-first visibility.
+5. Add representative component targets only when needed.
+
 ## CI Workflow
 
 Workflow file: `.github/workflows/ci.yml`

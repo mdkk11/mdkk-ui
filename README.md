@@ -139,6 +139,22 @@ npm run typecheck
 npm run check
 ```
 
+### Bundle Size Check
+
+Track package artifact sizes in dev with `size-limit`:
+
+```bash
+pnpm -s size:check
+```
+
+Current public-entry targets:
+
+- `dist/index.js` (raw): `4 KB`
+- `dist/tailwind-plugin.js` (gzip): `1 KB`
+- `dist/index.css` (gzip): `11 KB`
+
+If a budget exceeds, investigate regressions first. Raise budgets only when increase is intentional and justified in the PR. Representative component targets can be added later if needed.
+
 ### Git Hooks
 
 This repository uses `lefthook` for local quality gates.
