@@ -8,32 +8,33 @@ export const buttonVariants = cva({
       primary: [
         'bg-primary text-primary-foreground border-brutal-subtle border-primary',
         'hover:opacity-90',
-        'data-[pressed]:opacity-80',
+        'data-[pressed]:opacity-80 active:opacity-80',
       ],
       secondary: [
         'bg-secondary text-secondary-foreground border-brutal-subtle border-border',
         'hover:bg-muted',
-        'data-[pressed]:bg-muted',
+        'data-[pressed]:bg-muted active:bg-muted',
       ],
       accent: [
         'bg-accent text-accent-foreground border-brutal-subtle border-accent',
         'hover:opacity-90',
-        'data-[pressed]:opacity-80',
+        'data-[pressed]:opacity-80 active:opacity-80',
       ],
       destructive: [
         'bg-destructive text-destructive-foreground border-brutal-subtle border-destructive',
         'hover:opacity-90',
-        'data-[pressed]:opacity-80',
+        'data-[pressed]:opacity-80 active:opacity-80',
       ],
       ghost: [
         'bg-transparent text-foreground border-brutal-subtle border-transparent',
         'hover:bg-foreground/5',
-        'data-[pressed]:bg-foreground/10',
+        'data-[pressed]:bg-foreground/10 active:bg-foreground/10',
       ],
       outline: [
         'bg-outline text-outline-foreground border-brutal-subtle border-outline-border',
         'hover:bg-primary hover:text-primary-foreground',
         'data-[pressed]:bg-primary data-[pressed]:text-primary-foreground',
+        'active:bg-primary active:text-primary-foreground',
       ],
     },
     size: {

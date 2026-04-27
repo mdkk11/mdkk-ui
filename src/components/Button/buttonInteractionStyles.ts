@@ -23,7 +23,8 @@ export const interactiveStyles = {
   press: [
     'transition-all duration-100',
     'data-[pressed]:translate-x-1 data-[pressed]:translate-y-1',
-    'data-[pressed]:shadow-none',
+    'active:translate-x-1 active:translate-y-1',
+    'data-[pressed]:shadow-none active:shadow-none',
   ].join(' '),
   hover: [
     'transition-all duration-100',
