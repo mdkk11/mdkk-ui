@@ -13,7 +13,7 @@ Install baseline for consumers:
 
 - `mdkk-ui react react-dom`
 - `react-aria-components` is included via `mdkk-ui` runtime dependency.
-- `tailwindcss-react-aria-components` is needed only when app-side Tailwind variant support is required.
+- no additional Tailwind plugin is required for mdkk-ui state styling.
 
 ## Productization
 

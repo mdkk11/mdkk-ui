@@ -94,7 +94,7 @@ Preferred usage:
 ## Tailwind Integration
 
 - `mdkkPlugin` is exported from `mdkk-ui/tailwind-plugin`.
-- For app-side state variants (`pressed:`, `focused:`, etc.), install and enable `tailwindcss-react-aria-components`.
+- No additional Tailwind plugin is required for mdkk-ui component state styling.
 
 ## Import Guidance
 
